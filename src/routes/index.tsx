@@ -1,25 +1,126 @@
 import { component$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
+import Card from '~/components/card';
+import Hello from './hello';
+import Work, { type WorkProps } from './work';
+import MySkills from './my-skills';
+import Contact from './contact';
+import { SKILLS } from '~/constants/skills';
+
+const workList: ({ id: string; backgroundImage: string } & WorkProps)[] = [
+  {
+    id: 'viverse-world',
+    header: '',
+    title: 'VIVERSE Wrold',
+    skills: [SKILLS.next, SKILLS.playcanvas, SKILLS.tailwind],
+    status: 'In progress',
+    backgroundImage: '/images/viverse-world.webp',
+  },
+  {
+    id: 'viverse-sdk',
+    header: '',
+    title: 'VIVERSE Creator Tools SDK',
+    skills: [SKILLS.react, SKILLS.typescript, SKILLS.playcanvas],
+    status: 'In progress',
+    backgroundImage: '/images/viverse-creator-sdk.webp',
+  },
+  {
+    id: 'cytc',
+    header: 'Grain Temperature Monitoring System',
+    title: 'cytcpro.com',
+    skills: [SKILLS.nuxt, SKILLS.typescript, SKILLS.tailwind, SKILLS.figma],
+    status: 'Completed',
+    backgroundImage: '/images/cytcpro.webp',
+  },
+  {
+    id: 'clc',
+    header: 'Scheduling Management Backend',
+    title: 'CLC Service Scheduling System',
+    skills: [SKILLS.vue, SKILLS.tailwind, SKILLS.graphql, SKILLS.mysql],
+    status: 'Completed',
+    backgroundImage: '/images/clc-service-scheduling-system.webp',
+  },
+  {
+    id: 'fpc',
+    header: 'Custom Ship Management System',
+    title: 'FPC E-Commerce',
+    skills: [SKILLS.nuxt, SKILLS.typescript],
+    status: 'Completed',
+    backgroundImage: '/images/fpc-ecommerce.webp',
+  },
+  {
+    id: 'amway-live-go',
+    header: 'E-commerce Website Redesign',
+    title: 'Amway Live GO',
+    skills: [SKILLS.nuxt, SKILLS.typescript],
+    status: 'Completed',
+    backgroundImage: '/images/amway-live-go.webp',
+  },
+  {
+    id: 'tsmc',
+    header: 'Streamlined Welfare Website Management',
+    title: 'TSMC CMS Revamp',
+    skills: [SKILLS.next, SKILLS.typescript],
+    status: 'Completed',
+    backgroundImage: '/images/tsmc-cms-revamp.webp',
+  },
+  {
+    id: 'cec',
+    header: '',
+    title: 'CEC SSO',
+    skills: [SKILLS.vue],
+    status: 'Completed',
+    backgroundImage: '/images/cec-sso.webp',
+  },
+];
 
 export default component$(() => {
   return (
-    <>
-      <h1>Hi 👋</h1>
-      <div>
-        Can't wait to see what you build with qwik!
-        <br />
-        Happy coding.
-      </div>
-    </>
+    <div class="grid grid-cols-12 gap-5 mb-30">
+      <Card wrapperClass="col-span-8" variant="30-50-50-30">
+        <Hello />
+      </Card>
+      <Card wrapperClass="col-span-4" variant="50-30-30-50">
+        Canvas Inworld agent
+      </Card>
+
+      {workList.map((work, i) => (
+        <Card
+          key={work.id}
+          wrapperClass="col-span-6 h-[554px]"
+          variant={
+            i === 0 ? '50-30-30-30' : i === 1 ? '30-50-30-30' : '30-30-30-30'
+          }
+          backgroundImage={work.backgroundImage}
+        >
+          <Work
+            header={work.header}
+            title={work.title}
+            skills={work.skills}
+            status={work.status}
+          />
+        </Card>
+      ))}
+      <Card wrapperClass="col-span-9" variant="50-30-50-30">
+        <MySkills />
+      </Card>
+      <Card
+        wrapperClass="col-span-3"
+        class="px-9.5! py-9.5!"
+        variant="30-50-30-50"
+      >
+        <Contact />
+      </Card>
+    </div>
   );
 });
 
 export const head: DocumentHead = {
-  title: 'Welcome to Qwik',
+  title: 'Rhan0 - Front-end Developer',
   meta: [
     {
       name: 'description',
-      content: 'Qwik site description',
+      content: 'Hi 👋,',
     },
   ],
 };

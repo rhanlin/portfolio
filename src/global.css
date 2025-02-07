@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #09050f;
+  --color-neutral-white: #ffffff;
+  --color-neutral-0: #fbfdff;
+  --color-neutral-10: #e3effc;
+  --color-neutral-20: #d5e2f2;
+  --color-neutral-30: #b6c3d6;
+  --color-neutral-40: #6e7c8e;
+  --color-neutral-50: #596677;
+  --color-neutral-60: #4b596c;
+  --color-neutral-70: #364356;
+  --color-neutral-80: #2a3649;
+
+  --leading-tight: 1.15;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-neutral-0);
+    font-family: 'Archivo Variable', sans-serif;
+    font-weight: 400;
+  }
+}
+
+@layer components {
+  .header {
+    @apply leading-tight text-neutral-0;
+  }
+
+  .header-1 {
+    @apply text-[56px] tracking-[0.5px];
+  }
+
+  .header-2 {
+    @apply text-[32px] tracking-[0.4px];
+  }
+
+  .header-3 {
+    @apply text-[28px] tracking-[0.3px];
+  }
+
+  .header-4 {
+    @apply text-[24px] tracking-[0.3px];
+  }
+
+  .header-5 {
+    @apply text-[20px] tracking-[0.3px] font-light;
+  }
+
+  .paragraph {
+    @apply leading-tight text-neutral-0 font-light;
+  }
+
+  .paragraph-1 {
+    @apply text-[16px] tracking-[0.3px];
+  }
+
+  .paragraph-2 {
+    @apply text-[14px] tracking-[0.3px];
+  }
+
+  .paragraph-3 {
+    @apply text-[10px] tracking-[0.3px];
+  }
+
+  .button {
+    @apply inline-flex items-center justify-center whitespace-nowrap rounded-md transition-colors hover:cursor-pointer disabled:pointer-events-none disabled:opacity-50
+  }
+}
+
+@layer utilities {
+  .shining-gradient {
+    background: linear-gradient(
+        112.59deg,
+        rgba(255, 255, 255, 0.05) 83.32%,
+        rgba(255, 255, 255, 0.1) 94.31%
+      ),
+      linear-gradient(
+        109.73deg,
+        rgba(255, 255, 255, 0.1) 7.85%,
+        rgba(255, 255, 255, 0.05) 19.46%
+      );
+  }
+}

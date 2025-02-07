@@ -7,6 +7,7 @@ import {
 import { RouterHead } from './components/router-head/router-head';
 import { isDev } from '@builder.io/qwik';
 
+import '@fontsource-variable/archivo';
 import './global.css';
 
 export default component$(() => {
