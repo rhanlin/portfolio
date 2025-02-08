@@ -1,19 +1,24 @@
 @import "tailwindcss";
 
 @theme {
+  --color-primary: #FFD34F;
   --color-background: #09050f;
   --color-neutral-white: #ffffff;
   --color-neutral-0: #fbfdff;
-  --color-neutral-10: #e3effc;
-  --color-neutral-20: #d5e2f2;
-  --color-neutral-30: #b6c3d6;
-  --color-neutral-40: #6e7c8e;
-  --color-neutral-50: #596677;
-  --color-neutral-60: #4b596c;
-  --color-neutral-70: #364356;
-  --color-neutral-80: #2a3649;
+  --color-neutral-80: #131311;
 
   --leading-tight: 1.15;
+
+  --animate-rotate-360: rotate-360 100s linear infinite;
+
+  @keyframes rotate-360 {
+    0% {
+      transform: translate(-50%, -50%) rotate(0);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
 }
 
 @layer base {
@@ -72,16 +77,31 @@
 }
 
 @layer utilities {
-  .shining-gradient {
+  .card-bg-gradient {
     background: linear-gradient(
         112.59deg,
         rgba(255, 255, 255, 0.05) 83.32%,
         rgba(255, 255, 255, 0.1) 94.31%
-      ),
-      linear-gradient(
-        109.73deg,
-        rgba(255, 255, 255, 0.1) 7.85%,
-        rgba(255, 255, 255, 0.05) 19.46%
-      );
+    ),
+    linear-gradient(
+      109.73deg,
+      rgba(255, 255, 255, 0.1) 7.85%,
+      rgba(255, 255, 255, 0.05) 19.46%
+    );
+  }
+
+  .hello-card-bg-gradient {
+    background: linear-gradient(18.48deg,rgba(255,255,255,.25) 2.76%,rgba(255,255,255,0) 17.23%),linear-gradient(200.6deg,rgba(255,255,255,.25) 4.13%,rgba(255,255,255,0) 20.54%)
+  }
+
+  .hello-bg-gradient {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1000px;
+    height: 1000px;
+    background: url('/images/hello-bg-gradient.png');
+    background-size: cover;
   }
 }

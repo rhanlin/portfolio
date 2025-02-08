@@ -77,10 +77,15 @@ const workList: ({ id: string; backgroundImage: string } & WorkProps)[] = [
 export default component$(() => {
   return (
     <div class="grid grid-cols-12 gap-5 mb-30">
-      <Card wrapperClass="col-span-8" variant="30-50-50-30">
+      <Card
+        wrapperClass="col-span-8 hello-card-bg-gradient"
+        variant="30-50-50-30"
+        class="bg-neutral-80 relative"
+      >
+        <div class="hello-bg-gradient animate-rotate-360"></div>
         <Hello />
       </Card>
-      <Card wrapperClass="col-span-4" variant="50-30-30-50">
+      <Card wrapperClass="col-span-4" variant="50-30-30-50" class="bg-primary">
         Canvas Inworld agent
       </Card>
 
@@ -106,7 +111,7 @@ export default component$(() => {
       </Card>
       <Card
         wrapperClass="col-span-3"
-        class="px-9.5! py-9.5!"
+        class="px-9.5! py-9.5! bg-primary"
         variant="30-50-30-50"
       >
         <Contact />

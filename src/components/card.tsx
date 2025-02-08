@@ -43,7 +43,7 @@ export default component$(
       <div
         class={clsx(
           cardVariants({ variant }),
-          'shining-gradient relative shadow-md flex justify-center items-center',
+          'card-bg-gradient relative shadow-md flex justify-center items-center',
           wrapperClass,
         )}
       >
@@ -68,5 +68,3 @@ export default component$(
     );
   },
 );
-
-// bg-[url(/images/viverse-world.webp)]
