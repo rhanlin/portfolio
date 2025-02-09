@@ -1,7 +1,7 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-  --color-primary: #FFD34F;
+  --color-primary: #ffd34f;
   --color-background: #09050f;
   --color-neutral-white: #ffffff;
   --color-neutral-0: #fbfdff;
@@ -72,7 +72,7 @@
   }
 
   .button {
-    @apply inline-flex items-center justify-center whitespace-nowrap rounded-md transition-colors hover:cursor-pointer disabled:pointer-events-none disabled:opacity-50
+    @apply inline-flex items-center justify-center whitespace-nowrap rounded-md transition-colors hover:cursor-pointer disabled:pointer-events-none disabled:opacity-50;
   }
 }
 
@@ -82,16 +82,25 @@
         112.59deg,
         rgba(255, 255, 255, 0.05) 83.32%,
         rgba(255, 255, 255, 0.1) 94.31%
-    ),
-    linear-gradient(
-      109.73deg,
-      rgba(255, 255, 255, 0.1) 7.85%,
-      rgba(255, 255, 255, 0.05) 19.46%
-    );
+      ),
+      linear-gradient(
+        109.73deg,
+        rgba(255, 255, 255, 0.1) 7.85%,
+        rgba(255, 255, 255, 0.05) 19.46%
+      );
   }
 
   .hello-card-bg-gradient {
-    background: linear-gradient(18.48deg,rgba(255,255,255,.25) 2.76%,rgba(255,255,255,0) 17.23%),linear-gradient(200.6deg,rgba(255,255,255,.25) 4.13%,rgba(255,255,255,0) 20.54%)
+    background: linear-gradient(
+        18.48deg,
+        rgba(255, 255, 255, 0.25) 2.76%,
+        rgba(255, 255, 255, 0) 17.23%
+      ),
+      linear-gradient(
+        200.6deg,
+        rgba(255, 255, 255, 0.25) 4.13%,
+        rgba(255, 255, 255, 0) 20.54%
+      );
   }
 
   .hello-bg-gradient {

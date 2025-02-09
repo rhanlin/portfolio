@@ -37,13 +37,13 @@ type ButtonProps<T extends ButtonTag> = {
     : QwikIntrinsicElements['button']);
 
 const Button = component$<ButtonProps<ButtonTag>>(
-  ({ class: customClass, variant, size, as = 'button', ...props }) => {
+  ({ class: className, variant, size, as = 'button', ...props }) => {
     const Component = as as keyof QwikIntrinsicElements;
 
     return (
       <Component
         {...(props as any)}
-        class={clsx(buttonVariants({ variant, size }), customClass)}
+        class={clsx(buttonVariants({ variant, size }), className)}
       >
         <Slot />
       </Component>

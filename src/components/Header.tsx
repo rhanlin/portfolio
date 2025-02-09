@@ -1,6 +1,6 @@
 import { component$, Slot } from '@builder.io/qwik';
-import Text from './text';
-import Button from './button';
+import Text from './Text';
+import Button from './Button';
 
 type NavItemProps = {
   href: string;

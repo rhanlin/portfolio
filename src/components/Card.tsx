@@ -1,7 +1,7 @@
 import { component$, Slot } from '@builder.io/qwik';
 import clsx from 'clsx';
 import { tv, type VariantProps } from 'tailwind-variants';
-//before:content-[""] before:absolute before:w-full before:h-full before:bg-red-300
+
 const cardVariants = tv({
   base: '',
   variants: {
@@ -26,19 +26,14 @@ const cardVariants = tv({
   },
 });
 
-interface CardProps extends VariantProps<typeof cardVariants> {
+type CardProps = VariantProps<typeof cardVariants> & {
   class?: string;
   wrapperClass?: string;
   backgroundImage?: string;
-}
+};
 
 export default component$(
-  ({
-    class: customClass,
-    wrapperClass,
-    variant,
-    backgroundImage,
-  }: CardProps) => {
+  ({ class: className, wrapperClass, variant, backgroundImage }: CardProps) => {
     return (
       <div
         class={clsx(
@@ -54,7 +49,7 @@ export default component$(
           )}
         >
           <div
-            class={clsx('px-15 py-13 w-full h-full bg-cover', customClass)}
+            class={clsx('px-15 py-13 w-full h-full bg-cover', className)}
             style={
               backgroundImage
                 ? { backgroundImage: `url(${backgroundImage})` }

@@ -1,5 +1,5 @@
 import { component$ } from '@builder.io/qwik';
-import Text from '~/components/text';
+import Text from '~/components/Text';
 
 const MySkills = component$(() => {
   return (

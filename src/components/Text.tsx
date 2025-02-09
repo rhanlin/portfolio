@@ -23,15 +23,15 @@ const textVariants = tv({
 
 type TextTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'p' | 'label' | 'span';
 
-interface TextProps {
+type TextProps = {
   as?: TextTag;
   class?: string;
-}
+};
 
-const Text = component$<TextProps>(({ as = 'p', class: customClass }) => {
+const Text = component$<TextProps>(({ as = 'p', class: className }) => {
   const Component = as;
   return (
-    <Component class={clsx(textVariants({ variant: as }), customClass)}>
+    <Component class={clsx(textVariants({ variant: as }), className)}>
       <Slot />
     </Component>
   );

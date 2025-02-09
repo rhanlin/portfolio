@@ -1,10 +1,10 @@
 import { component$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
-import Card from '~/components/card';
-import Hello from './hello';
-import Work, { type WorkProps } from './work';
-import MySkills from './my-skills';
-import Contact from './contact';
+import Card from '~/components/Card';
+import Hello from './home/Hello';
+import Work, { type WorkProps } from './home/Work';
+import MySkills from './home/MySkills';
+import Contact from './home/Contact';
 import { SKILLS } from '~/constants/skills';
 
 const workList: ({ id: string; backgroundImage: string } & WorkProps)[] = [

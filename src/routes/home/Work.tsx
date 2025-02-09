@@ -1,7 +1,7 @@
 import { component$ } from '@builder.io/qwik';
-import Text from '~/components/text';
-import Button from '~/components/button';
-import Badge from '~/components/badge';
+import Text from '~/components/Text';
+import Button from '~/components/Button';
+import Badge from '~/components/Badge';
 import { type Skill } from '~/types/skills';
 import ArrowSVG from '/icons/arrow.svg';
 

@@ -16,19 +16,19 @@ const avatarVariants = tv({
   },
 });
 
-interface AvatarProps {
+type AvatarProps = {
   src?: string;
   alt?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
   class?: string;
-}
+};
 
 const Avatar = component$<AvatarProps>(
-  ({ src, alt = 'Avatar', size = 'md', class: customClass }) => {
+  ({ src, alt = 'Avatar', size = 'md', class: className }) => {
     const error = useSignal(false);
 
     return (
-      <div class={avatarVariants({ size, class: customClass })}>
+      <div class={avatarVariants({ size, class: className })}>
         {src && !error.value ? (
           <img
             src={src}

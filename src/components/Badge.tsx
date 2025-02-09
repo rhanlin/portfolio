@@ -1,16 +1,16 @@
 import { component$, useSignal } from '@builder.io/qwik';
 import clsx from 'clsx';
 
-interface BadgeProps {
+type BadgeProps = {
   skill: string;
   logo: string;
   color: string;
   class?: string;
-}
+};
 
 const Badge = component$<BadgeProps>(
   //https://img.shields.io/badge/-Playcanvas-303030?style=flat-square&logo=Playcanvas
-  ({ skill, logo, color, class: customClass }) => {
+  ({ skill, logo, color, class: className }) => {
     const error = useSignal(false);
     const badgeUrl = `https://img.shields.io/badge/${encodeURIComponent(
       skill,
@@ -20,7 +20,7 @@ const Badge = component$<BadgeProps>(
       <img
         src={badgeUrl}
         alt={skill}
-        class={clsx('h-6 w-auto ', customClass)}
+        class={clsx('h-6 w-auto ', className)}
         onError$={() => (error.value = true)}
         width={24}
         height={24}
