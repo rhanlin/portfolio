@@ -1,4 +1,4 @@
-import { component$ } from '@builder.io/qwik';
+import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
 import Card from '~/components/Card';
 import Hello from './home/Hello';
@@ -6,6 +6,9 @@ import Work, { type WorkProps } from './home/Work';
 import MySkills from './home/MySkills';
 import Contact from './home/Contact';
 import { SKILLS } from '~/constants/skills';
+import { Application } from '~/lib/playcanvas';
+import Agent from './home/Agent';
+import { FILLMODE_NONE, RESOLUTION_AUTO } from 'playcanvas';
 
 const workList: ({ id: string; backgroundImage: string } & WorkProps)[] = [
   {
@@ -75,6 +78,11 @@ const workList: ({ id: string; backgroundImage: string } & WorkProps)[] = [
 ];
 
 export default component$(() => {
+  const isMounted = useSignal(false);
+
+  useVisibleTask$(() => {
+    isMounted.value = true;
+  });
   return (
     <div class="grid grid-cols-12 gap-5 mb-30">
       <Card
@@ -85,8 +93,18 @@ export default component$(() => {
         <div class="hello-bg-gradient animate-rotate-360"></div>
         <Hello />
       </Card>
-      <Card wrapperClass="col-span-4" variant="50-30-30-50" class="bg-primary">
-        Canvas Inworld agent
+      <Card wrapperClass="col-span-4" variant="50-30-30-50" class="px-0! py-0!">
+        {isMounted.value ? (
+          <Application
+            usePhysics
+            fillMode={FILLMODE_NONE}
+            resolutionMode={RESOLUTION_AUTO}
+          >
+            <Agent />
+          </Application>
+        ) : (
+          <div>Loading PlayCanvas...</div>
+        )}
       </Card>
 
       {workList.map((work, i) => (
