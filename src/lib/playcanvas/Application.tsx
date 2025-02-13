@@ -7,7 +7,6 @@ import {
   type CSSProperties,
   useContextProvider,
   useStore,
-  useContext,
   noSerialize,
 } from '@builder.io/qwik';
 import {
@@ -21,11 +20,16 @@ import {
   type RESOLUTION_FIXED,
 } from 'playcanvas';
 import * as Ammo from 'sync-ammo';
-import { AppContext, AppContextType } from './context/use-app';
-import { ParentContext, ParentContextType } from './context/use-parent';
+import { AppContext, AppContextType, useApp } from './context/use-app';
+import {
+  ParentContext,
+  ParentContextType,
+  useParent,
+} from './context/use-parent';
 import {
   PointerEventsContext,
   PointerEventsContextType,
+  usePointerEvents,
 } from './context/use-pointer-events';
 import { usePicker } from './hooks/use-picker';
 import * as pc from 'playcanvas';
@@ -134,9 +138,9 @@ export const ApplicationWithoutCanvas =
           value: undefined,
         }),
       );
-      const app = useContext(AppContext);
-      const pointerEvents = useContext(PointerEventsContext);
-      const parent = useContext(ParentContext);
+      const appContext = useApp();
+      const pointerEventsContext = usePointerEvents();
+      const parentContext = useParent();
 
       useVisibleTask$(({ track }) => {
         track(() => canvas.value);
@@ -172,36 +176,36 @@ export const ApplicationWithoutCanvas =
           localApp.setCanvasFillMode(fillMode);
           localApp.setCanvasResolution(resolutionMode);
 
-          app.appSig = noSerialize(localApp);
-          app.value = noSerialize(localApp);
+          appContext.appSig = noSerialize(localApp);
+          appContext.value = noSerialize(localApp);
 
           localApp.root.name = 'root';
-          parent.value = noSerialize(localApp.root);
+          parentContext.value = noSerialize(localApp.root);
         }
 
         return () => {
-          if (!app.appSig) return;
+          if (!appContext.appSig) return;
 
-          app.appSig.destroy();
-          app.appSig = undefined;
+          appContext.appSig.destroy();
+          appContext.appSig = undefined;
 
           // @ts-expect-error Clean up the global Ammo instance
           if (usePhysics && globalThis.Ammo) delete globalThis.Ammo;
 
-          app.value = undefined;
+          appContext.value = undefined;
         };
       });
 
-      // These app properties can be updated without re-rendering
+      // These appContext properties can be updated without re-rendering
       useVisibleTask$(({ track }) => {
-        track(() => app.value);
+        track(() => appContext.value);
 
-        if (!app.value) return;
-        app.value.maxDeltaTime = maxDeltaTime;
-        app.value.timeScale = timeScale;
+        if (!appContext.value) return;
+        appContext.value.maxDeltaTime = maxDeltaTime;
+        appContext.value.timeScale = timeScale;
       });
 
-      usePicker(app.value, canvas.value, pointerEvents.value);
+      usePicker(appContext.value, canvas.value, pointerEventsContext.value);
 
       return <Slot />;
     },

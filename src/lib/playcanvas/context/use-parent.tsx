@@ -1,11 +1,5 @@
 import { Entity as pcEntity } from 'playcanvas';
-import {
-  component$,
-  NoSerialize,
-  Slot,
-  useContext,
-  useContextProvider,
-} from '@builder.io/qwik';
+import { NoSerialize, useContext } from '@builder.io/qwik';
 import { createContextId } from '@builder.io/qwik';
 
 export type ParentContextType = {
@@ -25,11 +19,3 @@ export const useParent = () => {
   }
   return context;
 };
-
-export const ParentContextProvider = component$<{
-  value: ParentContextType;
-}>(({ value }) => {
-  useContextProvider(ParentContext, value);
-
-  return <Slot />;
-});

@@ -1,15 +1,27 @@
 import { Color } from 'playcanvas';
-import { component$, noSerialize } from '@builder.io/qwik';
+import * as pc from 'playcanvas';
+import {
+  component$,
+  noSerialize,
+  useSignal,
+  useVisibleTask$,
+} from '@builder.io/qwik';
 import { Entity } from '~/lib/playcanvas';
 import { Camera, Light, Render } from '~/lib/playcanvas/components';
 import { useMaterial } from '~/lib/playcanvas/hooks/use-material';
 
 const Agent = component$(() => {
   const material = useMaterial({ diffuse: noSerialize(Color.GRAY) });
+  const isMounted = useSignal(false);
+  useVisibleTask$(() => {
+    isMounted.value = true;
+  });
+
+  if (!isMounted.value) return null;
 
   return (
     <>
-      <Entity name="test">
+      <Entity>
         <Entity name="camera" position={[0, 0, 0]}>
           <Camera clearColor={noSerialize(Color.RED)} fov={60} />
           <Light type="directional" color={noSerialize(new Color(1, 1, 1))} />

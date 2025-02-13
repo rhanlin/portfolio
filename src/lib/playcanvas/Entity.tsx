@@ -1,21 +1,24 @@
 import {
   component$,
-  useSignal,
   Slot,
   useVisibleTask$,
   PropFunction,
   noSerialize,
   useContextProvider,
   useStore,
-  useContext,
 } from '@builder.io/qwik';
 import { Entity as PcEntity } from 'playcanvas';
 import { useApp } from './context/use-app';
-import { ParentContext, ParentContextType } from './context/use-parent';
+import {
+  ParentContext,
+  ParentContextType,
+  useParent,
+} from './context/use-parent';
 import {
   SyntheticMouseEvent,
   SyntheticPointerEvent,
 } from './utils/synthetic-event';
+import { usePointerEvents } from './context/use-pointer-events';
 
 type PointerEventCallback = (event: SyntheticPointerEvent) => void;
 type MouseEventCallback = (event: SyntheticMouseEvent) => void;
@@ -46,42 +49,25 @@ export const Entity = component$<EntityProps>(
     onClick,
     onEntityReady$,
   }) => {
-    const isMounted = useSignal(false);
-
-    useVisibleTask$(() => {
-      isMounted.value = true;
-    });
-
-    if (isMounted.value === false) return;
-
     const app = useApp();
-    // 獲取父級實體
-    const parent = useContext(ParentContext);
-    // 創建當前實體
+    const parent = useParent();
 
     const entity = new PcEntity(name, app.value);
     useContextProvider(
       ParentContext,
       useStore<ParentContextType>({ value: noSerialize(entity) }),
     );
-    // useContextProvider(
-    //   ParentContext,
-    //   useStore<ParentContextType>({
-    //     value: entity,
-    //     count: 0,
-    //   }),
-    // );
 
-    // const pointerEvents = usePointerEvents();
+    const pointerEvents = usePointerEvents();
 
     // Check if the entity has pointer events attached
-    // const hasPointerEvents = !!(
-    //   onPointerDown ||
-    //   onPointerUp ||
-    //   onPointerOver ||
-    //   onPointerOut ||
-    //   onClick
-    // );
+    const hasPointerEvents = !!(
+      onPointerDown ||
+      onPointerUp ||
+      onPointerOver ||
+      onPointerOut ||
+      onClick
+    );
 
     // Create the entity only when 'app' changes
     // const entitySig = useSignal<NoSerialize<PcEntity>>(undefined);
@@ -100,22 +86,21 @@ export const Entity = component$<EntityProps>(
 
     // Add entity to parent when 'entity' or 'parent' changes
     useVisibleTask$(({ track }) => {
+      track(() => app.value);
       track(() => parent.value);
+      track(() => entity);
 
       if (!entity || !parent.value) return;
 
-      if (parent.value.children.indexOf(entity) === -1) {
-        console.log('spl Adding', entity.name, 'to parent', parent.value.name);
-        parent.value.addChild(entity);
-      }
+      console.log('spl Adding', entity.name, 'to parent', parent.value.name);
 
-      if (onEntityReady$ && entity) {
+      parent.value.addChild(entity);
+
+      if (onEntityReady$) {
         onEntityReady$(entity);
       }
 
       return () => {
-        console.log('spl Removing...');
-
         if (entity && parent.value) {
           console.log(
             'spl Removing',
@@ -132,8 +117,8 @@ export const Entity = component$<EntityProps>(
     // // PointerEvents
     // useVisibleTask$(({ track }) => {
     //   track(() => app.value);
-    //   // track(() => parent.count);
-    //   track(() => entitySig.value);
+    //   track(() => parent.value);
+    //   track(() => entity);
     //   track(() => onPointerDown);
     //   track(() => onPointerUp);
     //   track(() => onPointerOver);

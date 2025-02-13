@@ -78,11 +78,6 @@ const workList: ({ id: string; backgroundImage: string } & WorkProps)[] = [
 ];
 
 export default component$(() => {
-  const isMounted = useSignal(false);
-
-  useVisibleTask$(() => {
-    isMounted.value = true;
-  });
   return (
     <div class="grid grid-cols-12 gap-5 mb-30">
       <Card
@@ -94,17 +89,13 @@ export default component$(() => {
         <Hello />
       </Card>
       <Card wrapperClass="col-span-4" variant="50-30-30-50" class="px-0! py-0!">
-        {isMounted.value ? (
-          <Application
-            usePhysics
-            fillMode={FILLMODE_NONE}
-            resolutionMode={RESOLUTION_AUTO}
-          >
-            <Agent />
-          </Application>
-        ) : (
-          <div>Loading PlayCanvas...</div>
-        )}
+        <Application
+          usePhysics
+          fillMode={FILLMODE_NONE}
+          resolutionMode={RESOLUTION_AUTO}
+        >
+          <Agent />
+        </Application>
       </Card>
 
       {workList.map((work, i) => (

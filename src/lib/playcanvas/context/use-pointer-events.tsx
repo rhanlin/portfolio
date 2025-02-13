@@ -1,5 +1,5 @@
-import { component$, NoSerialize, Slot, useContext } from '@builder.io/qwik';
-import { useContextProvider, createContextId } from '@builder.io/qwik';
+import { NoSerialize, useContext } from '@builder.io/qwik';
+import { createContextId } from '@builder.io/qwik';
 
 export type PointerEventsContextType = {
   value: NoSerialize<Set<string>>;
@@ -18,11 +18,3 @@ export const usePointerEvents = () => {
   }
   return context;
 };
-
-export const PointerEventsContextProvider = component$<{
-  value: PointerEventsContextType;
-}>(({ value }) => {
-  useContextProvider(PointerEventsContext, value);
-
-  return <Slot />;
-});
