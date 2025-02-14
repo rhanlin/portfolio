@@ -1,3 +1,4 @@
+import { noSerialize, NoSerialize } from '@builder.io/qwik';
 import { Application, Asset } from 'playcanvas';
 
 export const fetchAsset = (
@@ -5,7 +6,7 @@ export const fetchAsset = (
   url: string,
   type: string,
   props = {},
-): Promise<Asset> => {
+): Promise<NoSerialize<Asset> | null> => {
   return new Promise((resolve, reject) => {
     let asset = app.assets.find(url);
 
@@ -15,9 +16,9 @@ export const fetchAsset = (
     }
 
     if (asset.resource) {
-      resolve(asset);
+      resolve(noSerialize(asset));
     } else {
-      asset.once('load', () => resolve(asset));
+      asset.once('load', () => resolve(noSerialize(asset)));
       asset.once('error', (err: string) => reject(err));
 
       // Start loading if not already loading

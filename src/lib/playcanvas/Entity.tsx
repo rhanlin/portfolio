@@ -20,8 +20,8 @@ import {
 } from './utils/synthetic-event';
 import { usePointerEvents } from './context/use-pointer-events';
 
-type PointerEventCallback = (event: SyntheticPointerEvent) => void;
-type MouseEventCallback = (event: SyntheticMouseEvent) => void;
+export type PointerEventCallback = (event: SyntheticPointerEvent) => void;
+export type MouseEventCallback = (event: SyntheticMouseEvent) => void;
 
 type EntityProps = {
   name?: string;
@@ -92,7 +92,12 @@ export const Entity = component$<EntityProps>(
 
       if (!entity || !parent.value) return;
 
-      console.log('spl Adding', entity.name, 'to parent', parent.value.name);
+      console.log(
+        '[debug] Entity Adding',
+        entity.name,
+        'to parent',
+        parent.value.name,
+      );
 
       parent.value.addChild(entity);
 
@@ -103,7 +108,7 @@ export const Entity = component$<EntityProps>(
       return () => {
         if (entity && parent.value) {
           console.log(
-            'spl Removing',
+            '[debug] Entity Removing',
             entity.name,
             'from parent',
             parent.value.name,
@@ -114,57 +119,56 @@ export const Entity = component$<EntityProps>(
       };
     });
 
-    // // PointerEvents
-    // useVisibleTask$(({ track }) => {
-    //   track(() => app.value);
-    //   track(() => parent.value);
-    //   track(() => entity);
-    //   track(() => onPointerDown);
-    //   track(() => onPointerUp);
-    //   track(() => onPointerOver);
-    //   track(() => onPointerOut);
-    //   track(() => onClick);
+    // PointerEvents
+    useVisibleTask$(({ track }) => {
+      track(() => app.value);
+      track(() => parent.value);
+      track(() => entity);
+      track(() => onPointerDown);
+      track(() => onPointerUp);
+      track(() => onPointerOver);
+      track(() => onPointerOut);
+      track(() => onClick);
 
-    //   const entity = entitySig.value;
-    //   if (!entity) return;
+      // const entity = entitySig.value;
+      if (!entity) return;
 
-    //   if (hasPointerEvents) {
-    //     pointerEvents.value?.add(entity.getGuid());
-    //   }
+      if (hasPointerEvents) {
+        pointerEvents.value?.add(entity.getGuid());
+      }
 
-    //   if (onPointerDown) entity.on('pointerdown', onPointerDown);
-    //   if (onPointerUp) entity.on('pointerup', onPointerUp);
-    //   if (onPointerOver) entity.on('pointerover', onPointerOver);
-    //   if (onPointerOut) entity.on('pointerout', onPointerOut);
-    //   if (onClick) entity.on('click', onClick);
+      if (onPointerDown) entity.on('pointerdown', onPointerDown);
+      if (onPointerUp) entity.on('pointerup', onPointerUp);
+      if (onPointerOver) entity.on('pointerover', onPointerOver);
+      if (onPointerOut) entity.on('pointerout', onPointerOut);
+      if (onClick) entity.on('click', onClick);
 
-    //   return () => {
-    //     if (hasPointerEvents) {
-    //       pointerEvents.value?.delete(entity.getGuid());
-    //     }
-    //     if (onPointerDown) entity.off('pointerdown', onPointerDown);
-    //     if (onPointerUp) entity.off('pointerup', onPointerUp);
-    //     if (onPointerOver) entity.off('pointerover', onPointerOver);
-    //     if (onPointerOut) entity.off('pointerout', onPointerOut);
-    //     if (onClick) entity.off('click', onClick);
-    //   };
-    // });
+      return () => {
+        if (hasPointerEvents) {
+          pointerEvents.value?.delete(entity.getGuid());
+        }
+        if (onPointerDown) entity.off('pointerdown', onPointerDown);
+        if (onPointerUp) entity.off('pointerup', onPointerUp);
+        if (onPointerOver) entity.off('pointerover', onPointerOver);
+        if (onPointerOut) entity.off('pointerout', onPointerOut);
+        if (onClick) entity.off('click', onClick);
+      };
+    });
 
-    // useVisibleTask$(({ track }) => {
-    //   track(() => entitySig.value);
-    //   track(() => name);
-    //   track(() => position);
-    //   track(() => scale);
-    //   track(() => rotation);
+    useVisibleTask$(({ track }) => {
+      track(() => entity);
+      track(() => name);
+      track(() => position);
+      track(() => scale);
+      track(() => rotation);
 
-    //   const entity = entitySig.value;
-    //   if (!entity) return;
+      if (!entity) return;
 
-    //   entity.name = name;
-    //   entity.setLocalPosition(...(position as [number, number, number]));
-    //   entity.setLocalScale(...(scale as [number, number, number]));
-    //   entity.setLocalEulerAngles(...(rotation as [number, number, number]));
-    // });
+      entity.name = name;
+      entity.setLocalPosition(...(position as [number, number, number]));
+      entity.setLocalScale(...(scale as [number, number, number]));
+      entity.setLocalEulerAngles(...(rotation as [number, number, number]));
+    });
 
     return <Slot />;
   },

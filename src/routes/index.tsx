@@ -120,10 +120,12 @@ export default component$(() => {
       </Card>
       <Card
         wrapperClass="col-span-3"
-        class="px-9.5! py-9.5! bg-primary"
+        class="relative px-0! py-0! bg-primary"
         variant="30-50-30-50"
       >
-        <Contact />
+        <div class="absolute w-full h-full px-9.5 py-9.5">
+          <Contact />
+        </div>
       </Card>
     </div>
   );
