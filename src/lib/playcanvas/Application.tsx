@@ -136,6 +136,7 @@ export const ApplicationWithoutCanvas =
         ParentContext,
         useStore<ParentContextType>({
           value: undefined,
+          count: 0,
         }),
       );
       const appContext = useApp();

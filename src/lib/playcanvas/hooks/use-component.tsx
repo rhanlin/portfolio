@@ -27,6 +27,8 @@ export const useComponent = (ctype: string, props: ComponentProps) => {
 
         const component =
           parent.value?.addComponent(ctype, clonedOpts) || undefined;
+
+        parent.count++;
         componentSig.value = noSerialize(component);
       }
       // Only add the component if it hasn't been added yet

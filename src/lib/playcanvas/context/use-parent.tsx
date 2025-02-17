@@ -4,6 +4,7 @@ import { createContextId } from '@builder.io/qwik';
 
 export type ParentContextType = {
   value: NoSerialize<pcEntity>;
+  count: number;
 };
 
 export const ParentContext =

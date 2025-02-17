@@ -55,7 +55,7 @@ export const Entity = component$<EntityProps>(
     const entity = new PcEntity(name, app.value);
     useContextProvider(
       ParentContext,
-      useStore<ParentContextType>({ value: noSerialize(entity) }),
+      useStore<ParentContextType>({ value: noSerialize(entity), count: 0 }),
     );
 
     const pointerEvents = usePointerEvents();
