@@ -12,6 +12,7 @@ import { useMaterial } from '~/lib/playcanvas/hooks/use-material';
 import { PointerEventCallback } from '~/lib/playcanvas/Entity';
 import { EnvAtlas } from '~/lib/playcanvas/components/EnvAtlas';
 import { OrbitControls } from '~/lib/playcanvas/scripts';
+import { useModel } from '~/lib/playcanvas/hooks/use-model';
 
 const Agent = component$(() => {
   const material = useMaterial({ diffuse: noSerialize(Color.GRAY) });
@@ -26,6 +27,7 @@ const Agent = component$(() => {
     console.log('pointer down', event),
   );
 
+  const { data: asset } = useModel('/glb/low-poly-man.glb');
   return (
     <Entity>
       <EnvAtlas src="/environment-map.png" intensity={2} />
@@ -43,10 +45,11 @@ const Agent = component$(() => {
       </Entity>
       <Entity
         name="render"
-        position={[0, 0.5, 0]}
+        position={[0, -3.5, 0]}
+        scale={[1, 1, 1]}
         onPointerDown={onPointerDown}
       >
-        <Render type="box" material={material} />
+        <Render type="asset" asset={asset} />
       </Entity>
     </Entity>
   );

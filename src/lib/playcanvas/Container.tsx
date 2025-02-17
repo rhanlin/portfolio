@@ -1,4 +1,11 @@
-import { component$, useSignal, useVisibleTask$, Slot } from '@builder.io/qwik';
+import {
+  component$,
+  useSignal,
+  useVisibleTask$,
+  Slot,
+  noSerialize,
+  NoSerialize,
+} from '@builder.io/qwik';
 import { Asset, Entity as PcEntity } from 'playcanvas';
 import { useApp } from './context/use-app';
 import { Entity } from './Entity';
@@ -10,8 +17,8 @@ type ContainerProps = {
 };
 
 export const Container = component$<ContainerProps>(({ asset, ...props }) => {
-  const entitySig = useSignal<PcEntity | null>(null);
-  const assetEntitySig = useSignal<PcEntity | null>(null);
+  const entitySig = useSignal<NoSerialize<PcEntity>>(undefined);
+  const assetEntitySig = useSignal<NoSerialize<PcEntity>>(undefined);
 
   const app = useApp();
 
@@ -25,7 +32,7 @@ export const Container = component$<ContainerProps>(({ asset, ...props }) => {
         asset.resource as GlbContainerResource
       ).instantiateRenderEntity({});
       entitySig.value.addChild(assetEntity);
-      assetEntitySig.value = assetEntity;
+      assetEntitySig.value = noSerialize(assetEntity);
     }
 
     return () => {
@@ -35,15 +42,18 @@ export const Container = component$<ContainerProps>(({ asset, ...props }) => {
       assetEntitySig.value.destroy();
       entitySig.value.removeChild(assetEntitySig.value);
 
-      entitySig.value = null;
-      assetEntitySig.value = null;
+      entitySig.value = undefined;
+      assetEntitySig.value = undefined;
     };
   });
 
   if (!asset?.resource) return null;
 
   return (
-    <Entity onEntityReady$={(entity) => (entitySig.value = entity)} {...props}>
+    <Entity
+      onEntityReady$={(entity) => (entitySig.value = noSerialize(entity))}
+      {...props}
+    >
       <Slot />
     </Entity>
   );
