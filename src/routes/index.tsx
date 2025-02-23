@@ -1,14 +1,12 @@
-import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik';
+import { component$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
+import { SKILLS } from '~/constants/skills';
 import Card from '~/components/Card';
 import Hello from './home/Hello';
 import Work, { type WorkProps } from './home/Work';
 import MySkills from './home/MySkills';
-import Contact from './home/Contact';
-import { SKILLS } from '~/constants/skills';
-import { Application } from '~/lib/playcanvas';
 import Agent from './home/Agent';
-import { FILLMODE_NONE, RESOLUTION_AUTO } from 'playcanvas';
+import Contact from './home/Contact';
 
 const workList: ({ id: string; backgroundImage: string } & WorkProps)[] = [
   {
@@ -89,13 +87,7 @@ export default component$(() => {
         <Hello />
       </Card>
       <Card wrapperClass="col-span-4" variant="50-30-30-50" class="px-0! py-0!">
-        <Application
-          usePhysics
-          fillMode={FILLMODE_NONE}
-          resolutionMode={RESOLUTION_AUTO}
-        >
-          <Agent />
-        </Application>
+        <Agent />
       </Card>
 
       {workList.map((work, i) => (
@@ -115,7 +107,11 @@ export default component$(() => {
           />
         </Card>
       ))}
-      <Card wrapperClass="col-span-9" variant="50-30-50-30">
+      <Card
+        wrapperClass="col-span-9"
+        class="px-0! py-0! min-h-[342px]"
+        variant="50-30-50-30"
+      >
         <MySkills />
       </Card>
       <Card

@@ -1,5 +1,5 @@
 import {
-  AppBase,
+  Application,
   CameraComponent,
   type Entity as pcEntity,
   Picker,
@@ -17,7 +17,7 @@ import {
 } from '../utils/synthetic-event';
 
 export const usePicker = (
-  app: NoSerialize<AppBase>,
+  app: NoSerialize<Application>,
   el: HTMLElement | undefined,
   pointerEvents: NoSerialize<Set<string>>,
 ) => {
@@ -159,7 +159,7 @@ export const usePicker = (
 };
 
 const getEntityAtPointerEvent = async (
-  app: AppBase,
+  app: Application,
   picker: Picker,
   rect: DOMRect,
   e: MouseEvent,

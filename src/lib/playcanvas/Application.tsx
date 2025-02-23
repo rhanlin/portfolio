@@ -3,11 +3,11 @@ import {
   useSignal,
   Slot,
   useVisibleTask$,
-  type Signal,
-  type CSSProperties,
   useContextProvider,
   useStore,
   noSerialize,
+  type Signal,
+  type CSSProperties,
 } from '@builder.io/qwik';
 import {
   RESOLUTION_AUTO,
@@ -20,7 +20,6 @@ import {
   type RESOLUTION_FIXED,
 } from 'playcanvas';
 import * as Ammo from 'sync-ammo';
-import { AppContext, AppContextType, useApp } from './context/use-app';
 import {
   ParentContext,
   ParentContextType,
@@ -32,7 +31,7 @@ import {
   usePointerEvents,
 } from './context/use-pointer-events';
 import { usePicker } from './hooks/use-picker';
-import * as pc from 'playcanvas';
+import { createAppProvider } from './context/use-app';
 
 interface GraphicsOptions {
   /** Boolean that indicates if the canvas contains an alpha buffer. */
@@ -58,6 +57,8 @@ interface GraphicsOptions {
 }
 
 interface ApplicationProps {
+  /** A unique identifier for the application. */
+  scopeId: string;
   /** The class name to attach to the canvas component */
   className?: string;
   /** A style object added to the canvas component */
@@ -86,20 +87,20 @@ type ApplicationWithoutCanvasProps = ApplicationProps & {
 
 export const Application = component$<ApplicationProps>(
   ({
+    scopeId,
     className = 'pc-app',
     style = { width: '100%', height: '100%' },
     ...props
   }) => {
     const canvasSig = useSignal<HTMLCanvasElement>();
-
-    useVisibleTask$(() => {
-      window.pc = pc;
-    });
-
     return (
       <>
-        <canvas class={className} style={style} ref={canvasSig} />
-        <ApplicationWithoutCanvas canvas={canvasSig} {...props}>
+        <canvas id={scopeId} class={className} style={style} ref={canvasSig} />
+        <ApplicationWithoutCanvas
+          scopeId={scopeId}
+          canvas={canvasSig}
+          {...props}
+        >
           <Slot />
         </ApplicationWithoutCanvas>
       </>
@@ -110,6 +111,7 @@ export const Application = component$<ApplicationProps>(
 export const ApplicationWithoutCanvas =
   component$<ApplicationWithoutCanvasProps>(
     ({
+      scopeId,
       canvas,
       fillMode = FILLMODE_NONE,
       resolutionMode = RESOLUTION_AUTO,
@@ -118,13 +120,8 @@ export const ApplicationWithoutCanvas =
       usePhysics = false,
       ...otherProps
     }) => {
-      useContextProvider(
-        AppContext,
-        useStore<AppContextType>({
-          value: undefined,
-          appSig: undefined,
-        }),
-      );
+      const { useApp } = createAppProvider(scopeId);
+
       useContextProvider(
         PointerEventsContext,
         useStore<PointerEventsContextType>({
@@ -166,34 +163,34 @@ export const ApplicationWithoutCanvas =
           );
 
           // @ts-expect-error The PC Physics system expects a global Ammo instance
-          if (usePhysics) globalThis.Ammo = Ammo.default;
+          if (usePhysics && !globalThis.Ammo) globalThis.Ammo = Ammo.default;
 
           const localApp = new PlayCanvasApplication(canvas.value, {
             mouse: new Mouse(canvas.value),
             touch: new TouchDevice(canvas.value),
             graphicsDeviceOptions,
           });
-          localApp.start();
+
           localApp.setCanvasFillMode(fillMode);
           localApp.setCanvasResolution(resolutionMode);
 
-          appContext.appSig = noSerialize(localApp);
           appContext.value = noSerialize(localApp);
+          appContext.count += 1;
 
           localApp.root.name = 'root';
           parentContext.value = noSerialize(localApp.root);
         }
 
         return () => {
-          if (!appContext.appSig) return;
+          if (!appContext.value) return;
 
-          appContext.appSig.destroy();
-          appContext.appSig = undefined;
+          appContext.value.destroy();
 
           // @ts-expect-error Clean up the global Ammo instance
           if (usePhysics && globalThis.Ammo) delete globalThis.Ammo;
 
           appContext.value = undefined;
+          appContext.count += 1;
         };
       });
 

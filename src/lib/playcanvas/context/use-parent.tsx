@@ -11,7 +11,6 @@ export const ParentContext =
   createContextId<ParentContextType>('parent-context');
 
 export const useParent = () => {
-  useContext(ParentContext);
   const context = useContext(ParentContext);
   if (context === undefined) {
     throw new Error(

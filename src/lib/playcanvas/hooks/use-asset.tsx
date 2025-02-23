@@ -1,20 +1,26 @@
 import { TEXTURETYPE_RGBP } from 'playcanvas';
-import { useSignal, useTask$ } from '@builder.io/qwik';
-import { useApp } from '../context/use-app';
+import { useSignal, useVisibleTask$ } from '@builder.io/qwik';
 import { fetchAsset } from '../utils/fetch-asset';
+import { createAppProvider, createAppScopeProvider } from '../context/use-app';
 
 export const useAsset = (src: string, type: string, props?: any) => {
-  const app = useApp();
+  const { useAppScope } = createAppScopeProvider();
+  const scopeId = useAppScope();
+  const { useApp } = createAppProvider(scopeId.value);
+  const app = useApp().value;
+
   const data = useSignal<any | null>(null);
   const isPending = useSignal<boolean>(true);
 
-  useTask$(async ({ track }) => {
-    track(() => [app.value, src, type, props]);
-    if (!app.value || !src) return;
+  useVisibleTask$(async ({ track }) => {
+    track(() => [app, src, type, props]);
+
+    if (!app || !src) return;
 
     isPending.value = true;
+
     try {
-      data.value = await fetchAsset(app.value, src, type, props);
+      data.value = await fetchAsset(app, src, type, props);
     } finally {
       isPending.value = false;
     }

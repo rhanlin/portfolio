@@ -1,5 +1,4 @@
 import { Script, ScriptComponent } from 'playcanvas';
-import { useApp } from '../context/use-app';
 import { useParent } from '../context/use-parent';
 import {
   noSerialize,
@@ -20,7 +19,6 @@ export const useScript = (
   props: Props,
 ): void => {
   const parent = useParent();
-  const app = useApp();
 
   const scriptName: string = toLowerCamelCase(scriptConstructor.name);
   const scriptRef = useSignal<NoSerialize<Script>>(undefined);
@@ -28,9 +26,8 @@ export const useScript = (
 
   // Create the script synchronously
   useVisibleTask$(({ track }) => {
-    track(() => [app.value, parent.value, scriptConstructor]);
-
-    if (!app.value || !parent.value) return;
+    track(() => [parent.value, scriptConstructor]);
+    if (!parent.value) return;
 
     // Ensure the parent entity has a script component
     if (!parent.value?.script) {
@@ -61,7 +58,7 @@ export const useScript = (
       scriptRef.value = undefined;
       scriptComponentRef.value = undefined;
 
-      if (app.value && app.value.root && script && scriptComponent) {
+      if (script && scriptComponent) {
         scriptComponent.destroy(scriptName);
       }
     };

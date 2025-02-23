@@ -7,7 +7,6 @@ import {
   NoSerialize,
 } from '@builder.io/qwik';
 import { Asset, Entity as PcEntity } from 'playcanvas';
-import { useApp } from './context/use-app';
 import { Entity } from './Entity';
 import { GlbContainerResource } from 'playcanvas/build/playcanvas/src/framework/parsers/glb-container-resource.js';
 
@@ -20,14 +19,10 @@ export const Container = component$<ContainerProps>(({ asset, ...props }) => {
   const entitySig = useSignal<NoSerialize<PcEntity>>(undefined);
   const assetEntitySig = useSignal<NoSerialize<PcEntity>>(undefined);
 
-  const app = useApp();
-
   useVisibleTask$(({ track }) => {
-    track(() => entitySig.value);
-    track(() => app.value);
-    track(() => asset);
+    track(() => [asset, entitySig.value]);
 
-    if (app.value && asset?.resource && entitySig.value) {
+    if (asset?.resource && entitySig.value) {
       const assetEntity = (
         asset.resource as GlbContainerResource
       ).instantiateRenderEntity({});

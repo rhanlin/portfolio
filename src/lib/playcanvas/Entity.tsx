@@ -8,7 +8,6 @@ import {
   useStore,
 } from '@builder.io/qwik';
 import { Entity as PcEntity } from 'playcanvas';
-import { useApp } from './context/use-app';
 import {
   ParentContext,
   ParentContextType,
@@ -19,6 +18,7 @@ import {
   SyntheticPointerEvent,
 } from './utils/synthetic-event';
 import { usePointerEvents } from './context/use-pointer-events';
+import { createAppProvider, createAppScopeProvider } from './context/use-app';
 
 export type PointerEventCallback = (event: SyntheticPointerEvent) => void;
 export type MouseEventCallback = (event: SyntheticMouseEvent) => void;
@@ -49,10 +49,13 @@ export const Entity = component$<EntityProps>(
     onClick,
     onEntityReady$,
   }) => {
-    const app = useApp();
+    const { useAppScope } = createAppScopeProvider();
+    const scopeId = useAppScope();
+    const { useApp } = createAppProvider(scopeId.value);
+    const app = useApp().value;
     const parent = useParent();
 
-    const entity = new PcEntity(name, app.value);
+    const entity = new PcEntity(name, app);
     useContextProvider(
       ParentContext,
       useStore<ParentContextType>({ value: noSerialize(entity), count: 0 }),
@@ -69,26 +72,9 @@ export const Entity = component$<EntityProps>(
       onClick
     );
 
-    // Create the entity only when 'app' changes
-    // const entitySig = useSignal<NoSerialize<PcEntity>>(undefined);
-
-    // useVisibleTask$(({ track }) => {
-    //   track(() => app.value);
-    // if (!app.value) return;
-
-    // const entity = noSerialize(new PcEntity(name, app.value));
-    // entitySig.value = noSerialize(new PcEntity(name, app.value));
-    // parent!.value = noSerialize(app.value.root);
-    // parent!.count++;
-
-    // entitySig.value = entity;
-    // });
-
     // Add entity to parent when 'entity' or 'parent' changes
     useVisibleTask$(({ track }) => {
-      track(() => app.value);
-      track(() => parent.value);
-      track(() => entity);
+      track(() => [app, parent.value, entity]);
 
       if (!entity || !parent.value) return;
 
@@ -121,7 +107,7 @@ export const Entity = component$<EntityProps>(
 
     // PointerEvents
     useVisibleTask$(({ track }) => {
-      track(() => app.value);
+      track(() => app);
       track(() => parent.value);
       track(() => entity);
       track(() => onPointerDown);

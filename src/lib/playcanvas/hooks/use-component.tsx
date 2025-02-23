@@ -6,7 +6,7 @@ import {
   useVisibleTask$,
 } from '@builder.io/qwik';
 import { useParent } from '../context/use-parent';
-import { useApp } from '../context/use-app';
+import { createAppProvider, createAppScopeProvider } from '../context/use-app';
 
 export type ComponentProps = {
   [key: string]: unknown;
@@ -15,9 +15,16 @@ export type ComponentProps = {
 export const useComponent = (ctype: string, props: ComponentProps) => {
   const componentSig = useSignal<NoSerialize<Component>>(undefined);
   const parent = useParent();
-  const app = useApp();
+
+  const { useAppScope } = createAppScopeProvider();
+  const scopeId = useAppScope();
+  const { useApp } = createAppProvider(scopeId.value);
+  const app = useApp().value;
+
+  if (!app) return;
 
   useVisibleTask$(({ track }) => {
+    track(() => app);
     track(() => ctype);
     track(() => parent.value);
 
@@ -39,11 +46,11 @@ export const useComponent = (ctype: string, props: ComponentProps) => {
       const comp = componentSig.value;
       componentSig.value = undefined;
 
-      if (!app.value || !app.value.root) return;
+      if (!app || !app.root) return;
 
       if (comp) {
-        type SystemKeys = keyof typeof app.value.systems;
-        if (app.value.systems[ctype as SystemKeys] && parent.value)
+        type SystemKeys = keyof typeof app.systems;
+        if (app.systems[ctype as SystemKeys] && parent.value)
           parent.value.removeComponent(ctype);
       }
     };

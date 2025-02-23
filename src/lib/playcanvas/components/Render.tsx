@@ -1,11 +1,11 @@
-import { component$, Signal, Slot } from '@builder.io/qwik';
+import { component$, Slot } from '@builder.io/qwik';
 import { Asset } from 'playcanvas';
 import { ComponentProps, useComponent } from '../hooks/use-component';
 import { Container } from '../Container';
 
 type RenderProps = ComponentProps & {
   type: string;
-  asset?: Signal<Asset>;
+  asset?: Asset;
 };
 
 const RenderComponent = component$<ComponentProps>((props) => {
@@ -15,9 +15,9 @@ const RenderComponent = component$<ComponentProps>((props) => {
 
 export const Render = component$<RenderProps>((props) => {
   // Render a container if the asset is a container
-  if (props?.asset?.value?.type === 'container') {
+  if (props?.asset?.type === 'container') {
     return (
-      <Container asset={props.asset.value}>
+      <Container asset={props.asset}>
         <Slot />
       </Container>
     );

@@ -6,7 +6,7 @@ import {
   useTask$,
   useVisibleTask$,
 } from '@builder.io/qwik';
-import { useApp } from '../context/use-app';
+import { createAppProvider, createAppScopeProvider } from '../context/use-app';
 import { useColors } from './use-color';
 
 type WritableKeys<T> = {
@@ -18,7 +18,12 @@ type MaterialProps = Pick<StandardMaterial, WritableKeys<StandardMaterial>>;
 export const useMaterial = (
   props: Partial<MaterialProps>,
 ): NoSerialize<StandardMaterial> => {
-  const app = useApp();
+  const { useAppScope } = createAppScopeProvider();
+  const scopeId = useAppScope();
+  const { useApp } = createAppProvider(scopeId.value);
+  const app = useApp().value;
+
+  if (!app) return;
 
   // 處理顏色屬性
   const colorProps = useColors(props, [
@@ -37,20 +42,20 @@ export const useMaterial = (
 
   useTask$(() => {
     // 只在 `app` 存在時創建材質
-    if (app.value) {
-      Object.assign(material, props, colorProps);
+    if (!app) return;
 
-      if (material.value) {
-        material.value.update();
-      }
+    Object.assign(material, props, colorProps);
+
+    if (material.value) {
+      material.value.update();
     }
   });
 
   useVisibleTask$(({ track }) => {
-    track(() => app.value);
+    track(() => app);
     track(() => props);
 
-    if (!app.value) return;
+    if (!app) return;
 
     // 過濾 `props` 只更新 `material` 內部存在的屬性
     const filteredProps = Object.fromEntries(
