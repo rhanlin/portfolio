@@ -7,10 +7,12 @@ type EnvAtlasProps = {
   src: string;
   intensity?: number;
   showSkybox?: boolean;
+  exposure?: number;
+  skyboxMip?: number;
 };
 
 export const EnvAtlas = component$<EnvAtlasProps>(
-  ({ src, intensity = 1, showSkybox = true }) => {
+  ({ src, intensity = 1, exposure = 1, skyboxMip = 1, showSkybox = true }) => {
     const app = useApp().value;
 
     const { data } = useEnvAtlas(src, { app });
@@ -31,12 +33,14 @@ export const EnvAtlas = component$<EnvAtlasProps>(
     });
 
     useVisibleTask$(({ track }) => {
-      track(() => [app, showSkybox, intensity]);
+      track(() => [app, showSkybox, intensity, exposure, skyboxMip]);
       if (!app) return;
 
       const layer = app.scene.layers.getLayerByName('Skybox');
       if (layer) layer.enabled = showSkybox;
       app.scene.skyboxIntensity = intensity;
+      app.scene.exposure = exposure;
+      app.scene.skyboxMip = skyboxMip;
     });
 
     return null;

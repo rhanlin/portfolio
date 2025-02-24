@@ -39,7 +39,7 @@ const Canvas = component$(() => {
 
   return (
     <Entity>
-      <EnvAtlas src="/environment-map_0.png" intensity={2} />
+      <EnvAtlas src="/environment-map_1.png" />
 
       <Entity name="camera" position={[4, 3.5, 4]} rotation={[-30, 45, 0]}>
         <Camera clearColor="#111111" fov={45} />

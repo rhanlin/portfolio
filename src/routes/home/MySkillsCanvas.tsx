@@ -10,7 +10,7 @@ import { Entity } from '~/lib/playcanvas';
 import { Camera, Light, Render } from '~/lib/playcanvas/components';
 import { PointerEventCallback } from '~/lib/playcanvas/Entity';
 import { EnvAtlas } from '~/lib/playcanvas/components/EnvAtlas';
-import { OrbitControls } from '~/lib/playcanvas/scripts';
+import { OrbitControls, TransparentSkybox } from '~/lib/playcanvas/scripts';
 import { useApp } from '~/lib/playcanvas/context/use-app';
 
 const Canvas = component$(() => {
@@ -40,7 +40,12 @@ const Canvas = component$(() => {
 
   return (
     <Entity>
-      <EnvAtlas src="/environment-map_1.png" intensity={2} />
+      <EnvAtlas
+        src="/environment-map_0.png"
+        intensity={0.4}
+        exposure={2}
+        skyboxMip={2}
+      />
 
       <Entity name="camera" position={[4, 3.5, 4]} rotation={[-30, 45, 0]}>
         <Camera clearColor="#111111" fov={45} />
@@ -51,6 +56,7 @@ const Canvas = component$(() => {
           pitchAngleMin={1}
           pitchAngleMax={90}
         />
+        <TransparentSkybox />
         <Light type="directional" color={noSerialize(new Color(1, 1, 1))} />
       </Entity>
       <Entity
