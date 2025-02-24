@@ -1,5 +1,10 @@
 import { Color } from 'playcanvas';
-import { NoSerialize, useVisibleTask$ } from '@builder.io/qwik';
+import {
+  NoSerialize,
+  useVisibleTask$,
+  useStore,
+  noSerialize,
+} from '@builder.io/qwik';
 
 const cssColorNamesMap: Map<string, string> = new Map([
   ['aliceblue', '#F0F8FF'],
@@ -151,7 +156,6 @@ const cssColorNamesMap: Map<string, string> = new Map([
   ['yellow', '#FFFF00'],
   ['yellowgreen', '#9ACD32'],
 ]);
-import { useStore, noSerialize } from '@builder.io/qwik';
 
 export const useColors = (
   props: Record<string, unknown>,

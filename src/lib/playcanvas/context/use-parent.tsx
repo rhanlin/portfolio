@@ -1,6 +1,11 @@
 import { Entity as pcEntity } from 'playcanvas';
-import { NoSerialize, useContext } from '@builder.io/qwik';
-import { createContextId } from '@builder.io/qwik';
+import {
+  NoSerialize,
+  useContext,
+  useContextProvider,
+  useStore,
+  createContextId,
+} from '@builder.io/qwik';
 
 export type ParentContextType = {
   value: NoSerialize<pcEntity>;
@@ -9,6 +14,16 @@ export type ParentContextType = {
 
 export const ParentContext =
   createContextId<ParentContextType>('parent-context');
+
+export const useParentProvider = ({ value, count }: ParentContextType) => {
+  useContextProvider(
+    ParentContext,
+    useStore<ParentContextType>({
+      value,
+      count,
+    }),
+  );
+};
 
 export const useParent = () => {
   const context = useContext(ParentContext);

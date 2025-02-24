@@ -1,5 +1,10 @@
-import { NoSerialize, useContext } from '@builder.io/qwik';
-import { createContextId } from '@builder.io/qwik';
+import {
+  NoSerialize,
+  useContext,
+  useContextProvider,
+  useStore,
+  createContextId,
+} from '@builder.io/qwik';
 
 export type PointerEventsContextType = {
   value: NoSerialize<Set<string>>;
@@ -8,6 +13,17 @@ export type PointerEventsContextType = {
 export const PointerEventsContext = createContextId<PointerEventsContextType>(
   'pointer-events-context',
 );
+
+export const usePointerEventsProvider = ({
+  value,
+}: PointerEventsContextType) => {
+  useContextProvider(
+    PointerEventsContext,
+    useStore<PointerEventsContextType>({
+      value,
+    }),
+  );
+};
 
 export const usePointerEvents = () => {
   const context = useContext(PointerEventsContext);

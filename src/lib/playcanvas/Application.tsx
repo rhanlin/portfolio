@@ -3,8 +3,6 @@ import {
   useSignal,
   Slot,
   useVisibleTask$,
-  useContextProvider,
-  useStore,
   noSerialize,
   type Signal,
   type CSSProperties,
@@ -20,15 +18,10 @@ import {
   type RESOLUTION_FIXED,
 } from 'playcanvas';
 import * as Ammo from 'sync-ammo';
+import { useParent, useParentProvider } from './context/use-parent';
 import {
-  ParentContext,
-  ParentContextType,
-  useParent,
-} from './context/use-parent';
-import {
-  PointerEventsContext,
-  PointerEventsContextType,
   usePointerEvents,
+  usePointerEventsProvider,
 } from './context/use-pointer-events';
 import { usePicker } from './hooks/use-picker';
 import { generateAppId, useApp, useAppProvider } from './context/use-app';
@@ -122,20 +115,12 @@ export const ApplicationWithoutCanvas =
         count: 0,
       });
 
-      useContextProvider(
-        PointerEventsContext,
-        useStore<PointerEventsContextType>({
-          value: undefined,
-        }),
-      );
+      usePointerEventsProvider({ value: undefined });
 
-      useContextProvider(
-        ParentContext,
-        useStore<ParentContextType>({
-          value: undefined,
-          count: 0,
-        }),
-      );
+      useParentProvider({
+        value: undefined,
+        count: 0,
+      });
 
       const appContext = useApp();
       const pointerEventsContext = usePointerEvents();

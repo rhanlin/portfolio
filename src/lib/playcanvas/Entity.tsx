@@ -4,15 +4,9 @@ import {
   useVisibleTask$,
   PropFunction,
   noSerialize,
-  useContextProvider,
-  useStore,
 } from '@builder.io/qwik';
 import { Entity as PcEntity } from 'playcanvas';
-import {
-  ParentContext,
-  ParentContextType,
-  useParent,
-} from './context/use-parent';
+import { useParent, useParentProvider } from './context/use-parent';
 import {
   SyntheticMouseEvent,
   SyntheticPointerEvent,
@@ -53,10 +47,7 @@ export const Entity = component$<EntityProps>(
     const parent = useParent();
 
     const entity = new PcEntity(name, app);
-    useContextProvider(
-      ParentContext,
-      useStore<ParentContextType>({ value: noSerialize(entity), count: 0 }),
-    );
+    useParentProvider({ value: noSerialize(entity), count: 0 });
 
     const pointerEvents = usePointerEvents();
 
