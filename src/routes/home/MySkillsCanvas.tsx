@@ -11,14 +11,9 @@ import { Camera, Light, Render } from '~/lib/playcanvas/components';
 import { PointerEventCallback } from '~/lib/playcanvas/Entity';
 import { EnvAtlas } from '~/lib/playcanvas/components/EnvAtlas';
 import { OrbitControls } from '~/lib/playcanvas/scripts';
-import { createAppProvider } from '~/lib/playcanvas/context/use-app';
+import { useApp } from '~/lib/playcanvas/context/use-app';
 
-type CanvasProps = {
-  scopeId: string;
-};
-
-const Canvas = component$<CanvasProps>(({ scopeId }) => {
-  const { useApp } = createAppProvider(scopeId);
+const Canvas = component$(() => {
   const app = useApp();
   const isMounted = useSignal(false);
 

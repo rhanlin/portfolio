@@ -18,7 +18,7 @@ import {
   SyntheticPointerEvent,
 } from './utils/synthetic-event';
 import { usePointerEvents } from './context/use-pointer-events';
-import { createAppProvider, createAppScopeProvider } from './context/use-app';
+import { useApp } from './context/use-app';
 
 export type PointerEventCallback = (event: SyntheticPointerEvent) => void;
 export type MouseEventCallback = (event: SyntheticMouseEvent) => void;
@@ -49,9 +49,6 @@ export const Entity = component$<EntityProps>(
     onClick,
     onEntityReady$,
   }) => {
-    const { useAppScope } = createAppScopeProvider();
-    const scopeId = useAppScope();
-    const { useApp } = createAppProvider(scopeId.value);
     const app = useApp().value;
     const parent = useParent();
 

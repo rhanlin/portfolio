@@ -108,8 +108,8 @@ export default component$(() => {
         </Card>
       ))}
       <Card
-        wrapperClass="col-span-9"
-        class="px-0! py-0! min-h-[342px]"
+        wrapperClass="col-span-9 hello-card-bg-gradient"
+        class="px-0! py-0!"
         variant="50-30-50-30"
       >
         <MySkills />

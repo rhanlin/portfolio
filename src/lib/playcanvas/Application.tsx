@@ -31,7 +31,7 @@ import {
   usePointerEvents,
 } from './context/use-pointer-events';
 import { usePicker } from './hooks/use-picker';
-import { createAppProvider } from './context/use-app';
+import { generateAppId, useApp, useAppProvider } from './context/use-app';
 
 interface GraphicsOptions {
   /** Boolean that indicates if the canvas contains an alpha buffer. */
@@ -57,8 +57,6 @@ interface GraphicsOptions {
 }
 
 interface ApplicationProps {
-  /** A unique identifier for the application. */
-  scopeId: string;
   /** The class name to attach to the canvas component */
   className?: string;
   /** A style object added to the canvas component */
@@ -87,7 +85,6 @@ type ApplicationWithoutCanvasProps = ApplicationProps & {
 
 export const Application = component$<ApplicationProps>(
   ({
-    scopeId,
     className = 'pc-app',
     style = { width: '100%', height: '100%' },
     ...props
@@ -95,12 +92,13 @@ export const Application = component$<ApplicationProps>(
     const canvasSig = useSignal<HTMLCanvasElement>();
     return (
       <>
-        <canvas id={scopeId} class={className} style={style} ref={canvasSig} />
-        <ApplicationWithoutCanvas
-          scopeId={scopeId}
-          canvas={canvasSig}
-          {...props}
-        >
+        <canvas
+          id={generateAppId()}
+          class={className}
+          style={style}
+          ref={canvasSig}
+        />
+        <ApplicationWithoutCanvas canvas={canvasSig} {...props}>
           <Slot />
         </ApplicationWithoutCanvas>
       </>
@@ -111,7 +109,6 @@ export const Application = component$<ApplicationProps>(
 export const ApplicationWithoutCanvas =
   component$<ApplicationWithoutCanvasProps>(
     ({
-      scopeId,
       canvas,
       fillMode = FILLMODE_NONE,
       resolutionMode = RESOLUTION_AUTO,
@@ -120,7 +117,10 @@ export const ApplicationWithoutCanvas =
       usePhysics = false,
       ...otherProps
     }) => {
-      const { useApp } = createAppProvider(scopeId);
+      useAppProvider({
+        value: undefined,
+        count: 0,
+      });
 
       useContextProvider(
         PointerEventsContext,
@@ -136,6 +136,7 @@ export const ApplicationWithoutCanvas =
           count: 0,
         }),
       );
+
       const appContext = useApp();
       const pointerEventsContext = usePointerEvents();
       const parentContext = useParent();
@@ -203,7 +204,11 @@ export const ApplicationWithoutCanvas =
         appContext.value.timeScale = timeScale;
       });
 
-      usePicker(appContext.value, canvas.value, pointerEventsContext.value);
+      usePicker(
+        noSerialize(appContext.value),
+        canvas.value,
+        pointerEventsContext.value,
+      );
 
       return <Slot />;
     },

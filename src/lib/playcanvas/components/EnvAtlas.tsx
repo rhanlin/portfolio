@@ -1,7 +1,7 @@
 import { component$, useVisibleTask$ } from '@builder.io/qwik';
 import { Asset, Texture } from 'playcanvas';
 import { useEnvAtlas } from '../hooks/use-asset';
-import { createAppProvider, createAppScopeProvider } from '../context/use-app';
+import { useApp } from '../context/use-app';
 
 type EnvAtlasProps = {
   src: string;
@@ -11,9 +11,6 @@ type EnvAtlasProps = {
 
 export const EnvAtlas = component$<EnvAtlasProps>(
   ({ src, intensity = 1, showSkybox = true }) => {
-    const { useAppScope } = createAppScopeProvider();
-    const scopeId = useAppScope();
-    const { useApp } = createAppProvider(scopeId.value);
     const app = useApp().value;
 
     const { data } = useEnvAtlas(src, { app });

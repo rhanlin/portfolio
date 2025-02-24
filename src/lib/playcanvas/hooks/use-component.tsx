@@ -6,7 +6,7 @@ import {
   useVisibleTask$,
 } from '@builder.io/qwik';
 import { useParent } from '../context/use-parent';
-import { createAppProvider, createAppScopeProvider } from '../context/use-app';
+import { useApp } from '../context/use-app';
 
 export type ComponentProps = {
   [key: string]: unknown;
@@ -15,10 +15,6 @@ export type ComponentProps = {
 export const useComponent = (ctype: string, props: ComponentProps) => {
   const componentSig = useSignal<NoSerialize<Component>>(undefined);
   const parent = useParent();
-
-  const { useAppScope } = createAppScopeProvider();
-  const scopeId = useAppScope();
-  const { useApp } = createAppProvider(scopeId.value);
   const app = useApp().value;
 
   if (!app) return;

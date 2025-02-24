@@ -1,12 +1,9 @@
 import { TEXTURETYPE_RGBP } from 'playcanvas';
 import { useSignal, useVisibleTask$ } from '@builder.io/qwik';
 import { fetchAsset } from '../utils/fetch-asset';
-import { createAppProvider, createAppScopeProvider } from '../context/use-app';
+import { useApp } from '../context/use-app';
 
 export const useAsset = (src: string, type: string, props?: any) => {
-  const { useAppScope } = createAppScopeProvider();
-  const scopeId = useAppScope();
-  const { useApp } = createAppProvider(scopeId.value);
   const app = useApp().value;
 
   const data = useSignal<any | null>(null);

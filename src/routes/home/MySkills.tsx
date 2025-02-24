@@ -3,38 +3,11 @@ import { FILLMODE_NONE, RESOLUTION_AUTO } from 'playcanvas';
 import Text from '~/components/Text';
 import { Application } from '~/lib/playcanvas';
 import MySkillsCanvas from './MySkillsCanvas';
-import {
-  generateAppId,
-  createAppProvider,
-  createAppScopeProvider,
-} from '~/lib/playcanvas/context/use-app';
-
-const Canvas = component$(() => {
-  const id = generateAppId();
-  const { AppProvider } = createAppProvider(id);
-  const { AppScopeProvider } = createAppScopeProvider();
-
-  return (
-    <AppProvider value={undefined} count={0}>
-      <AppScopeProvider value={id}>
-        <Application
-          scopeId={id}
-          usePhysics
-          fillMode={FILLMODE_NONE}
-          resolutionMode={RESOLUTION_AUTO}
-        >
-          <MySkillsCanvas scopeId={id} />
-        </Application>
-      </AppScopeProvider>
-    </AppProvider>
-  );
-});
 
 const MySkills = component$(() => {
   return (
     <>
-      <div id="skills" class="relative w-full h-full">
-        {/* UI */}
+      <div id="skills" class="relative w-full h-[382px] min-h-[382px]">
         <div class="absolute w-full px-9.5 py-9.5">
           <div class="max-w-[260px] flex flex-col m-0">
             <Text as="p" class="mb-3.5">
@@ -50,7 +23,13 @@ const MySkills = component$(() => {
           </div>
         </div>
 
-        <Canvas />
+        <Application
+          usePhysics
+          fillMode={FILLMODE_NONE}
+          resolutionMode={RESOLUTION_AUTO}
+        >
+          <MySkillsCanvas />
+        </Application>
       </div>
     </>
   );

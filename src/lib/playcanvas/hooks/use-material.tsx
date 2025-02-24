@@ -6,7 +6,7 @@ import {
   useTask$,
   useVisibleTask$,
 } from '@builder.io/qwik';
-import { createAppProvider, createAppScopeProvider } from '../context/use-app';
+import { useApp } from '../context/use-app';
 import { useColors } from './use-color';
 
 type WritableKeys<T> = {
@@ -18,9 +18,6 @@ type MaterialProps = Pick<StandardMaterial, WritableKeys<StandardMaterial>>;
 export const useMaterial = (
   props: Partial<MaterialProps>,
 ): NoSerialize<StandardMaterial> => {
-  const { useAppScope } = createAppScopeProvider();
-  const scopeId = useAppScope();
-  const { useApp } = createAppProvider(scopeId.value);
   const app = useApp().value;
 
   if (!app) return;
