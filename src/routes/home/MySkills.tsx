@@ -8,7 +8,7 @@ const MySkills = component$(() => {
   return (
     <>
       <div id="skills" class="relative w-full h-[382px] min-h-[382px]">
-        <div class="absolute w-full px-9.5 py-9.5">
+        <div class="absolute w-auto h-full px-9.5 py-9.5 backdrop-blur-[32px]">
           <div class="max-w-[260px] flex flex-col m-0">
             <Text as="p" class="mb-3.5">
               I constantly try to improve myself

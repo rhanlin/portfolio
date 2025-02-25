@@ -1,4 +1,3 @@
-import { Color } from 'playcanvas';
 import {
   $,
   component$,
@@ -6,21 +5,29 @@ import {
   useSignal,
   useVisibleTask$,
 } from '@builder.io/qwik';
+import { Color } from 'playcanvas';
 import { Entity } from '~/lib/playcanvas';
 import { Camera, Light, Render } from '~/lib/playcanvas/components';
 import { PointerEventCallback } from '~/lib/playcanvas/Entity';
 import { EnvAtlas } from '~/lib/playcanvas/components/EnvAtlas';
-import { OrbitControls, TransparentSkybox } from '~/lib/playcanvas/scripts';
+import {
+  OrbitControls,
+  ShadowCatcher,
+  TransparentSkybox,
+} from '~/lib/playcanvas/scripts';
 import { useApp } from '~/lib/playcanvas/context/use-app';
+import { useMaterial } from '~/lib/playcanvas/hooks/use-material';
 
 const Canvas = component$(() => {
   const app = useApp();
   const isMounted = useSignal(false);
 
-  useVisibleTask$(({ track }) => {
+  useVisibleTask$(async ({ track }) => {
     track(() => [app.count]);
 
     if (app.value) {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      app.value.start();
       isMounted.value = true;
     }
   });
@@ -31,24 +38,34 @@ const Canvas = component$(() => {
     console.log('pointer down', event),
   );
 
-  if (!app.value) return null;
+  const planeMaterial = useMaterial({
+    diffuse: noSerialize(new Color().fromString('#7760F6')),
+  });
+  const ballMaterial = useMaterial({
+    diffuse: noSerialize(new Color().fromString('#808080')),
+  });
 
-  setTimeout(() => {
-    // TODO: Need to figure out why timeOut is needed...
-    app.value!.start();
-  }, 500);
+  const entities = [];
+
+  for (let i = -5; i <= 5; i++) {
+    for (let j = -5; j <= 5; j++) {
+      entities.push(
+        <Entity
+          key={`${i}-${j}`}
+          position={[i, -0.15, j]}
+          scale={[0.95, 0.15, 0.95]}
+        >
+          <Render type="box" material={planeMaterial} />
+        </Entity>,
+      );
+    }
+  }
 
   return (
-    <Entity>
-      <EnvAtlas
-        src="/environment-map_0.png"
-        intensity={0.4}
-        exposure={2}
-        skyboxMip={2}
-      />
-
+    <Entity name="stage">
+      <EnvAtlas src="/environment-map_2.png" intensity={2} />
       <Entity name="camera" position={[4, 3.5, 4]} rotation={[-30, 45, 0]}>
-        <Camera clearColor="#111111" fov={45} />
+        <Camera clearColor="#09050f" fov={45} />
         <OrbitControls
           inertiaFactor={0.07}
           distanceMin={6}
@@ -57,16 +74,20 @@ const Canvas = component$(() => {
           pitchAngleMax={90}
         />
         <TransparentSkybox />
-        <Light type="directional" color={noSerialize(new Color(1, 1, 1))} />
       </Entity>
       <Entity
-        name="render"
+        name="planes"
         position={[0, 0, 0]}
         scale={[1, 1, 1]}
         onPointerDown={onPointerDown}
       >
-        <Render type="box" />
+        {entities}
       </Entity>
+
+      <Entity name="ball" position={[0, 0.5, 0]}>
+        <Render type={'sphere'} material={ballMaterial} />
+      </Entity>
+      <ShadowCatcher width={10} depth={10} />
     </Entity>
   );
 });

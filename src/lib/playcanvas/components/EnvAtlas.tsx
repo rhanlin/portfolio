@@ -13,34 +13,34 @@ type EnvAtlasProps = {
 
 export const EnvAtlas = component$<EnvAtlasProps>(
   ({ src, intensity = 1, exposure = 1, skyboxMip = 1, showSkybox = true }) => {
-    const app = useApp().value;
+    const app = useApp();
 
-    const { data } = useEnvAtlas(src, { app });
+    const { data } = useEnvAtlas(src, { app: app.value });
     const asset = data.value as Asset;
 
     useVisibleTask$(({ track }) => {
-      track(() => [app, asset?.resource]);
-      if (!app) return;
+      track(() => [app.count, asset?.resource]);
+      if (!app.value) return;
       if (!asset?.resource) return;
 
-      app.scene.envAtlas = asset.resource as Texture;
+      app.value.scene.envAtlas = asset.resource as Texture;
 
       return () => {
-        if (app && app.scene) {
-          app.scene.envAtlas = null;
+        if (app.value && app.value.scene) {
+          app.value.scene.envAtlas = null;
         }
       };
     });
 
     useVisibleTask$(({ track }) => {
-      track(() => [app, showSkybox, intensity, exposure, skyboxMip]);
-      if (!app) return;
+      track(() => [app.count, showSkybox, intensity, exposure, skyboxMip]);
+      if (!app.value) return;
 
-      const layer = app.scene.layers.getLayerByName('Skybox');
+      const layer = app.value.scene.layers.getLayerByName('Skybox');
       if (layer) layer.enabled = showSkybox;
-      app.scene.skyboxIntensity = intensity;
-      app.scene.exposure = exposure;
-      app.scene.skyboxMip = skyboxMip;
+      app.value.scene.skyboxIntensity = intensity;
+      app.value.scene.exposure = exposure;
+      app.value.scene.skyboxMip = skyboxMip;
     });
 
     return null;
