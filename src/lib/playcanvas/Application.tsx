@@ -76,8 +76,13 @@ type ApplicationWithoutCanvasProps = ApplicationProps & {
   canvas: Signal<HTMLCanvasElement | undefined>;
 };
 
-export const Application = component$<ApplicationProps>(
+export const Application = component$<
+  ApplicationProps & {
+    id?: string;
+  }
+>(
   ({
+    id,
     className = 'pc-app',
     style = { width: '100%', height: '100%' },
     ...props
@@ -86,7 +91,7 @@ export const Application = component$<ApplicationProps>(
     return (
       <>
         <canvas
-          id={generateAppId()}
+          id={id ?? generateAppId()}
           class={className}
           style={style}
           ref={canvasSig}

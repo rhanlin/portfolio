@@ -24,6 +24,7 @@ const MySkills = component$(() => {
         </div>
 
         <Application
+          id="my-skills-app"
           usePhysics
           fillMode={FILLMODE_NONE}
           resolutionMode={RESOLUTION_AUTO}

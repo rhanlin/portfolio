@@ -6,6 +6,7 @@ import AgentCanvas from './AgentCanvas';
 const Agent = component$(() => {
   return (
     <Application
+      id="agent-app"
       usePhysics
       fillMode={FILLMODE_NONE}
       resolutionMode={RESOLUTION_AUTO}
