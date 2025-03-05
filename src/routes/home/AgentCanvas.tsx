@@ -8,14 +8,15 @@ import {
   useVisibleTask$,
 } from '@builder.io/qwik';
 import { Entity } from '~/lib/playcanvas';
-import { Camera, Light, Render } from '~/lib/playcanvas/components';
+import {
+  Camera,
+  Light,
+  Render,
+  UpdateMaterial,
+} from '~/lib/playcanvas/components';
 import { PointerEventCallback } from '~/lib/playcanvas/Entity';
 import { EnvAtlas } from '~/lib/playcanvas/components/EnvAtlas';
-import {
-  OrbitControls,
-  ShadowCatcher,
-  UpdateMaterial,
-} from '~/lib/playcanvas/scripts';
+import { OrbitControls, ShadowCatcher } from '~/lib/playcanvas/scripts';
 import { useModel } from '~/lib/playcanvas/hooks/use-model';
 import { useApp } from '~/lib/playcanvas/context/use-app';
 import { useMaterial } from '~/lib/playcanvas/hooks/use-material';
@@ -70,21 +71,22 @@ const Canvas = component$(() => {
           pitchAngleMin={1}
           pitchAngleMax={90}
         /> */}
-        {/* <Light type="directional" color={noSerialize(new Color(1, 1, 1))} /> */}
+        <Light type="directional" color={noSerialize(new Color(1, 1, 1))} />
       </Entity>
       <Entity
-        name="render"
+        name="GG"
         position={[0, 0, 0]}
         scale={[1, 1, 1]}
         onPointerDown={onPointerDown}
       >
         {/* <Render type="capsule" material={material} /> */}
 
-        <Render type="asset" asset={asset.value} />
-        <UpdateMaterial target="Alpha_Surface" material={surfaceMaterial} />
-        <UpdateMaterial target="Alpha_Joints" material={jointsMaterial} />
+        <Render type="asset" asset={asset.value}>
+          <UpdateMaterial target="Alpha_Surface" material={surfaceMaterial} />
+          <UpdateMaterial target="Alpha_Joints" material={jointsMaterial} />
+        </Render>
       </Entity>
-      <ShadowCatcher width={10} depth={10} />
+      {/* <ShadowCatcher width={10} depth={10} /> */}
     </Entity>
   );
 });
