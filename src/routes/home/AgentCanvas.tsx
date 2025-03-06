@@ -21,6 +21,7 @@ import { useModel } from '~/lib/playcanvas/hooks/use-model';
 import { useApp } from '~/lib/playcanvas/context/use-app';
 import { useMaterial } from '~/lib/playcanvas/hooks/use-material';
 import { Animation } from '~/lib/playcanvas/components/Animation';
+import { PostEffects } from '~/lib/playcanvas/components/PostEffects';
 
 const Canvas = component$(() => {
   const app = useApp();
@@ -57,26 +58,26 @@ const Canvas = component$(() => {
   return (
     <Entity>
       <EnvAtlas
-        src="/environment-map_0.png"
+        src="/environment-map_1.png"
         intensity={0.4}
         exposure={2}
         skyboxMip={2}
       />
 
-      <Entity name="camera" position={[0, 1.3, 1.3]} rotation={[-9.5, 0, 0]}>
+      <Entity name="camera" position={[0, 1.1, 2]} rotation={[-9.8, 0, 0]}>
         <Camera clearColor="#09050f" fov={45} />
         {/* <OrbitControls
           inertiaFactor={0.07}
-          distanceMin={6}
+          distanceMin={2}
           distanceMax={10}
           pitchAngleMin={1}
           pitchAngleMax={90}
         /> */}
-        <Light type="directional" color={noSerialize(new Color(1, 1, 1))} />
+        {asset.value && <PostEffects />}
+        {/* <Light type="directional" color={noSerialize(new Color(1, 1, 1))} /> */}
       </Entity>
       <Entity
-        name="GG"
-        position={[0, 0, 0]}
+        name="agent"
         scale={[0.003, 0.003, 0.003]}
         onPointerDown={onPointerDown}
       >
@@ -88,7 +89,7 @@ const Canvas = component$(() => {
           <Animation asset={asset.value} />
         </Render>
       </Entity>
-      {/* <ShadowCatcher width={10} depth={10} /> */}
+      <ShadowCatcher width={5} depth={5} />
     </Entity>
   );
 });
