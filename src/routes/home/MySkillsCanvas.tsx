@@ -26,6 +26,7 @@ const Canvas = component$(() => {
     track(() => [app.count]);
 
     if (app.value) {
+      // TODO: Remove this timeout
       await new Promise((resolve) => setTimeout(resolve, 1000));
       app.value.start();
       isMounted.value = true;
