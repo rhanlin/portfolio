@@ -20,6 +20,7 @@ import { OrbitControls, ShadowCatcher } from '~/lib/playcanvas/scripts';
 import { useModel } from '~/lib/playcanvas/hooks/use-model';
 import { useApp } from '~/lib/playcanvas/context/use-app';
 import { useMaterial } from '~/lib/playcanvas/hooks/use-material';
+import { Animation } from '~/lib/playcanvas/components/Animation';
 
 const Canvas = component$(() => {
   const app = useApp();
@@ -40,7 +41,7 @@ const Canvas = component$(() => {
     console.log('pointer down', event),
   );
 
-  const { data: asset, isPending } = useModel('/glb/player.glb');
+  const { data: asset, isPending } = useModel('/glb/ultra_boy.glb');
   if (!app.value) return null;
 
   app.value.start();
@@ -62,7 +63,7 @@ const Canvas = component$(() => {
         skyboxMip={2}
       />
 
-      <Entity name="camera" position={[0, 1.7, 1.3]} rotation={[-9.5, 0, 0]}>
+      <Entity name="camera" position={[0, 1.3, 1.3]} rotation={[-9.5, 0, 0]}>
         <Camera clearColor="#09050f" fov={45} />
         {/* <OrbitControls
           inertiaFactor={0.07}
@@ -76,14 +77,15 @@ const Canvas = component$(() => {
       <Entity
         name="GG"
         position={[0, 0, 0]}
-        scale={[1, 1, 1]}
+        scale={[0.003, 0.003, 0.003]}
         onPointerDown={onPointerDown}
       >
         {/* <Render type="capsule" material={material} /> */}
 
         <Render type="asset" asset={asset.value}>
-          <UpdateMaterial target="Alpha_Surface" material={surfaceMaterial} />
-          <UpdateMaterial target="Alpha_Joints" material={jointsMaterial} />
+          {/* <UpdateMaterial target="Alpha_Surface" material={surfaceMaterial} />
+          <UpdateMaterial target="Alpha_Joints" material={jointsMaterial} /> */}
+          <Animation asset={asset.value} />
         </Render>
       </Entity>
       {/* <ShadowCatcher width={10} depth={10} /> */}

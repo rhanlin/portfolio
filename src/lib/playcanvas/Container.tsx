@@ -30,7 +30,6 @@ export const Container = component$<ContainerProps>(({ asset, ...props }) => {
       ).instantiateRenderEntity({});
       entitySig.value.addChild(assetEntity);
       assetEntitySig.value = noSerialize(assetEntity);
-      console.log('xx spl assetEntity', assetEntity);
       parent.count += 1;
     }
 

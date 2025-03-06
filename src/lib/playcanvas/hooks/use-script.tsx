@@ -40,7 +40,6 @@ export const useScript = (
       // Create the script instance with the provided attributes
       const scriptComponent: ScriptComponent = parent.value
         .script as ScriptComponent;
-      console.log('xx spl useScript', props);
 
       const scriptInstance = scriptComponent.create(
         scriptConstructor as unknown as typeof Script,
