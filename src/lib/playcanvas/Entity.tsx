@@ -17,7 +17,7 @@ import { useApp } from './context/use-app';
 export type PointerEventCallback = (event: SyntheticPointerEvent) => void;
 export type MouseEventCallback = (event: SyntheticMouseEvent) => void;
 
-type EntityProps = {
+export type EntityProps = {
   name?: string;
   position?: number[];
   scale?: number[];

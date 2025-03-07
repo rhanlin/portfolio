@@ -38,7 +38,10 @@ export const Animation = component$<AnimationProps>(({ asset, ...props }) => {
       .filter((animation) => animation.type === 'animation')
       .forEach((animation) => {
         anim.assignAnimation('animation', animation.resource as AnimTrack);
+        // anim.baseLayer?.play(animation.name);
       });
+
+    console.log('entity.anim', anim);
   });
 
   return null;
