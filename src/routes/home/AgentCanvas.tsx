@@ -1,4 +1,4 @@
-import * as pc from 'playcanvas';
+import { Entity as pcEntity, Application } from 'playcanvas';
 import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik';
 import { Entity } from '~/lib/playcanvas';
 import { Camera } from '~/lib/playcanvas/components';
@@ -21,13 +21,13 @@ const Canvas = component$(() => {
     if (app.value) {
       app.value.start();
       isMounted.value = true;
-      window._app = pc.Application.getApplication('agent-app');
+      window._app = Application.getApplication('agent-app');
     }
   });
 
   if (!isMounted.value) return null;
 
-  const agentModelSig = useSignal<pc.Entity | null>(null);
+  const agentModelSig = useSignal<pcEntity | null>(null);
 
   return (
     <Entity>

@@ -1,4 +1,9 @@
-import * as pc from 'playcanvas';
+import {
+  Entity as pcEntity,
+  Color,
+  StandardMaterial,
+  TEXTURETYPE_RGBP,
+} from 'playcanvas';
 import {
   component$,
   NoSerialize,
@@ -16,22 +21,22 @@ import { useAsset } from '~/lib/playcanvas/hooks/use-asset';
 import { EntityProps } from '~/lib/playcanvas/Entity';
 
 type AgentMetaHumanProps = EntityProps & {
-  onModelReady$?: PropFunction<(entity: pc.Entity) => void>;
+  onModelReady$?: PropFunction<(entity: pcEntity) => void>;
 };
 const AgentMetaHuman = component$<AgentMetaHumanProps>(
   ({ onModelReady$, ...props }) => {
     const app = useApp();
     if (!app.value) return null;
 
-    const entitySig = useSignal<pc.Entity | null>(null);
-    const bodymatSig = useSignal<NoSerialize<pc.StandardMaterial>>();
-    const eyematSig = useSignal<NoSerialize<pc.StandardMaterial>>();
-    const hairmatSig = useSignal<NoSerialize<pc.StandardMaterial>>();
-    const outfitBottommatSig = useSignal<NoSerialize<pc.StandardMaterial>>();
-    const outfitFootwearmatSig = useSignal<NoSerialize<pc.StandardMaterial>>();
-    const outfitTopmatSig = useSignal<NoSerialize<pc.StandardMaterial>>();
-    const outfitBodyFacematSig = useSignal<NoSerialize<pc.StandardMaterial>>();
-    const outfitTeethmatSig = useSignal<NoSerialize<pc.StandardMaterial>>();
+    const entitySig = useSignal<pcEntity | null>(null);
+    const bodymatSig = useSignal<NoSerialize<StandardMaterial>>();
+    const eyematSig = useSignal<NoSerialize<StandardMaterial>>();
+    const hairmatSig = useSignal<NoSerialize<StandardMaterial>>();
+    const outfitBottommatSig = useSignal<NoSerialize<StandardMaterial>>();
+    const outfitFootwearmatSig = useSignal<NoSerialize<StandardMaterial>>();
+    const outfitTopmatSig = useSignal<NoSerialize<StandardMaterial>>();
+    const outfitBodyFacematSig = useSignal<NoSerialize<StandardMaterial>>();
+    const outfitTeethmatSig = useSignal<NoSerialize<StandardMaterial>>();
 
     useVisibleTask$(({ track }) => {
       track(() => entitySig.value);
@@ -49,7 +54,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       'texture',
       {
         app: app.value,
-        type: pc.TEXTURETYPE_RGBP,
+        type: TEXTURETYPE_RGBP,
         mipmaps: true,
       },
     );
@@ -59,7 +64,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       'texture',
       {
         app: app.value,
-        type: pc.TEXTURETYPE_RGBP,
+        type: TEXTURETYPE_RGBP,
         mipmaps: true,
       },
     );
@@ -69,7 +74,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       'texture',
       {
         app: app.value,
-        type: pc.TEXTURETYPE_RGBP,
+        type: TEXTURETYPE_RGBP,
         mipmaps: true,
       },
     );
@@ -79,7 +84,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       'texture',
       {
         app: app.value,
-        type: pc.TEXTURETYPE_RGBP,
+        type: TEXTURETYPE_RGBP,
         mipmaps: true,
       },
     );
@@ -89,7 +94,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       'texture',
       {
         app: app.value,
-        type: pc.TEXTURETYPE_RGBP,
+        type: TEXTURETYPE_RGBP,
         mipmaps: true,
       },
     );
@@ -99,7 +104,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       'texture',
       {
         app: app.value,
-        type: pc.TEXTURETYPE_RGBP,
+        type: TEXTURETYPE_RGBP,
         mipmaps: true,
       },
     );
@@ -109,7 +114,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       'texture',
       {
         app: app.value,
-        type: pc.TEXTURETYPE_RGBP,
+        type: TEXTURETYPE_RGBP,
         mipmaps: true,
       },
     );
@@ -119,7 +124,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       'texture',
       {
         app: app.value,
-        type: pc.TEXTURETYPE_RGBP,
+        type: TEXTURETYPE_RGBP,
         mipmaps: true,
       },
     );
@@ -137,49 +142,49 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       hairmatSig.value = useMaterial({
         name: 'eyemat',
         diffuseMap: noSerialize(textureHairmat.data.value.resource),
-        diffuse: noSerialize(new pc.Color().fromString('#ffffff')),
+        diffuse: noSerialize(new Color().fromString('#ffffff')),
         diffuseMapChannel: 'rgb',
       });
       eyematSig.value = useMaterial({
         name: 'eyemat',
         diffuseMap: noSerialize(textureEyemat.data.value.resource),
-        diffuse: noSerialize(new pc.Color().fromString('#ffffff')),
+        diffuse: noSerialize(new Color().fromString('#ffffff')),
         diffuseMapChannel: 'rgb',
       });
       bodymatSig.value = useMaterial({
         name: 'bodymat',
         diffuseMap: noSerialize(textureBodySkinmat.data.value.resource),
-        diffuse: noSerialize(new pc.Color().fromString('#ffffff')),
+        diffuse: noSerialize(new Color().fromString('#ffffff')),
         diffuseMapChannel: 'rgb',
       });
       outfitBottommatSig.value = useMaterial({
         name: 'outfitBottommat',
         diffuseMap: noSerialize(textureOutfitBottommat.data.value.resource),
-        diffuse: noSerialize(new pc.Color().fromString('#ffffff')),
+        diffuse: noSerialize(new Color().fromString('#ffffff')),
         diffuseMapChannel: 'rgb',
       });
       outfitFootwearmatSig.value = useMaterial({
         name: 'outfitFootwearmat',
         diffuseMap: noSerialize(textureOutfitFootwearmat.data.value.resource),
-        diffuse: noSerialize(new pc.Color().fromString('#ffffff')),
+        diffuse: noSerialize(new Color().fromString('#ffffff')),
         diffuseMapChannel: 'rgb',
       });
       outfitTopmatSig.value = useMaterial({
         name: 'outfitTopmat',
         diffuseMap: noSerialize(textureOutfitTopmat.data.value.resource),
-        diffuse: noSerialize(new pc.Color().fromString('#ffffff')),
+        diffuse: noSerialize(new Color().fromString('#ffffff')),
         diffuseMapChannel: 'rgb',
       });
       outfitBodyFacematSig.value = useMaterial({
         name: 'outfitTopmat',
         diffuseMap: noSerialize(textureFacemat.data.value.resource),
-        diffuse: noSerialize(new pc.Color().fromString('#ffffff')),
+        diffuse: noSerialize(new Color().fromString('#ffffff')),
         diffuseMapChannel: 'rgb',
       });
       outfitTeethmatSig.value = useMaterial({
         name: 'outfitTopmat',
         diffuseMap: noSerialize(textureTeethmat.data.value.resource),
-        diffuse: noSerialize(new pc.Color().fromString('#ffffff')),
+        diffuse: noSerialize(new Color().fromString('#ffffff')),
         diffuseMapChannel: 'rgb',
       });
     }
