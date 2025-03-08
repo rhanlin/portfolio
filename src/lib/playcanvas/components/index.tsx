@@ -1,5 +1,9 @@
+export { Animation } from './Animation';
+export { AnimStateGraph } from './AnimStateGraph';
 export { Camera } from './Camera';
-export { Light } from './Light';
-export { Render } from './Render';
 export { EnvAtlas } from './EnvAtlas';
+export { Light } from './Light';
+export { PostEffects } from './PostEffects';
+export { Render } from './Render';
+export { Script } from './Script';
 export { UpdateMaterial } from './UpdateMaterial';

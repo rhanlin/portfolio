@@ -1,10 +1,4 @@
 import { Entity, Vec3 } from 'playcanvas';
-import { Script } from '../../components/Script';
-import {
-  OrbitCamera,
-  OrbitCameraInputMouse,
-  OrbitCameraInputTouch,
-} from './orbit-camera';
 import {
   component$,
   noSerialize,
@@ -12,7 +6,13 @@ import {
   useSignal,
   useVisibleTask$,
 } from '@builder.io/qwik';
-import { useParent } from '../../context/use-parent';
+import { Script } from '~/lib/playcanvas/components';
+import {
+  OrbitCamera,
+  OrbitCameraInputMouse,
+  OrbitCameraInputTouch,
+} from './orbit-camera';
+import { useParent } from '~/lib/playcanvas/context/use-parent';
 
 type OrbitCameraProps = {
   distanceMax?: number;

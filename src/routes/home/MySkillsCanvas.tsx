@@ -7,9 +7,8 @@ import {
 } from '@builder.io/qwik';
 import { Color } from 'playcanvas';
 import { Entity } from '~/lib/playcanvas';
-import { Camera, Light, Render } from '~/lib/playcanvas/components';
+import { Camera, Light, Render, EnvAtlas } from '~/lib/playcanvas/components';
 import { PointerEventCallback } from '~/lib/playcanvas/Entity';
-import { EnvAtlas } from '~/lib/playcanvas/components/EnvAtlas';
 import {
   OrbitControls,
   ShadowCatcher,

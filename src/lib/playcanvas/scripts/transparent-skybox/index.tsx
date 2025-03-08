@@ -4,7 +4,7 @@ import {
   useSignal,
   useVisibleTask$,
 } from '@builder.io/qwik';
-import { Script } from '../../components/Script';
+import { Script } from '~/lib/playcanvas/components';
 import { TransparentSkybox as TransparentSkyboxScript } from './transparent-skybox';
 import { useParent } from '../../context/use-parent';
 
