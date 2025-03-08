@@ -13,12 +13,18 @@ import {
   useVisibleTask$,
 } from '@builder.io/qwik';
 import { Entity } from '~/lib/playcanvas';
-import { Render, UpdateMaterial } from '~/lib/playcanvas/components';
+import {
+  Animation,
+  AnimStateGraph,
+  Render,
+  UpdateMaterial,
+} from '~/lib/playcanvas/components';
 import { useModel } from '~/lib/playcanvas/hooks/use-model';
 import { useApp } from '~/lib/playcanvas/context/use-app';
 import { useMaterial } from '~/lib/playcanvas/hooks/use-material';
 import { useAsset } from '~/lib/playcanvas/hooks/use-asset';
 import { EntityProps } from '~/lib/playcanvas/Entity';
+import { AnimStateGraphData } from '~/constants/agent';
 
 type AgentMetaHumanProps = EntityProps & {
   onModelReady$?: PropFunction<(entity: pcEntity) => void>;
@@ -48,6 +54,11 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
     });
 
     const { data: asset, isPending } = useModel('/glb/meta-human/model.glb');
+    const animIdle = useAsset(
+      '/glb/meta-human/animations/Dance_Sangnam_Style.glb',
+      'animation',
+      { app: app.value },
+    );
 
     const textureHairmat = useAsset(
       '/glb//meta-human/texture/Body_hair.jpeg',
@@ -198,7 +209,12 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
               asset={asset.value}
               onRenderAssetReady$={(entity) => (entitySig.value = entity)}
             >
-              {/* <Animation asset={asset.value} activate={true} /> */}
+              {animIdle.data.value && (
+                <>
+                  <AnimStateGraph data={AnimStateGraphData} />
+                  <Animation stateName="Idle" asset={animIdle.data.value} />
+                </>
+              )}
             </Render>
             {hairmatSig.value && (
               <UpdateMaterial

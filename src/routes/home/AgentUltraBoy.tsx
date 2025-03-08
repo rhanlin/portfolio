@@ -16,12 +16,18 @@ import {
   useVisibleTask$,
 } from '@builder.io/qwik';
 import { Entity } from '~/lib/playcanvas';
-import { Render, UpdateMaterial } from '~/lib/playcanvas/components';
+import {
+  Render,
+  UpdateMaterial,
+  Animation,
+  AnimStateGraph,
+} from '~/lib/playcanvas/components';
 import { useModel } from '~/lib/playcanvas/hooks/use-model';
 import { useApp } from '~/lib/playcanvas/context/use-app';
 import { useMaterial } from '~/lib/playcanvas/hooks/use-material';
 import { useAsset } from '~/lib/playcanvas/hooks/use-asset';
 import { EntityProps } from '~/lib/playcanvas/Entity';
+import { AnimStateGraphData } from '~/constants/agent';
 
 type AgentUltraBoyProps = EntityProps & {
   onModelReady$?: PropFunction<(entity: pcEntity) => void>;
@@ -44,6 +50,11 @@ const AgentUltraBoy = component$<AgentUltraBoyProps>(
     });
 
     const { data: asset, isPending } = useModel('/glb/ultra-boy/model.glb');
+    const animIdle = useAsset(
+      '/glb/ultra-boy/animations/Idle.glb',
+      'animation',
+      { app: app.value },
+    );
     const textureAmbient = useAsset(
       '/glb/ultra-boy/texture/Texture_Body_metallicRoughness.png',
       'texture',
@@ -299,7 +310,12 @@ const AgentUltraBoy = component$<AgentUltraBoyProps>(
               asset={asset.value}
               onRenderAssetReady$={(entity) => (entitySig.value = entity)}
             >
-              {/* <Animation asset={asset.value} activate={true} /> */}
+              {animIdle.data.value && (
+                <>
+                  <AnimStateGraph data={AnimStateGraphData} />
+                  <Animation stateName="Idle" asset={animIdle.data.value} />
+                </>
+              )}
             </Render>
             {materialSig.value && (
               <UpdateMaterial target="Ciber Boy" material={materialSig.value} />

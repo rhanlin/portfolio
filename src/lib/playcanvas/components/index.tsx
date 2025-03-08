@@ -5,5 +5,6 @@ export { EnvAtlas } from './EnvAtlas';
 export { Light } from './Light';
 export { PostEffects } from './PostEffects';
 export { Render } from './Render';
+export { RenderAssetAnimation } from './RenderAssetAnimation';
 export { Script } from './Script';
 export { UpdateMaterial } from './UpdateMaterial';

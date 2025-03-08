@@ -1,11 +1,9 @@
 import { Entity as pcEntity, Application } from 'playcanvas';
 import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik';
 import { Entity } from '~/lib/playcanvas';
-import { Camera } from '~/lib/playcanvas/components';
-import { EnvAtlas } from '~/lib/playcanvas/components/EnvAtlas';
+import { Camera, EnvAtlas, PostEffects } from '~/lib/playcanvas/components';
 import { OrbitControls, ShadowCatcher } from '~/lib/playcanvas/scripts';
 import { useApp } from '~/lib/playcanvas/context/use-app';
-import { PostEffects } from '~/lib/playcanvas/components/PostEffects';
 import AgentMetaHuman from '~/routes/home/AgentMetaHuman';
 import AgentUltraBoy from '~/routes/home/AgentUltraBoy';
 
@@ -27,7 +25,7 @@ const Canvas = component$(() => {
 
   if (!isMounted.value) return null;
 
-  const agentModelSig = useSignal<pcEntity | null>(null);
+  const focusEntity = useSignal<pcEntity | null>(null);
 
   return (
     <Entity>
@@ -39,15 +37,15 @@ const Canvas = component$(() => {
       />
       <Entity name="camera" position={[4, 1.5, 4]}>
         <Camera clearColor="#09050f" fov={45} />
-        {agentModelSig.value && (
+        {focusEntity.value && (
           <>
             <OrbitControls
               inertiaFactor={0.07}
-              distanceMin={3}
+              distanceMin={1.5}
               distanceMax={10}
               pitchAngleMin={1}
               pitchAngleMax={90}
-              focusEntity={agentModelSig.value}
+              focusEntity={focusEntity.value}
             />
             <PostEffects />
           </>
@@ -56,17 +54,17 @@ const Canvas = component$(() => {
       </Entity>
       {isMounted.value && (
         <>
-          <AgentMetaHuman
+          {/* <AgentMetaHuman
             name="AgentMetaHuman"
             position={[1, 0, 0]}
             scale={[100, 100, 100]}
-            onModelReady$={(entity) => (agentModelSig.value = entity)}
-          />
+            onModelReady$={(entity) => (focusEntity.value = entity)}
+          /> */}
 
           <AgentUltraBoy
             name="AgentUltraBoy"
             scale={[0.3, 0.3, 0.3]}
-            // onModelReady$={(entity) => (agentModelSig.value = entity)}
+            onModelReady$={(entity) => (focusEntity.value = entity)}
           />
         </>
       )}
