@@ -1,12 +1,6 @@
-import {
-  Entity as pcEntity,
-  Color,
-  StandardMaterial,
-  TEXTURETYPE_RGBP,
-} from 'playcanvas';
+import { Entity as pcEntity, Color, Texture } from 'playcanvas';
 import {
   component$,
-  NoSerialize,
   noSerialize,
   PropFunction,
   useSignal,
@@ -22,9 +16,10 @@ import {
 import { useModel } from '~/lib/playcanvas/hooks/use-model';
 import { useApp } from '~/lib/playcanvas/context/use-app';
 import { useMaterial } from '~/lib/playcanvas/hooks/use-material';
-import { useAsset } from '~/lib/playcanvas/hooks/use-asset';
 import { EntityProps } from '~/lib/playcanvas/Entity';
 import { AnimStateGraphData } from '~/constants/agent';
+import { ModelAnimationAssets } from '~/lib/playcanvas/assets/meta-human/animation';
+import { PreloadTextures } from '~/lib/playcanvas/assets/meta-human/texture';
 
 type AgentMetaHumanProps = EntityProps & {
   onModelReady$?: PropFunction<(entity: pcEntity) => void>;
@@ -35,14 +30,6 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
     if (!app.value) return null;
 
     const entitySig = useSignal<pcEntity | null>(null);
-    const bodymatSig = useSignal<NoSerialize<StandardMaterial>>();
-    const eyematSig = useSignal<NoSerialize<StandardMaterial>>();
-    const hairmatSig = useSignal<NoSerialize<StandardMaterial>>();
-    const outfitBottommatSig = useSignal<NoSerialize<StandardMaterial>>();
-    const outfitFootwearmatSig = useSignal<NoSerialize<StandardMaterial>>();
-    const outfitTopmatSig = useSignal<NoSerialize<StandardMaterial>>();
-    const outfitBodyFacematSig = useSignal<NoSerialize<StandardMaterial>>();
-    const outfitTeethmatSig = useSignal<NoSerialize<StandardMaterial>>();
 
     useVisibleTask$(({ track }) => {
       track(() => entitySig.value);
@@ -54,152 +41,71 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
     });
 
     const { data: asset, isPending } = useModel('/glb/meta-human/model.glb');
-    const animIdle = useAsset(
-      '/glb/meta-human/animations/Dance_Sangnam_Style.glb',
-      'animation',
-      { app: app.value },
-    );
 
-    const textureHairmat = useAsset(
-      '/glb//meta-human/texture/Body_hair.jpeg',
-      'texture',
-      {
-        app: app.value,
-        type: TEXTURETYPE_RGBP,
-        mipmaps: true,
-      },
-    );
-
-    const textureEyemat = useAsset(
-      '/glb//meta-human/texture/Body_eye.jpeg',
-      'texture',
-      {
-        app: app.value,
-        type: TEXTURETYPE_RGBP,
-        mipmaps: true,
-      },
-    );
-
-    const textureBodySkinmat = useAsset(
-      '/glb//meta-human/texture/Body_skin.jpeg',
-      'texture',
-      {
-        app: app.value,
-        type: TEXTURETYPE_RGBP,
-        mipmaps: true,
-      },
-    );
-
-    const textureOutfitBottommat = useAsset(
-      '/glb//meta-human/texture/Outfit_bottom.png',
-      'texture',
-      {
-        app: app.value,
-        type: TEXTURETYPE_RGBP,
-        mipmaps: true,
-      },
-    );
-
-    const textureOutfitFootwearmat = useAsset(
-      '/glb//meta-human/texture/Outfit_footwear.jpeg',
-      'texture',
-      {
-        app: app.value,
-        type: TEXTURETYPE_RGBP,
-        mipmaps: true,
-      },
-    );
-
-    const textureOutfitTopmat = useAsset(
-      '/glb//meta-human/texture/Outfit_top.jpeg',
-      'texture',
-      {
-        app: app.value,
-        type: TEXTURETYPE_RGBP,
-        mipmaps: true,
-      },
-    );
-
-    const textureFacemat = useAsset(
-      '/glb//meta-human/texture/Body_face.jpeg',
-      'texture',
-      {
-        app: app.value,
-        type: TEXTURETYPE_RGBP,
-        mipmaps: true,
-      },
-    );
-
-    const textureTeethmat = useAsset(
-      '/glb//meta-human/texture/Body_teeth.jpeg',
-      'texture',
-      {
-        app: app.value,
-        type: TEXTURETYPE_RGBP,
-        mipmaps: true,
-      },
-    );
-
-    if (
-      textureHairmat.data.value &&
-      textureEyemat.data.value &&
-      textureBodySkinmat.data.value &&
-      textureOutfitBottommat.data.value &&
-      textureOutfitFootwearmat.data.value &&
-      textureOutfitTopmat.data.value &&
-      textureFacemat.data.value &&
-      textureTeethmat.data.value
-    ) {
-      hairmatSig.value = useMaterial({
-        name: 'eyemat',
-        diffuseMap: noSerialize(textureHairmat.data.value.resource),
-        diffuse: noSerialize(new Color().fromString('#ffffff')),
-        diffuseMapChannel: 'rgb',
-      });
-      eyematSig.value = useMaterial({
-        name: 'eyemat',
-        diffuseMap: noSerialize(textureEyemat.data.value.resource),
-        diffuse: noSerialize(new Color().fromString('#ffffff')),
-        diffuseMapChannel: 'rgb',
-      });
-      bodymatSig.value = useMaterial({
-        name: 'bodymat',
-        diffuseMap: noSerialize(textureBodySkinmat.data.value.resource),
-        diffuse: noSerialize(new Color().fromString('#ffffff')),
-        diffuseMapChannel: 'rgb',
-      });
-      outfitBottommatSig.value = useMaterial({
-        name: 'outfitBottommat',
-        diffuseMap: noSerialize(textureOutfitBottommat.data.value.resource),
-        diffuse: noSerialize(new Color().fromString('#ffffff')),
-        diffuseMapChannel: 'rgb',
-      });
-      outfitFootwearmatSig.value = useMaterial({
-        name: 'outfitFootwearmat',
-        diffuseMap: noSerialize(textureOutfitFootwearmat.data.value.resource),
-        diffuse: noSerialize(new Color().fromString('#ffffff')),
-        diffuseMapChannel: 'rgb',
-      });
-      outfitTopmatSig.value = useMaterial({
-        name: 'outfitTopmat',
-        diffuseMap: noSerialize(textureOutfitTopmat.data.value.resource),
-        diffuse: noSerialize(new Color().fromString('#ffffff')),
-        diffuseMapChannel: 'rgb',
-      });
-      outfitBodyFacematSig.value = useMaterial({
-        name: 'outfitTopmat',
-        diffuseMap: noSerialize(textureFacemat.data.value.resource),
-        diffuse: noSerialize(new Color().fromString('#ffffff')),
-        diffuseMapChannel: 'rgb',
-      });
-      outfitTeethmatSig.value = useMaterial({
-        name: 'outfitTopmat',
-        diffuseMap: noSerialize(textureTeethmat.data.value.resource),
-        diffuse: noSerialize(new Color().fromString('#ffffff')),
-        diffuseMapChannel: 'rgb',
-      });
-    }
-
+    const hairmatSig = useMaterial({
+      name: 'eyemat',
+      diffuseMap: noSerialize(
+        PreloadTextures.TextureBodyHair.resource as Texture,
+      ),
+      diffuse: noSerialize(new Color().fromString('#ffffff')),
+      diffuseMapChannel: 'rgb',
+    });
+    const eyematSig = useMaterial({
+      name: 'eyemat',
+      diffuseMap: noSerialize(
+        PreloadTextures.TextureBodyEye.resource as Texture,
+      ),
+      diffuse: noSerialize(new Color().fromString('#ffffff')),
+      diffuseMapChannel: 'rgb',
+    });
+    const bodymatSig = useMaterial({
+      name: 'bodymat',
+      diffuseMap: noSerialize(
+        PreloadTextures.TextureBodySkin.resource as Texture,
+      ),
+      diffuse: noSerialize(new Color().fromString('#ffffff')),
+      diffuseMapChannel: 'rgb',
+    });
+    const outfitBottommatSig = useMaterial({
+      name: 'outfitBottommat',
+      diffuseMap: noSerialize(
+        PreloadTextures.TextureOutfitBottom.resource as Texture,
+      ),
+      diffuse: noSerialize(new Color().fromString('#ffffff')),
+      diffuseMapChannel: 'rgb',
+    });
+    const outfitFootwearmatSig = useMaterial({
+      name: 'outfitFootwearmat',
+      diffuseMap: noSerialize(
+        PreloadTextures.TextureOutfitFootwear.resource as Texture,
+      ),
+      diffuse: noSerialize(new Color().fromString('#ffffff')),
+      diffuseMapChannel: 'rgb',
+    });
+    const outfitTopmatSig = useMaterial({
+      name: 'outfitTopmat',
+      diffuseMap: noSerialize(
+        PreloadTextures.TextureOutfitTop.resource as Texture,
+      ),
+      diffuse: noSerialize(new Color().fromString('#ffffff')),
+      diffuseMapChannel: 'rgb',
+    });
+    const outfitBodyFacematSig = useMaterial({
+      name: 'outfitTopmat',
+      diffuseMap: noSerialize(
+        PreloadTextures.TextureBodyFace.resource as Texture,
+      ),
+      diffuse: noSerialize(new Color().fromString('#ffffff')),
+      diffuseMapChannel: 'rgb',
+    });
+    const outfitTeethmatSig = useMaterial({
+      name: 'outfitTopmat',
+      diffuseMap: noSerialize(
+        PreloadTextures.TextureBodyTeeth.resource as Texture,
+      ),
+      diffuse: noSerialize(new Color().fromString('#ffffff')),
+      diffuseMapChannel: 'rgb',
+    });
     return (
       <Entity {...props}>
         {asset.value && (
@@ -209,61 +115,42 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
               asset={asset.value}
               onRenderAssetReady$={(entity) => (entitySig.value = entity)}
             >
-              {animIdle.data.value && (
-                <>
-                  <AnimStateGraph data={AnimStateGraphData} />
-                  <Animation stateName="Idle" asset={animIdle.data.value} />
-                </>
-              )}
-            </Render>
-            {hairmatSig.value && (
-              <UpdateMaterial
-                target="Wolf3D_Hair"
-                material={hairmatSig.value}
-              />
-            )}
-            {eyematSig.value && (
               <>
-                <UpdateMaterial target="EyeLeft" material={eyematSig.value} />
-                <UpdateMaterial target="EyeRight" material={eyematSig.value} />
+                <AnimStateGraph data={AnimStateGraphData} />
+                {ModelAnimationAssets.map((animationAsset) => (
+                  <Animation
+                    key={animationAsset.stateName}
+                    stateName={animationAsset.stateName}
+                    asset={noSerialize(animationAsset.asset)}
+                  />
+                ))}
               </>
-            )}
-            {bodymatSig.value && (
-              <UpdateMaterial
-                target="Wolf3D_Body"
-                material={bodymatSig.value}
-              />
-            )}
-            {outfitBottommatSig.value && (
-              <UpdateMaterial
-                target="Wolf3D_Outfit_Bottom"
-                material={outfitBottommatSig.value}
-              />
-            )}
-            {outfitFootwearmatSig.value && (
-              <UpdateMaterial
-                target="Wolf3D_Outfit_Footwear"
-                material={outfitFootwearmatSig.value}
-              />
-            )}
-            {outfitTopmatSig.value && (
-              <UpdateMaterial
-                target="Wolf3D_Outfit_Top"
-                material={outfitTopmatSig.value}
-              />
-            )}
-            {outfitBodyFacematSig.value && (
-              <UpdateMaterial
-                target="Wolf3D_Head"
-                material={outfitBodyFacematSig.value}
-              />
-            )}
-            {outfitTeethmatSig.value && (
-              <UpdateMaterial
-                target="Wolf3D_Teeth"
-                material={outfitTeethmatSig.value}
-              />
-            )}
+            </Render>
+
+            <UpdateMaterial target="Wolf3D_Hair" material={hairmatSig} />
+            <UpdateMaterial target="EyeLeft" material={eyematSig} />
+            <UpdateMaterial target="EyeRight" material={eyematSig} />
+            <UpdateMaterial target="Wolf3D_Body" material={bodymatSig} />
+            <UpdateMaterial
+              target="Wolf3D_Outfit_Bottom"
+              material={outfitBottommatSig}
+            />
+            <UpdateMaterial
+              target="Wolf3D_Outfit_Footwear"
+              material={outfitFootwearmatSig}
+            />
+            <UpdateMaterial
+              target="Wolf3D_Outfit_Top"
+              material={outfitTopmatSig}
+            />
+            <UpdateMaterial
+              target="Wolf3D_Head"
+              material={outfitBodyFacematSig}
+            />
+            <UpdateMaterial
+              target="Wolf3D_Teeth"
+              material={outfitTeethmatSig}
+            />
           </>
         )}
       </Entity>

@@ -1,10 +1,4 @@
-import {
-  $,
-  component$,
-  noSerialize,
-  useSignal,
-  useVisibleTask$,
-} from '@builder.io/qwik';
+import { $, component$, noSerialize, useVisibleTask$ } from '@builder.io/qwik';
 import { Color } from 'playcanvas';
 import { Entity } from '~/lib/playcanvas';
 import { Camera, Light, Render, EnvAtlas } from '~/lib/playcanvas/components';
@@ -19,7 +13,6 @@ import { useMaterial } from '~/lib/playcanvas/hooks/use-material';
 
 const Canvas = component$(() => {
   const app = useApp();
-  const isMounted = useSignal(false);
 
   useVisibleTask$(async ({ track }) => {
     track(() => [app.count]);
@@ -28,11 +21,8 @@ const Canvas = component$(() => {
       // TODO: Remove this timeout
       await new Promise((resolve) => setTimeout(resolve, 1000));
       app.value.start();
-      isMounted.value = true;
     }
   });
-
-  if (!isMounted.value) return null;
 
   const onPointerDown = $<PointerEventCallback>((event) =>
     console.log('pointer down', event),

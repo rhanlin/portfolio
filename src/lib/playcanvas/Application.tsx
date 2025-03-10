@@ -6,6 +6,7 @@ import {
   noSerialize,
   type Signal,
   type CSSProperties,
+  NoSerialize,
 } from '@builder.io/qwik';
 import {
   RESOLUTION_AUTO,
@@ -69,6 +70,7 @@ interface ApplicationProps {
   usePhysics?: boolean;
   /** Graphics Settings */
   graphicsDeviceOptions?: GraphicsOptions;
+  preloadAssets?: NoSerialize<Record<string, pc.Asset>>;
 }
 
 type ApplicationWithoutCanvasProps = ApplicationProps & {
@@ -113,6 +115,7 @@ export const ApplicationWithoutCanvas =
       maxDeltaTime = 0.1,
       timeScale = 1,
       usePhysics = false,
+      preloadAssets = {},
       ...otherProps
     }) => {
       useAppProvider({
@@ -133,6 +136,7 @@ export const ApplicationWithoutCanvas =
 
       useVisibleTask$(({ track }) => {
         track(() => canvas.value);
+
         const graphicsDeviceOptions = {
           alpha: true,
           depth: true,
@@ -160,6 +164,12 @@ export const ApplicationWithoutCanvas =
             mouse: new Mouse(canvas.value),
             touch: new TouchDevice(canvas.value),
             graphicsDeviceOptions,
+          });
+
+          Object.values(preloadAssets).forEach((asset) => {
+            const typedAsset = asset as pc.Asset;
+            typedAsset.preload = true;
+            localApp.assets.add(typedAsset);
           });
 
           localApp.setCanvasFillMode(fillMode);

@@ -11,19 +11,14 @@ const Canvas = component$(() => {
   const app = useApp();
   if (!app.value) return null;
 
-  const isMounted = useSignal(false);
-
   useVisibleTask$(({ track }) => {
     track(() => app.count);
 
     if (app.value) {
       app.value.start();
-      isMounted.value = true;
       window._app = Application.getApplication('agent-app');
     }
   });
-
-  if (!isMounted.value) return null;
 
   const focusEntity = useSignal<pcEntity | null>(null);
 
@@ -52,22 +47,20 @@ const Canvas = component$(() => {
         )}
         {/* <Light type="directional" color={noSerialize(new Color(1, 1, 1))} /> */}
       </Entity>
-      {isMounted.value && (
-        <>
-          {/* <AgentMetaHuman
-            name="AgentMetaHuman"
-            position={[1, 0, 0]}
-            scale={[100, 100, 100]}
-            onModelReady$={(entity) => (focusEntity.value = entity)}
-          /> */}
+      <>
+        {/* <AgentMetaHuman
+          name="AgentMetaHuman"
+          position={[1, 0, 0]}
+          scale={[100, 100, 100]}
+          onModelReady$={(entity) => (focusEntity.value = entity)}
+        /> */}
 
-          <AgentUltraBoy
-            name="AgentUltraBoy"
-            scale={[0.3, 0.3, 0.3]}
-            onModelReady$={(entity) => (focusEntity.value = entity)}
-          />
-        </>
-      )}
+        <AgentUltraBoy
+          name="AgentUltraBoy"
+          scale={[0.3, 0.3, 0.3]}
+          onModelReady$={(entity) => (focusEntity.value = entity)}
+        />
+      </>
       <ShadowCatcher width={5} depth={5} />
     </Entity>
   );

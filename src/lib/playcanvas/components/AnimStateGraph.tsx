@@ -1,8 +1,6 @@
-import { component$, NoSerialize, useVisibleTask$ } from '@builder.io/qwik';
+import { component$, useVisibleTask$ } from '@builder.io/qwik';
 import {
   AnimComponent,
-  AnimTrack,
-  Asset,
   ANIM_GREATER_THAN,
   ANIM_LESS_THAN,
   ANIM_GREATER_THAN_EQUAL_TO,
@@ -10,9 +8,8 @@ import {
   ANIM_EQUAL_TO,
   ANIM_NOT_EQUAL_TO,
 } from 'playcanvas';
-import { ComponentProps, useComponent } from '../hooks/use-component';
+import { useComponent } from '../hooks/use-component';
 import { useParent } from '../context/use-parent';
-import { GlbContainerResource } from 'playcanvas/build/playcanvas/src/framework/parsers/glb-container-resource.js';
 
 interface AnimationState {
   name: string;
