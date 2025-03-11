@@ -52,6 +52,8 @@ interface GraphicsOptions {
 }
 
 interface ApplicationProps {
+  /** The ID of the canvas element */
+  id: string;
   /** The class name to attach to the canvas component */
   className?: string;
   /** A style object added to the canvas component */
@@ -73,6 +75,8 @@ interface ApplicationProps {
   graphicsDeviceOptions?: GraphicsOptions;
   /** Preload assets */
   preloadAssets?: NoSerialize<Record<string, pc.Asset>>;
+  /** Callback to run after assets are preloaded */
+  preloadAssetsCallback?: () => void;
 }
 
 type ApplicationWithoutCanvasProps = ApplicationProps & {
@@ -80,11 +84,7 @@ type ApplicationWithoutCanvasProps = ApplicationProps & {
   canvas: Signal<HTMLCanvasElement | undefined>;
 };
 
-export const Application = component$<
-  ApplicationProps & {
-    id?: string;
-  }
->(
+export const Application = component$<ApplicationProps>(
   ({
     id,
     className = 'pc-app',
@@ -92,15 +92,13 @@ export const Application = component$<
     ...props
   }) => {
     const canvasSig = useSignal<HTMLCanvasElement>();
+
+    const appId = id ?? generateAppId();
+
     return (
       <>
-        <canvas
-          id={id ?? generateAppId()}
-          class={className}
-          style={style}
-          ref={canvasSig}
-        />
-        <ApplicationWithoutCanvas canvas={canvasSig} {...props}>
+        <canvas id={appId} class={className} style={style} ref={canvasSig} />
+        <ApplicationWithoutCanvas id={appId} canvas={canvasSig} {...props}>
           <Slot />
         </ApplicationWithoutCanvas>
       </>
@@ -108,122 +106,127 @@ export const Application = component$<
   },
 );
 
-export const ApplicationWithoutCanvas =
-  component$<ApplicationWithoutCanvasProps>(
-    ({
-      canvas,
-      fillMode = FILLMODE_NONE,
-      resolutionMode = RESOLUTION_AUTO,
-      maxDeltaTime = 0.1,
-      timeScale = 1,
-      usePhysics = false,
-      preloadAssets = {},
-      ...otherProps
-    }) => {
-      useAppProvider({
-        value: undefined,
-        count: 0,
-      });
+const ApplicationWithoutCanvas = component$<ApplicationWithoutCanvasProps>(
+  ({
+    id,
+    canvas,
+    fillMode = FILLMODE_NONE,
+    resolutionMode = RESOLUTION_AUTO,
+    maxDeltaTime = 0.1,
+    timeScale = 1,
+    usePhysics = false,
+    preloadAssets = {},
+    preloadAssetsCallback,
+    ...otherProps
+  }) => {
+    useAppProvider({
+      value: undefined,
+      id: '',
+    });
 
-      usePointerEventsProvider({ value: undefined });
+    usePointerEventsProvider({ value: undefined });
 
-      useParentProvider({
-        value: undefined,
-        count: 0,
-      });
+    useParentProvider({
+      value: undefined,
+      count: 0,
+    });
 
-      const appContext = useApp();
-      const pointerEventsContext = usePointerEvents();
-      const parentContext = useParent();
+    const appContext = useApp();
+    const pointerEventsContext = usePointerEvents();
+    const parentContext = useParent();
 
-      useVisibleTask$(({ track }) => {
-        track(() => canvas.value);
+    useVisibleTask$(({ track }) => {
+      track(() => canvas.value);
 
-        const graphicsDeviceOptions = {
-          alpha: true,
-          depth: true,
-          stencil: true,
-          antialias: true,
-          premultipliedAlpha: true,
-          preserveDrawingBuffer: false,
-          powerPreference: 'default',
-          failIfMajorPerformanceCaveat: false,
-          desynchronized: false,
-          xrCompatible: false,
-          ...otherProps.graphicsDeviceOptions,
-        };
+      const graphicsDeviceOptions = {
+        alpha: true,
+        depth: true,
+        stencil: true,
+        antialias: true,
+        premultipliedAlpha: true,
+        preserveDrawingBuffer: false,
+        powerPreference: 'default',
+        failIfMajorPerformanceCaveat: false,
+        desynchronized: false,
+        xrCompatible: false,
+        ...otherProps.graphicsDeviceOptions,
+      };
 
-        if (canvas.value) {
-          console.log(
-            `%c ApplicationWithoutCanvas start...`,
-            'color: #ffd34f; background-color: #131311; font-size: 0.8rem; padding: 2px 4px; border-radius: 4px;',
-          );
+      if (canvas.value) {
+        console.log(
+          `%c ApplicationWithoutCanvas start...`,
+          'color: #ffd34f; background-color: #131311; font-size: 0.8rem; padding: 2px 4px; border-radius: 4px;',
+        );
 
-          // @ts-expect-error The PC Physics system expects a global Ammo instance
-          if (usePhysics && !globalThis.Ammo) globalThis.Ammo = Ammo.default;
+        // @ts-expect-error The PC Physics system expects a global Ammo instance
+        if (usePhysics && !globalThis.Ammo) globalThis.Ammo = Ammo.default;
 
-          const localApp = new PlayCanvasApplication(canvas.value, {
-            mouse: new Mouse(canvas.value),
-            touch: new TouchDevice(canvas.value),
-            graphicsDeviceOptions,
-          });
+        const localApp = new PlayCanvasApplication(canvas.value, {
+          mouse: new Mouse(canvas.value),
+          touch: new TouchDevice(canvas.value),
+          graphicsDeviceOptions,
+        });
 
-          appContext.value = noSerialize(localApp);
-          appContext.count += 1;
+        appContext.value = noSerialize(localApp);
+        appContext.id = id;
 
-          localApp.root.name = 'root';
-          parentContext.value = noSerialize(localApp.root);
+        localApp.root.name = 'root';
 
-          localApp.setCanvasFillMode(fillMode);
-          localApp.setCanvasResolution(resolutionMode);
+        parentContext.value = noSerialize(localApp.root);
+        parentContext.count += 1;
 
-          const assets = Object.values(preloadAssets).map((asset) => {
-            const typedAsset = asset as pc.Asset;
-            typedAsset.preload = true;
-            return typedAsset;
-          });
-          const loader = new AssetListLoader(assets, localApp.assets);
+        localApp.setCanvasFillMode(fillMode);
+        localApp.setCanvasResolution(resolutionMode);
 
-          loader.load((err: any, failed: any) => {
-            if (err) {
-              console.error(`${failed.length} assets failed to load`);
-              return;
-            } else {
-              console.log(`${assets.length} assets loaded`);
-            }
-          });
+        const assets = Object.values(preloadAssets).map((asset) => {
+          const typedAsset = asset as pc.Asset;
+          typedAsset.preload = true;
+          return typedAsset;
+        });
+        const loader = new AssetListLoader(assets, localApp.assets);
 
-          localApp.start();
-        }
+        loader.load((err: any, failed: any) => {
+          if (err) {
+            console.error(`${failed.length} assets failed to load`);
+            return;
+          } else {
+            console.log(`${assets.length} assets loaded`);
+          }
+          if (typeof preloadAssetsCallback === 'function') {
+            preloadAssetsCallback();
+          }
+        });
+        localApp.start();
+      }
 
-        return () => {
-          if (!appContext.value) return;
-
-          appContext.value.destroy();
-
-          // @ts-expect-error Clean up the global Ammo instance
-          if (usePhysics && globalThis.Ammo) delete globalThis.Ammo;
-
-          appContext.value = undefined;
-          appContext.count += 1;
-        };
-      });
-
-      // These appContext properties can be updated without re-rendering
-      useVisibleTask$(({ track }) => {
-        track(() => appContext.value);
-
+      return () => {
         if (!appContext.value) return;
-        appContext.value.maxDeltaTime = maxDeltaTime;
-        appContext.value.timeScale = timeScale;
-      });
 
-      usePicker(
-        noSerialize(appContext.value),
-        canvas.value,
-        pointerEventsContext.value,
-      );
+        appContext.value.destroy();
 
-      return <Slot />;
-    },
-  );
+        // @ts-expect-error Clean up the global Ammo instance
+        if (usePhysics && globalThis.Ammo) delete globalThis.Ammo;
+
+        appContext.value = undefined;
+        appContext.id = '';
+      };
+    });
+
+    // These appContext properties can be updated without re-rendering
+    useVisibleTask$(({ track }) => {
+      track(() => appContext.value);
+
+      if (!appContext.value) return;
+      appContext.value.maxDeltaTime = maxDeltaTime;
+      appContext.value.timeScale = timeScale;
+    });
+
+    usePicker(
+      noSerialize(appContext.value),
+      canvas.value,
+      pointerEventsContext.value,
+    );
+
+    return <Slot />;
+  },
+);

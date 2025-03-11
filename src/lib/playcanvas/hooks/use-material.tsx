@@ -40,7 +40,7 @@ export const useMaterial = (
   }
 
   useVisibleTask$(({ track }) => {
-    track(() => app.count);
+    track(() => app.id);
     track(() => props);
 
     if (!app.value) return;

@@ -19,7 +19,7 @@ export const EnvAtlas = component$<EnvAtlasProps>(
     const asset = data.value as Asset;
 
     useVisibleTask$(({ track }) => {
-      track(() => [app.count, asset?.resource]);
+      track(() => [app.id, asset?.resource]);
       if (!app.value) return;
       if (!asset?.resource) return;
 
@@ -33,7 +33,7 @@ export const EnvAtlas = component$<EnvAtlasProps>(
     });
 
     useVisibleTask$(({ track }) => {
-      track(() => [app.count, showSkybox, intensity, exposure, skyboxMip]);
+      track(() => [app.id, showSkybox, intensity, exposure, skyboxMip]);
       if (!app.value) return;
 
       const layer = app.value.scene.layers.getLayerByName('Skybox');

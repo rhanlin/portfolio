@@ -12,6 +12,9 @@ import { useApp } from '~/lib/playcanvas/context/use-app';
 import { useMaterial } from '~/lib/playcanvas/hooks/use-material';
 
 const Canvas = component$(() => {
+  const app = useApp();
+  if (!app.value) return null;
+
   const onPointerDown = $<PointerEventCallback>((event) =>
     console.log('pointer down', event),
   );

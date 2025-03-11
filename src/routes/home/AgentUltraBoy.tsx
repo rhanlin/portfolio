@@ -14,7 +14,6 @@ import {
   AnimStateGraph,
 } from '~/lib/playcanvas/components';
 import { useModel } from '~/lib/playcanvas/hooks/use-model';
-import { useApp } from '~/lib/playcanvas/context/use-app';
 import { useMaterial } from '~/lib/playcanvas/hooks/use-material';
 import { EntityProps } from '~/lib/playcanvas/Entity';
 import { AnimStateGraphData, CiberBoyMaterialConfig } from '~/constants/agent';
@@ -25,9 +24,6 @@ type AgentUltraBoyProps = EntityProps & {
 };
 const AgentUltraBoy = component$<AgentUltraBoyProps>(
   ({ onModelReady$, ...props }) => {
-    const app = useApp();
-    if (!app.value) return null;
-
     const entitySig = useSignal<pcEntity | null>(null);
 
     useVisibleTask$(({ track }) => {
@@ -41,7 +37,7 @@ const AgentUltraBoy = component$<AgentUltraBoyProps>(
 
     const { data: asset, isPending } = useModel('/glb/ultra-boy/model.glb');
 
-    const material = useMaterial(CiberBoyMaterialConfig);
+    const material = useMaterial(noSerialize(CiberBoyMaterialConfig)!);
 
     return (
       <Entity {...props}>

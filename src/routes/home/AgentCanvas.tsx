@@ -1,5 +1,5 @@
-import { Entity as pcEntity, Application } from 'playcanvas';
-import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik';
+import { Entity as pcEntity } from 'playcanvas';
+import { component$, Signal, useSignal } from '@builder.io/qwik';
 import { Entity } from '~/lib/playcanvas';
 import { Camera, EnvAtlas, PostEffects } from '~/lib/playcanvas/components';
 import { OrbitControls, ShadowCatcher } from '~/lib/playcanvas/scripts';
@@ -7,17 +7,12 @@ import { useApp } from '~/lib/playcanvas/context/use-app';
 import AgentMetaHuman from '~/routes/home/AgentMetaHuman';
 import AgentUltraBoy from '~/routes/home/AgentUltraBoy';
 
-const Canvas = component$(() => {
+type CanvasProps = {
+  assetLoaded: Signal<boolean>;
+};
+const Canvas = component$<CanvasProps>(({ assetLoaded }) => {
   const app = useApp();
   if (!app.value) return null;
-
-  useVisibleTask$(({ track }) => {
-    track(() => app.count);
-
-    if (app.value) {
-      window._app = Application.getApplication('agent-app');
-    }
-  });
 
   const focusEntity = useSignal<pcEntity | null>(null);
 
@@ -46,18 +41,22 @@ const Canvas = component$(() => {
         )}
         {/* <Light type="directional" color={noSerialize(new Color(1, 1, 1))} /> */}
       </Entity>
-      <AgentMetaHuman
-        name="AgentMetaHuman"
-        position={[1, 0, 0]}
-        scale={[100, 100, 100]}
-        onModelReady$={(entity) => (focusEntity.value = entity)}
-      />
+      {assetLoaded.value && (
+        <>
+          <AgentMetaHuman
+            name="AgentMetaHuman"
+            position={[1, 0, 0]}
+            scale={[100, 100, 100]}
+            onModelReady$={(entity) => (focusEntity.value = entity)}
+          />
 
-      <AgentUltraBoy
-        name="AgentUltraBoy"
-        scale={[0.3, 0.3, 0.3]}
-        // onModelReady$={(entity) => (focusEntity.value = entity)}
-      />
+          <AgentUltraBoy
+            name="AgentUltraBoy"
+            scale={[0.3, 0.3, 0.3]}
+            // onModelReady$={(entity) => (focusEntity.value = entity)}
+          />
+        </>
+      )}
       <ShadowCatcher width={5} depth={5} />
     </Entity>
   );

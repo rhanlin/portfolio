@@ -1,4 +1,5 @@
 import {
+  $,
   component$,
   noSerialize,
   useSignal,
@@ -31,6 +32,7 @@ const mergeAssets = (
 
 const Agent = component$(() => {
   const isMounted = useSignal(false);
+  const assetLoaded = useSignal(false);
   useVisibleTask$(() => {
     isMounted.value = true;
   });
@@ -48,8 +50,11 @@ const Agent = component$(() => {
       fillMode={FILLMODE_NONE}
       resolutionMode={RESOLUTION_AUTO}
       preloadAssets={noSerialize(preloadAssets)}
+      preloadAssetsCallback={$(() => {
+        assetLoaded.value = true;
+      })}
     >
-      <AgentCanvas />
+      <AgentCanvas assetLoaded={assetLoaded} />
     </Application>
   );
 });

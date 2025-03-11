@@ -9,17 +9,17 @@ import {
 
 export type AppContextType = {
   value: NoSerialize<Application>;
-  count: number;
+  id: string;
 };
 
 const AppContext = createContextId<AppContextType>('app-context');
 
-export const useAppProvider = ({ value, count }: AppContextType) => {
+export const useAppProvider = ({ value, id }: AppContextType) => {
   useContextProvider(
     AppContext,
     useStore<AppContextType>({
       value,
-      count,
+      id,
     }),
   );
 };

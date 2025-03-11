@@ -15,7 +15,7 @@ export const PostEffects = component$<PostEffectsProps>(
     const settings = merge(postSettings, overrides);
 
     useVisibleTask$(({ track }) => {
-      track(() => [app.count, parent.count]);
+      track(() => [app.id, parent.count]);
       if (!app.value || !parent.value) return;
 
       const camera = parent.value.camera;

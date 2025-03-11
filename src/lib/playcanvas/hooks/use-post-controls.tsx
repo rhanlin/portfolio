@@ -108,7 +108,7 @@ export const usePostControls = (): PostControls => {
   });
 
   useTask$(async ({ track }) => {
-    track(() => app.count);
+    track(() => app.id);
     tint.value = noSerialize(new Color());
     tint.count += 1;
   });
