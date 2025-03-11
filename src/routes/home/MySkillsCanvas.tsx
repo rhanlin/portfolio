@@ -1,5 +1,5 @@
 import { $, component$, noSerialize, useVisibleTask$ } from '@builder.io/qwik';
-import { Color } from 'playcanvas';
+import { Application, Color } from 'playcanvas';
 import { Entity } from '~/lib/playcanvas';
 import { Camera, Light, Render, EnvAtlas } from '~/lib/playcanvas/components';
 import { PointerEventCallback } from '~/lib/playcanvas/Entity';
@@ -12,18 +12,6 @@ import { useApp } from '~/lib/playcanvas/context/use-app';
 import { useMaterial } from '~/lib/playcanvas/hooks/use-material';
 
 const Canvas = component$(() => {
-  const app = useApp();
-
-  useVisibleTask$(async ({ track }) => {
-    track(() => [app.count]);
-
-    if (app.value) {
-      // TODO: Remove this timeout
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      app.value.start();
-    }
-  });
-
   const onPointerDown = $<PointerEventCallback>((event) =>
     console.log('pointer down', event),
   );

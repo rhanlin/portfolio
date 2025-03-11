@@ -42,7 +42,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
 
     const { data: asset, isPending } = useModel('/glb/meta-human/model.glb');
 
-    const hairmatSig = useMaterial({
+    const hairMat = useMaterial({
       name: 'eyemat',
       diffuseMap: noSerialize(
         PreloadTextures.TextureBodyHair.resource as Texture,
@@ -50,7 +50,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       diffuse: noSerialize(new Color().fromString('#ffffff')),
       diffuseMapChannel: 'rgb',
     });
-    const eyematSig = useMaterial({
+    const eyeMat = useMaterial({
       name: 'eyemat',
       diffuseMap: noSerialize(
         PreloadTextures.TextureBodyEye.resource as Texture,
@@ -58,7 +58,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       diffuse: noSerialize(new Color().fromString('#ffffff')),
       diffuseMapChannel: 'rgb',
     });
-    const bodymatSig = useMaterial({
+    const bodyMat = useMaterial({
       name: 'bodymat',
       diffuseMap: noSerialize(
         PreloadTextures.TextureBodySkin.resource as Texture,
@@ -66,7 +66,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       diffuse: noSerialize(new Color().fromString('#ffffff')),
       diffuseMapChannel: 'rgb',
     });
-    const outfitBottommatSig = useMaterial({
+    const outfitBottomMat = useMaterial({
       name: 'outfitBottommat',
       diffuseMap: noSerialize(
         PreloadTextures.TextureOutfitBottom.resource as Texture,
@@ -74,7 +74,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       diffuse: noSerialize(new Color().fromString('#ffffff')),
       diffuseMapChannel: 'rgb',
     });
-    const outfitFootwearmatSig = useMaterial({
+    const outfitFootwearMat = useMaterial({
       name: 'outfitFootwearmat',
       diffuseMap: noSerialize(
         PreloadTextures.TextureOutfitFootwear.resource as Texture,
@@ -82,7 +82,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       diffuse: noSerialize(new Color().fromString('#ffffff')),
       diffuseMapChannel: 'rgb',
     });
-    const outfitTopmatSig = useMaterial({
+    const outfitTopMat = useMaterial({
       name: 'outfitTopmat',
       diffuseMap: noSerialize(
         PreloadTextures.TextureOutfitTop.resource as Texture,
@@ -90,7 +90,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       diffuse: noSerialize(new Color().fromString('#ffffff')),
       diffuseMapChannel: 'rgb',
     });
-    const outfitBodyFacematSig = useMaterial({
+    const outfitBodyFaceMat = useMaterial({
       name: 'outfitTopmat',
       diffuseMap: noSerialize(
         PreloadTextures.TextureBodyFace.resource as Texture,
@@ -98,7 +98,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       diffuse: noSerialize(new Color().fromString('#ffffff')),
       diffuseMapChannel: 'rgb',
     });
-    const outfitTeethmatSig = useMaterial({
+    const outfitTeethMat = useMaterial({
       name: 'outfitTopmat',
       diffuseMap: noSerialize(
         PreloadTextures.TextureBodyTeeth.resource as Texture,
@@ -119,7 +119,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
                 <AnimStateGraph data={AnimStateGraphData} />
                 {ModelAnimationAssets.map((animationAsset) => (
                   <Animation
-                    key={animationAsset.stateName}
+                    key={animationAsset.asset.name}
                     stateName={animationAsset.stateName}
                     asset={noSerialize(animationAsset.asset)}
                   />
@@ -127,30 +127,41 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
               </>
             </Render>
 
-            <UpdateMaterial target="Wolf3D_Hair" material={hairmatSig} />
-            <UpdateMaterial target="EyeLeft" material={eyematSig} />
-            <UpdateMaterial target="EyeRight" material={eyematSig} />
-            <UpdateMaterial target="Wolf3D_Body" material={bodymatSig} />
-            <UpdateMaterial
-              target="Wolf3D_Outfit_Bottom"
-              material={outfitBottommatSig}
-            />
-            <UpdateMaterial
-              target="Wolf3D_Outfit_Footwear"
-              material={outfitFootwearmatSig}
-            />
-            <UpdateMaterial
-              target="Wolf3D_Outfit_Top"
-              material={outfitTopmatSig}
-            />
-            <UpdateMaterial
-              target="Wolf3D_Head"
-              material={outfitBodyFacematSig}
-            />
-            <UpdateMaterial
-              target="Wolf3D_Teeth"
-              material={outfitTeethmatSig}
-            />
+            {hairMat && (
+              <UpdateMaterial target="Wolf3D_Hair" material={hairMat} />
+            )}
+            {eyeMat && <UpdateMaterial target="EyeLeft" material={eyeMat} />}
+            {eyeMat && <UpdateMaterial target="EyeRight" material={eyeMat} />}
+            {bodyMat && (
+              <UpdateMaterial target="Wolf3D_Body" material={bodyMat} />
+            )}
+            {outfitBottomMat && (
+              <UpdateMaterial
+                target="Wolf3D_Outfit_Bottom"
+                material={outfitBottomMat}
+              />
+            )}
+            {outfitFootwearMat && (
+              <UpdateMaterial
+                target="Wolf3D_Outfit_Footwear"
+                material={outfitFootwearMat}
+              />
+            )}
+            {outfitTopMat && (
+              <UpdateMaterial
+                target="Wolf3D_Outfit_Top"
+                material={outfitTopMat}
+              />
+            )}
+            {outfitBodyFaceMat && (
+              <UpdateMaterial
+                target="Wolf3D_Head"
+                material={outfitBodyFaceMat}
+              />
+            )}
+            {outfitTeethMat && (
+              <UpdateMaterial target="Wolf3D_Teeth" material={outfitTeethMat} />
+            )}
           </>
         )}
       </Entity>

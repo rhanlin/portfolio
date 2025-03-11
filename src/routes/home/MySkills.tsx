@@ -1,10 +1,15 @@
-import { component$ } from '@builder.io/qwik';
+import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik';
 import { FILLMODE_NONE, RESOLUTION_AUTO } from 'playcanvas';
 import Text from '~/components/Text';
 import { Application } from '~/lib/playcanvas';
 import MySkillsCanvas from './MySkillsCanvas';
 
 const MySkills = component$(() => {
+  const isMounted = useSignal(false);
+  useVisibleTask$(() => {
+    isMounted.value = true;
+  });
+
   return (
     <>
       <div id="skills" class="relative w-full h-[382px] min-h-[382px]">
@@ -23,14 +28,16 @@ const MySkills = component$(() => {
           </div>
         </div>
 
-        <Application
-          id="my-skills-app"
-          usePhysics
-          fillMode={FILLMODE_NONE}
-          resolutionMode={RESOLUTION_AUTO}
-        >
-          <MySkillsCanvas />
-        </Application>
+        {isMounted.value && (
+          <Application
+            id="my-skills-app"
+            usePhysics
+            fillMode={FILLMODE_NONE}
+            resolutionMode={RESOLUTION_AUTO}
+          >
+            <MySkillsCanvas />
+          </Application>
+        )}
       </div>
     </>
   );

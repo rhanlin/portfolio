@@ -41,7 +41,7 @@ const AgentUltraBoy = component$<AgentUltraBoyProps>(
 
     const { data: asset, isPending } = useModel('/glb/ultra-boy/model.glb');
 
-    const materialSig = useMaterial(CiberBoyMaterialConfig);
+    const material = useMaterial(CiberBoyMaterialConfig);
 
     return (
       <Entity {...props}>
@@ -57,7 +57,7 @@ const AgentUltraBoy = component$<AgentUltraBoyProps>(
                   <AnimStateGraph data={AnimStateGraphData} />
                   {ModelAnimationAssets.map((animationAsset) => (
                     <Animation
-                      key={animationAsset.stateName}
+                      key={animationAsset.asset.name}
                       stateName={animationAsset.stateName}
                       asset={noSerialize(animationAsset.asset)}
                     />
@@ -65,7 +65,9 @@ const AgentUltraBoy = component$<AgentUltraBoyProps>(
                 </>
               }
             </Render>
-            <UpdateMaterial target="Ciber Boy" material={materialSig} />
+            {material && (
+              <UpdateMaterial target="Ciber Boy" material={material} />
+            )}
           </>
         )}
       </Entity>

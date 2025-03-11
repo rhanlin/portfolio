@@ -124,7 +124,7 @@ export const AnimStateGraphData = {
     xDirection: {
       name: 'xDirection',
       type: 'FLOAT',
-      value: 0.5,
+      value: -0.5,
     },
     zDirection: {
       name: 'zDirection',

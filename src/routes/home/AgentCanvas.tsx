@@ -15,7 +15,6 @@ const Canvas = component$(() => {
     track(() => app.count);
 
     if (app.value) {
-      app.value.start();
       window._app = Application.getApplication('agent-app');
     }
   });
@@ -47,20 +46,18 @@ const Canvas = component$(() => {
         )}
         {/* <Light type="directional" color={noSerialize(new Color(1, 1, 1))} /> */}
       </Entity>
-      <>
-        {/* <AgentMetaHuman
-          name="AgentMetaHuman"
-          position={[1, 0, 0]}
-          scale={[100, 100, 100]}
-          onModelReady$={(entity) => (focusEntity.value = entity)}
-        /> */}
+      <AgentMetaHuman
+        name="AgentMetaHuman"
+        position={[1, 0, 0]}
+        scale={[100, 100, 100]}
+        onModelReady$={(entity) => (focusEntity.value = entity)}
+      />
 
-        <AgentUltraBoy
-          name="AgentUltraBoy"
-          scale={[0.3, 0.3, 0.3]}
-          onModelReady$={(entity) => (focusEntity.value = entity)}
-        />
-      </>
+      <AgentUltraBoy
+        name="AgentUltraBoy"
+        scale={[0.3, 0.3, 0.3]}
+        // onModelReady$={(entity) => (focusEntity.value = entity)}
+      />
       <ShadowCatcher width={5} depth={5} />
     </Entity>
   );

@@ -9,16 +9,20 @@ export enum AnimationName {
 
 const rootPath = 'ultra-boy';
 
-const AnimationIdle = new Asset('AnimationIdle', 'animation', {
+const AnimationIdle = new Asset(`${rootPath}_AnimationIdle`, 'animation', {
   url: `/glb/${rootPath}/animations/Idle.glb`,
 });
-const AnimationTalking = new Asset('AnimationIdle', 'animation', {
-  url: `/glb/${rootPath}/animations/Talking.glb`,
-});
-const AnimationDance = new Asset('AnimationIdle', 'animation', {
+const AnimationTalking = new Asset(
+  `${rootPath}_AnimationTalking`,
+  'animation',
+  {
+    url: `/glb/${rootPath}/animations/Talking.glb`,
+  },
+);
+const AnimationDance = new Asset(`${rootPath}_AnimationDance`, 'animation', {
   url: `/glb/${rootPath}/animations/Dance.glb`,
 });
-const AnimationWalk = new Asset('AnimationIdle', 'animation', {
+const AnimationWalk = new Asset(`${rootPath}_AnimationWalk`, 'animation', {
   url: `/glb/${rootPath}/animations/Walk.glb`,
 });
 

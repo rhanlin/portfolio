@@ -11,6 +11,7 @@ import {
 import {
   RESOLUTION_AUTO,
   Application as PlayCanvasApplication,
+  AssetListLoader,
   Mouse,
   TouchDevice,
   FILLMODE_NONE,
@@ -70,6 +71,7 @@ interface ApplicationProps {
   usePhysics?: boolean;
   /** Graphics Settings */
   graphicsDeviceOptions?: GraphicsOptions;
+  /** Preload assets */
   preloadAssets?: NoSerialize<Record<string, pc.Asset>>;
 }
 
@@ -166,20 +168,32 @@ export const ApplicationWithoutCanvas =
             graphicsDeviceOptions,
           });
 
-          Object.values(preloadAssets).forEach((asset) => {
-            const typedAsset = asset as pc.Asset;
-            typedAsset.preload = true;
-            localApp.assets.add(typedAsset);
-          });
-
-          localApp.setCanvasFillMode(fillMode);
-          localApp.setCanvasResolution(resolutionMode);
-
           appContext.value = noSerialize(localApp);
           appContext.count += 1;
 
           localApp.root.name = 'root';
           parentContext.value = noSerialize(localApp.root);
+
+          localApp.setCanvasFillMode(fillMode);
+          localApp.setCanvasResolution(resolutionMode);
+
+          const assets = Object.values(preloadAssets).map((asset) => {
+            const typedAsset = asset as pc.Asset;
+            typedAsset.preload = true;
+            return typedAsset;
+          });
+          const loader = new AssetListLoader(assets, localApp.assets);
+
+          loader.load((err: any, failed: any) => {
+            if (err) {
+              console.error(`${failed.length} assets failed to load`);
+              return;
+            } else {
+              console.log(`${assets.length} assets loaded`);
+            }
+          });
+
+          localApp.start();
         }
 
         return () => {
