@@ -3,8 +3,15 @@
 @theme {
   --color-primary: #ffd34f;
   --color-background: #09050f;
-  --color-neutral-white: #ffffff;
-  --color-neutral-0: #fbfdff;
+
+  --color-neutral-0: #ffffff; 
+  --color-neutral-10: #fbfbfb;
+  --color-neutral-20: #f2f2f2;
+  --color-neutral-30: #e0e0e0;
+  --color-neutral-40: #bdbdbd;
+  --color-neutral-50: #858d9f;
+  --color-neutral-60: #4f4f4f;
+  --color-neutral-70: #333333;
   --color-neutral-80: #131311;
 
   --leading-tight: 1.15;

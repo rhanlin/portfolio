@@ -30,10 +30,17 @@ type CardProps = VariantProps<typeof cardVariants> & {
   class?: string;
   wrapperClass?: string;
   backgroundImage?: string;
+  onClick?: () => void;
 };
 
 export default component$(
-  ({ class: className, wrapperClass, variant, backgroundImage }: CardProps) => {
+  ({
+    class: className,
+    wrapperClass,
+    variant,
+    backgroundImage,
+    onClick,
+  }: CardProps) => {
     return (
       <div
         class={clsx(
@@ -49,12 +56,16 @@ export default component$(
           )}
         >
           <div
-            class={clsx('px-15 py-13 w-full h-full bg-cover', className)}
+            class={clsx(
+              'px-15 py-13 w-full h-full bg-cover cursor-pointer',
+              className,
+            )}
             style={
               backgroundImage
                 ? { backgroundImage: `url(${backgroundImage})` }
                 : {}
             }
+            onClick$={onClick}
           >
             <Slot />
           </div>

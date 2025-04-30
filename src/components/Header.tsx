@@ -16,7 +16,7 @@ const NavItem = component$<NavItemProps>(({ href }) => {
     >
       <Text
         as="h4"
-        class="text-neutral-0/20 group-active:text-neutral-0/50 group-hover:text-neutral-0/30 group-disabled:text-neutral-0/10"
+        class="text-neutral-10/20 group-active:text-neutral-10/50 group-hover:text-neutral-10/30 group-disabled:text-neutral-10/10"
       >
         <Slot />
       </Text>
@@ -44,7 +44,7 @@ const Header = component$(() => {
       <div class="flex justify-between my-6">
         <div class="flex">
           <Text as="h4">Rhan0</Text>
-          <Text as="h4" class="text-neutral-0/25">
+          <Text as="h4" class="text-neutral-10/25">
             , Front-end
           </Text>
         </div>

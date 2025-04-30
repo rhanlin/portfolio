@@ -84,7 +84,7 @@ export interface PostControls {
     jitter: number;
   };
   fringing: {
-    enabled: boolean;
+    // enabled: boolean;
     intensity: number;
   };
   dof: {
@@ -134,12 +134,17 @@ export const usePostControls = (): PostControls => {
   });
 
   const ssao = useStore({
+    enabled: true,
+    radius: 5,
+    samples: 16,
+    brightness: 0,
+    downscale: 1,
     type: SSAOTYPE_NONE,
     blurEnabled: true,
     randomize: false,
     intensity: 0.5,
-    radius: 30,
-    samples: 12,
+    // radius: 30,
+    // samples: 12,
     power: 6,
     minAngle: 10,
     scale: 1,
@@ -149,6 +154,31 @@ export const usePostControls = (): PostControls => {
     enabled: true,
     intensity: 0.05,
     blurLevel: 10,
+    bloomIntensity: 0.8,
+    bloomThreshold: 0.7,
+    blurAmount: 15,
+  });
+
+  const sepia = useStore({
+    enabled: true,
+    amount: 0.4,
+  });
+
+  const vignette = useStore({
+    enabled: true,
+    intensity: 1,
+    inner: 0.25,
+    outer: 1.52,
+    curvature: 0.78,
+    darkness: 1,
+    offset: 1.2,
+  });
+
+  const bokeh = useStore({
+    enabled: false,
+    aperture: 1.0,
+    maxBlur: 1.0,
+    focus: 100,
   });
 
   const grading = useStore({
@@ -159,22 +189,14 @@ export const usePostControls = (): PostControls => {
     tint: '#fed',
   });
 
-  const vignette = useStore({
-    enabled: true,
-    intensity: 1,
-    inner: 0.25,
-    outer: 1.52,
-    curvature: 0.78,
-  });
-
   const taa = useStore({
     enabled: false,
     jitter: 0.4,
   });
 
   const fringing = useStore({
-    enabled: true,
-    intensity: 10,
+    // enabled: false,
+    intensity: 1,
   });
 
   const dof = useStore({
@@ -214,5 +236,7 @@ export const usePostControls = (): PostControls => {
     taa,
     fringing,
     dof,
+    sepia,
+    bokeh,
   };
 };

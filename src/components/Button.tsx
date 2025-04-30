@@ -7,8 +7,8 @@ const buttonVariants = tv({
   variants: {
     variant: {
       default:
-        'text-sm font-medium bg-neutral-0/20 active:bg-neutral-0/50 hover:bg-neutral-0/30 disabled:bg-neutral-0/10',
-      icon: 'border border-neutral-0/50 bg-neutral-0/20 active:bg-neutral-0/50 hover:bg-neutral-0/30 disabled:bg-neutral-0/10',
+        'text-sm font-medium bg-neutral-10/20 active:bg-neutral-10/50 hover:bg-neutral-10/30 disabled:bg-neutral-10/10',
+      icon: 'border border-neutral-10/50 bg-neutral-10/20 active:bg-neutral-10/50 hover:bg-neutral-10/30 disabled:bg-neutral-10/10',
       ghost: '',
       link: 'text-primary underline-offset-4 hover:underline',
     },

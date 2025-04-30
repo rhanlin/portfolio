@@ -26,7 +26,7 @@ const Badge = component$<BadgeProps>(
         height={24}
       />
     ) : (
-      <span class="font-light bg-neutral-0/10 text-neutral-0">Badge</span>
+      <span class="font-light bg-neutral-10/10 text-neutral-10">Badge</span>
     );
   },
 );

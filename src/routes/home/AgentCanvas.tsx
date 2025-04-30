@@ -6,6 +6,7 @@ import { OrbitControls, ShadowCatcher } from '~/lib/playcanvas/scripts';
 import { useApp } from '~/lib/playcanvas/context/use-app';
 import AgentMetaHuman from '~/routes/home/AgentMetaHuman';
 import AgentUltraBoy from '~/routes/home/AgentUltraBoy';
+import { PosteffectWatercolor } from '~/lib/playcanvas/scripts/posteffects';
 
 type CanvasProps = {
   assetLoaded: Signal<boolean>;
@@ -24,13 +25,13 @@ const Canvas = component$<CanvasProps>(({ assetLoaded }) => {
         exposure={2}
         skyboxMip={2}
       />
-      <Entity name="camera" position={[4, 1.5, 4]}>
+      <Entity name="camera" position={[0, 3.6, 4.5]}>
         <Camera clearColor="#09050f" fov={45} />
         {focusEntity.value && (
           <>
             <OrbitControls
               inertiaFactor={0.07}
-              distanceMin={1.5}
+              distanceMin={6}
               distanceMax={10}
               pitchAngleMin={1}
               pitchAngleMax={90}
@@ -43,17 +44,17 @@ const Canvas = component$<CanvasProps>(({ assetLoaded }) => {
       </Entity>
       {assetLoaded.value && (
         <>
-          <AgentMetaHuman
+          {/* <AgentMetaHuman
             name="AgentMetaHuman"
             position={[1, 0, 0]}
             scale={[100, 100, 100]}
             onModelReady$={(entity) => (focusEntity.value = entity)}
-          />
+          /> */}
 
           <AgentUltraBoy
             name="AgentUltraBoy"
-            scale={[0.3, 0.3, 0.3]}
-            // onModelReady$={(entity) => (focusEntity.value = entity)}
+            // scale={[0.3, 0.3, 0.3]}
+            onModelReady$={(entity) => (focusEntity.value = entity)}
           />
         </>
       )}

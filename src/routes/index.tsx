@@ -1,4 +1,4 @@
-import { component$ } from '@builder.io/qwik';
+import { $, component$, useSignal } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
 import { SKILLS } from '~/constants/skills';
 import Card from '~/components/Card';
@@ -7,15 +7,24 @@ import Work, { type WorkProps } from './home/Work';
 import MySkills from './home/MySkills';
 import Agent from './home/Agent';
 import Contact from './home/Contact';
+import Dialog from '~/components/Dialog';
+import Text from '~/components/Text';
+import Badge from '~/components/Badge';
+import Button from '~/components/Button';
 
-const workList: ({ id: string; backgroundImage: string } & WorkProps)[] = [
+type Work = { id: string; backgroundImage: string } & WorkProps;
+
+const workList: Work[] = [
   {
     id: 'viverse-world',
     header: '',
     title: 'VIVERSE Wrold',
     skills: [SKILLS.next, SKILLS.playcanvas, SKILLS.tailwind],
     status: 'In progress',
+    description:
+      'VIVERSE World is a metaverse platform that allows users to create, explore, and interact in a virtual environment. It offers a range of tools and features for content creation, social interaction, and immersive experiences.',
     backgroundImage: '/images/viverse-world.webp',
+    link: 'https://www.viverse.com/',
   },
   {
     id: 'viverse-sdk',
@@ -23,7 +32,10 @@ const workList: ({ id: string; backgroundImage: string } & WorkProps)[] = [
     title: 'VIVERSE Creator Tools SDK',
     skills: [SKILLS.react, SKILLS.typescript, SKILLS.playcanvas],
     status: 'In progress',
+    description:
+      'Creator Tools SDK is a browser extension built on top of PlayCanvas. It allows you to publish scenes from the PlayCanvas Editor to Viverse. In addition, it provides a no-code solution to help users quickly create interactive scene experiences, and offers the Viverse SDK for deeper integration and customization.',
     backgroundImage: '/images/viverse-creator-sdk.webp',
+    link: 'https://create.viverse.com/',
   },
   {
     id: 'cytc',
@@ -31,14 +43,18 @@ const workList: ({ id: string; backgroundImage: string } & WorkProps)[] = [
     title: 'cytcpro.com',
     skills: [SKILLS.nuxt, SKILLS.typescript, SKILLS.tailwind, SKILLS.figma],
     status: 'Completed',
+    description:
+      'CYTC provides a grain storage temperature monitoring and management solution, improving traditional crop storage practices. With a digital service, users can easily manage and monitor the current condition of stored grains.',
     backgroundImage: '/images/cytcpro.webp',
   },
   {
     id: 'clc',
-    header: 'Scheduling Management Backend',
+    header: 'Scheduling Management System',
     title: 'CLC Service Scheduling System',
     skills: [SKILLS.vue, SKILLS.tailwind, SKILLS.graphql, SKILLS.mysql],
     status: 'Completed',
+    description:
+      'CLC Service Scheduling System is a quarterly shift management platform that automates repetitive tasks to save time on workforce planning.',
     backgroundImage: '/images/clc-service-scheduling-system.webp',
   },
   {
@@ -47,14 +63,18 @@ const workList: ({ id: string; backgroundImage: string } & WorkProps)[] = [
     title: 'FPC E-Commerce',
     skills: [SKILLS.nuxt, SKILLS.typescript],
     status: 'Completed',
+    description:
+      'Transformed previously unstructured form management into a customized shipping system, offering real-time monitoring, comprehensive data analytics, and streamlined document approvals with accurate tracking of review status.',
     backgroundImage: '/images/fpc-ecommerce.webp',
   },
   {
     id: 'amway-live-go',
     header: 'E-commerce Website Redesign',
-    title: 'Amway Live GO',
+    title: 'Amway Live Go',
     skills: [SKILLS.nuxt, SKILLS.typescript],
     status: 'Completed',
+    description:
+      'Redesigned Amway Taiwan’s retail website to ensure users can easily find the information and products they need. Integrated Google Analytics tracking to monitor user behavior and optimize both user experience and marketing strategies. Additionally, incorporated live streaming services to enhance user trust and loyalty, effectively boosting site traffic and conversion rates.',
     backgroundImage: '/images/amway-live-go.webp',
   },
   {
@@ -63,6 +83,8 @@ const workList: ({ id: string; backgroundImage: string } & WorkProps)[] = [
     title: 'TSMC CMS Revamp',
     skills: [SKILLS.next, SKILLS.typescript],
     status: 'Completed',
+    description:
+      'A complete revamp of the Welfare Committee website CMS backend. The new backend features a "card-style" design, allowing content editors to intuitively drag and arrange cards for easy layout management.',
     backgroundImage: '/images/tsmc-cms-revamp.webp',
   },
   {
@@ -71,11 +93,16 @@ const workList: ({ id: string; backgroundImage: string } & WorkProps)[] = [
     title: 'CEC SSO',
     skills: [SKILLS.vue],
     status: 'Completed',
+    description:
+      'Single Sign-On (SSO) web page for the CEC (Continental Engineering Corporation) backend system.',
     backgroundImage: '/images/cec-sso.webp',
   },
 ];
 
 export default component$(() => {
+  const isDialogOpen = useSignal(false);
+  const dialogDetail = useSignal<Work | null>(null);
+
   return (
     <div class="grid grid-cols-12 gap-5 mb-30">
       <Card
@@ -83,7 +110,7 @@ export default component$(() => {
         variant="30-50-50-30"
         class="bg-neutral-80 relative"
       >
-        <div class="hello-bg-gradient animate-rotate-360"></div>
+        <div class="hello-bg-gradient animate-rotate-360 pointer-events-none"></div>
         <Hello />
       </Card>
       <Card wrapperClass="col-span-4" variant="50-30-30-50" class="px-0! py-0!">
@@ -98,12 +125,17 @@ export default component$(() => {
             i === 0 ? '50-30-30-30' : i === 1 ? '30-50-30-30' : '30-30-30-30'
           }
           backgroundImage={work.backgroundImage}
+          onClick={$(() => {
+            dialogDetail.value = work;
+            isDialogOpen.value = true;
+          })}
         >
           <Work
             header={work.header}
             title={work.title}
             skills={work.skills}
             status={work.status}
+            link={work.link}
           />
         </Card>
       ))}
@@ -123,6 +155,55 @@ export default component$(() => {
           <Contact />
         </div>
       </Card>
+
+      <Dialog
+        isOpen={isDialogOpen.value}
+        onClose={$(() => (isDialogOpen.value = false))}
+        class="relative"
+        size="xl"
+      >
+        <div class="w-full flex min-h-[458px]">
+          <div class="shrink flex flex-col justify-between w-[55%] p-6">
+            <div class="flex items-end mb-4">
+              <Text as="h2">{dialogDetail.value?.title}</Text>
+              {dialogDetail.value?.status === 'In progress' && (
+                <Button
+                  variant="icon"
+                  size="custom"
+                  class="ml-3.5 mb-[8.75px] px-2.5 py-1 rounded-l-full rounded-r-full"
+                >
+                  <Text as="span">In progress</Text>
+                </Button>
+              )}
+            </div>
+            <div class="flex-1">
+              <Text as="h5">{dialogDetail.value?.description}</Text>
+            </div>
+
+            <div class="flex flex-wrap">
+              {dialogDetail.value?.skills.map((s) => (
+                <Badge
+                  key={s.skill}
+                  skill={s.skill}
+                  logo={s.logo}
+                  color={s.color}
+                  class="mr-2"
+                />
+              ))}
+            </div>
+          </div>
+          <div
+            class="w-[45%] h-[calc(100%-2px)] rounded-tr-[30px] rounded-br-[30px] absolute top-[50%] right-[1px] transform -translate-y-1/2 bg-center bg-cover overflow-hidden"
+            style={
+              dialogDetail.value?.backgroundImage
+                ? {
+                    backgroundImage: `url(${dialogDetail.value?.backgroundImage})`,
+                  }
+                : {}
+            }
+          ></div>
+        </div>
+      </Dialog>
     </div>
   );
 });
