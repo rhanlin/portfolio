@@ -1,6 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200..900&display=swap");
 @import 'tailwindcss';
 
 @theme {
+  --font-noto-serif-tc: "Noto Serif TC", serif; 
+
   --color-primary: #ffd34f;
   --color-background: #09050f;
 
@@ -32,8 +35,9 @@
   body {
     background-color: var(--color-background);
     color: var(--color-neutral-0);
-    font-family: 'Archivo Variable', sans-serif;
+    font-family: 'Noto Serif TC', serif;
     font-weight: 400;
+    font-display: swap;
   }
 }
 
@@ -43,19 +47,19 @@
   }
 
   .header-1 {
-    @apply text-[56px] tracking-[0.5px];
+    @apply text-[56px] tracking-[0.5px] font-bold;
   }
 
   .header-2 {
-    @apply text-[32px] tracking-[0.4px];
+    @apply text-[32px] tracking-[0.4px] font-bold;
   }
 
   .header-3 {
-    @apply text-[28px] tracking-[0.3px];
+    @apply text-[28px] tracking-[0.3px] font-medium;
   }
 
   .header-4 {
-    @apply text-[24px] tracking-[0.3px];
+    @apply text-[24px] tracking-[0.3px] font-normal;
   }
 
   .header-5 {

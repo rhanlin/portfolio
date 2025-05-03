@@ -16,7 +16,7 @@ const Hello = component$(() => {
             src="https://avatars.githubusercontent.com/u/47688017?v=4"
           />
           <div class="flex flex-col">
-            <Text as="h4">Hi, I’m Rhan0.</Text>
+            <Text as="h4">Hi, I'm Rhan0.</Text>
             <Text as="label" class="text-neutral-10/30">
               Front-end developer
             </Text>
