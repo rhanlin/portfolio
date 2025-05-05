@@ -2,8 +2,8 @@ import { component$ } from '@builder.io/qwik';
 import Text from '~/components/share/Text';
 import Button from '~/components/share/Button';
 import Badge from '~/components/share/Badge';
+import ArrowSVG from '~/assets/icons/arrow.svg?url';
 import { type Skill } from '~/types/skills';
-import ArrowSVG from '/icons/arrow.svg';
 
 export type WorkProps = {
   header: string;

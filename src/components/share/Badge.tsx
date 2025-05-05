@@ -7,24 +7,21 @@ type BadgeProps = {
   url: string;
 };
 
-const Badge = component$<BadgeProps>(
-  //https://img.shields.io/badge/-Playcanvas-303030?style=flat-square&logo=Playcanvas
-  ({ skill, url, class: className }) => {
-    const error = useSignal(false);
+const Badge = component$<BadgeProps>(({ skill, url, class: className }) => {
+  const error = useSignal(false);
 
-    return !error.value ? (
-      <img
-        src={url}
-        alt={skill}
-        class={clsx('h-6 w-auto ', className)}
-        onError$={() => (error.value = true)}
-        width={24}
-        height={24}
-      />
-    ) : (
-      <span class="font-light bg-neutral-10/10 text-neutral-10">Badge</span>
-    );
-  },
-);
+  return !error.value ? (
+    <img
+      src={url}
+      alt={skill}
+      class={clsx('h-6 w-auto ', className)}
+      onError$={() => (error.value = true)}
+      width={24}
+      height={24}
+    />
+  ) : (
+    <span class="font-light bg-neutral-10/10 text-neutral-10">Badge</span>
+  );
+});
 
 export default Badge;

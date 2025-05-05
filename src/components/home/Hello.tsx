@@ -2,8 +2,8 @@ import { component$ } from '@builder.io/qwik';
 import Text from '~/components/share/Text';
 import Avatar from '~/components/share/Avatar';
 import Button from '~/components/share/Button';
-import CV from '/icons/cv.svg';
-import GithubSVG from '/icons/github.svg';
+import CV from '~/assets/icons/cv.svg?url';
+import GithubSVG from '~/assets/icons/github.svg?url';
 
 const Hello = component$(() => {
   return (
