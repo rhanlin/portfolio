@@ -9,10 +9,10 @@ const MySkills = component$(() => {
     <div id="contact" class="relative w-full">
       <div class="flex flex-col">
         <Text as="h3" class="mb-2">
-          Contact me
+          {$localize`Contact me`}
         </Text>
         <Text as="p" class="mb-9.5">
-          Make a contact via email.
+          {$localize`Make a contact via email.`}
         </Text>
         <Button as="a" variant="icon" size="icon" class="w-17.5 h-17.5">
           <img src={CV} alt="CV" width={28} height={28} loading="lazy" />

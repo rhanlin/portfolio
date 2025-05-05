@@ -18,14 +18,14 @@ const MySkills = component$(() => {
         <div class="absolute z-10 top-[1px] left-[1px] w-auto h-[calc(100%-2px)] px-9.5 py-9.5 backdrop-blur-[32px]">
           <div class="max-w-[260px] flex flex-col m-0">
             <Text as="p" class="mb-3.5">
-              I constantly try to improve myself
+              {$localize`I constantly try to improve myself`}
             </Text>
             <Text as="h2" class="mb-6.5">
-              Currently, I am learning Web3D.
+              {$localize`Currently, I am learning Web3D.`}
             </Text>
             <Text as="h5">
-              I am still learning TypeScript, and I also continuously practice
-              prompt engineering.
+              {$localize`I am still learning TypeScript, and I also continuously practice
+              prompt engineering.`}
             </Text>
           </div>
         </div>
