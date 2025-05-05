@@ -3,22 +3,18 @@ import clsx from 'clsx';
 
 type BadgeProps = {
   skill: string;
-  logo: string;
-  color: string;
   class?: string;
+  url: string;
 };
 
 const Badge = component$<BadgeProps>(
   //https://img.shields.io/badge/-Playcanvas-303030?style=flat-square&logo=Playcanvas
-  ({ skill, logo, color, class: className }) => {
+  ({ skill, url, class: className }) => {
     const error = useSignal(false);
-    const badgeUrl = `https://img.shields.io/badge/${encodeURIComponent(
-      skill,
-    )}-${color}?style=flat&logo=${encodeURIComponent(logo)}`;
 
-    return badgeUrl && !error.value ? (
+    return !error.value ? (
       <img
-        src={badgeUrl}
+        src={url}
         alt={skill}
         class={clsx('h-6 w-auto ', className)}
         onError$={() => (error.value = true)}

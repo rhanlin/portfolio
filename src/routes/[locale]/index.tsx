@@ -180,8 +180,7 @@ export default component$(() => {
                 <Badge
                   key={s.skill}
                   skill={s.skill}
-                  logo={s.logo}
-                  color={s.color}
+                  url={s.badgeUrl}
                   class="mr-2"
                 />
               ))}
