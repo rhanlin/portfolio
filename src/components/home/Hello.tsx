@@ -1,7 +1,7 @@
 import { component$ } from '@builder.io/qwik';
-import Text from '~/components/Text';
-import Avatar from '~/components/Avatar';
-import Button from '~/components/Button';
+import Text from '~/components/share/Text';
+import Avatar from '~/components/share/Avatar';
+import Button from '~/components/share/Button';
 import CV from '/icons/cv.svg';
 import GithubSVG from '/icons/github.svg';
 
@@ -16,9 +16,9 @@ const Hello = component$(() => {
             src="https://avatars.githubusercontent.com/u/47688017?v=4"
           />
           <div class="flex flex-col">
-            <Text as="h4">Hi, I'm Rhan0.</Text>
+            <Text as="h4">{$localize`Hi, I'm Rhan0.`}</Text>
             <Text as="label" class="text-neutral-10/30">
-              Front-end developer
+              {$localize`Front-end developer`}
             </Text>
           </div>
         </div>
@@ -38,12 +38,12 @@ const Hello = component$(() => {
         </div>
       </div>
       <div class="max-w-[600px] mb-7">
-        <Text as="h1">Passionate about beauty and innovation.</Text>
+        <Text as="h1">{$localize`Passionate about beauty and innovation.`}</Text>
       </div>
       <div class="max-w-[483px]">
         <Text as="h5">
-          I love exploring new knowledge, embracing challenges, and growing
-          together with my team through the process.
+          {$localize`I love exploring new knowledge, embracing challenges, and growing
+          together with my team through the process.`}
         </Text>
       </div>
     </>

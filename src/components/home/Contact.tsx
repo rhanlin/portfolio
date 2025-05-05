@@ -1,6 +1,6 @@
 import { component$ } from '@builder.io/qwik';
-import Text from '~/components/Text';
-import Button from '~/components/Button';
+import Text from '~/components/share/Text';
+import Button from '~/components/share/Button';
 import CV from '/icons/cv.svg';
 import GithubSVG from '/icons/github.svg';
 

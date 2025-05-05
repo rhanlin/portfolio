@@ -14,7 +14,7 @@
   "type": "module",
   "scripts": {
     "build": "qwik build",
-    "build.client": "vite build",
+    "build.client": "vite build && npm run i18n-translate",
     "build.preview": "vite build --ssr src/entry.preview.tsx",
     "build.types": "tsc --incremental --noEmit",
     "deploy": "echo 'Run \"npm run qwik add\" to install a server adapter'",
@@ -22,12 +22,17 @@
     "dev.debug": "node --inspect-brk ./node_modules/vite/bin/vite.js --mode ssr --force",
     "fmt": "prettier --write .",
     "fmt.check": "prettier --check .",
+    "i18n-extract": "node_modules/.bin/localize-extract -s \"dist/build/*.js\" -f json -o src/locale/message.en.json",
+    "i18n-extract:watch": "vite build --watch & node_modules/.bin/localize-extract -s \"dist/build/*.js\" -f json -o src/locales/message.en.json --watch",
+    "i18n-translate": "node_modules/.bin/localize-translate -s \"*.js\" -t src/locale/message.*.json -o dist/build/{{LOCALE}} -r ./dist/build",
     "lint": "eslint \"src/**/*.ts*\"",
     "preview": "qwik build preview && vite preview --open",
     "start": "vite --open --mode ssr",
     "qwik": "qwik"
   },
   "devDependencies": {
+    "@angular/compiler": "^16.2.2",
+    "@angular/compiler-cli": "^16.2.2",
     "@builder.io/qwik": "^1.13.0",
     "@builder.io/qwik-city": "^1.13.0",
     "@types/eslint": "^9.6.1",
@@ -44,7 +49,7 @@
     "vite-tsconfig-paths": "^4.3.2"
   },
   "dependencies": {
-    "@fontsource-variable/archivo": "^5.2.5",
+    "@angular/localize": "^16.2.2",
     "@tailwindcss/vite": "^4.1.4",
     "clsx": "^2.1.1",
     "lodash-es": "^4.17.21",

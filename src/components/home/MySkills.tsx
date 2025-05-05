@@ -1,6 +1,6 @@
 import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik';
 import { FILLMODE_NONE, RESOLUTION_AUTO } from 'playcanvas';
-import Text from '~/components/Text';
+import Text from '~/components/share/Text';
 import { Application } from '~/lib/playcanvas';
 import MySkillsCanvas from './MySkillsCanvas';
 

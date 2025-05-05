@@ -4,8 +4,8 @@ import { Entity } from '~/lib/playcanvas';
 import { Camera, EnvAtlas, PostEffects } from '~/lib/playcanvas/components';
 import { OrbitControls, ShadowCatcher } from '~/lib/playcanvas/scripts';
 import { useApp } from '~/lib/playcanvas/context/use-app';
-import AgentMetaHuman from '~/routes/home/AgentMetaHuman';
-import AgentUltraBoy from '~/routes/home/AgentUltraBoy';
+import AgentMetaHuman from '~/components/home/AgentMetaHuman';
+import AgentUltraBoy from '~/components/home/AgentUltraBoy';
 import { PosteffectWatercolor } from '~/lib/playcanvas/scripts/posteffects';
 
 type CanvasProps = {

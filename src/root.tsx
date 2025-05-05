@@ -5,9 +5,8 @@ import {
   ServiceWorkerRegister,
 } from '@builder.io/qwik-city';
 import { RouterHead } from './components/router-head/router-head';
-
-import '@fontsource-variable/archivo';
 import './global.css';
+import { useI18n } from './i18n';
 
 export default component$(() => {
   /**
@@ -17,21 +16,27 @@ export default component$(() => {
    * Don't remove the `<head>` and `<body>` elements.
    */
 
+  useI18n();
   return (
     <QwikCityProvider>
       <head>
         <meta charset="utf-8" />
-        {!isDev && (
+        <link
+          rel="manifest"
+          href={`${import.meta.env.BASE_URL}manifest.json`}
+        />
+        {/* {!isDev && (
           <link
             rel="manifest"
             href={`${import.meta.env.BASE_URL}manifest.json`}
           />
-        )}
+        )} */}
         <RouterHead />
       </head>
-      <body lang="en">
+      <body>
         <RouterOutlet />
-        {!isDev && <ServiceWorkerRegister />}
+        {/* {!isDev && <ServiceWorkerRegister />} */}
+        <ServiceWorkerRegister />
       </body>
     </QwikCityProvider>
   );
