@@ -8,10 +8,10 @@ import GithubSVG from '~/assets/icons/github.svg?url';
 const Hello = component$(() => {
   return (
     <>
-      <div class="w-full flex justify-between mb-10">
-        <div class="flex items-center">
+      <div class="w-full flex flex-col justify-between xl:flex-row mb-10">
+        <div class="flex items-center mb-4 xl:mb-0">
           <Avatar
-            class="mr-8"
+            class="mr-8 min-w-[48px]"
             alt="Rhan0"
             src="https://avatars.githubusercontent.com/u/47688017?v=4"
           />
@@ -23,10 +23,20 @@ const Hello = component$(() => {
           </div>
         </div>
         <div class="flex">
-          <Button as="a" variant="icon" size="icon" class="mr-3">
+          <Button
+            as="a"
+            variant="icon"
+            size="icon"
+            class="mr-3 border-neutral-60/50 bg-neutral-80/50 active:bg-neutral-60/50 hover:bg-neutral-60/30"
+          >
             <img src={CV} alt="CV" width={24} height={24} loading="lazy" />
           </Button>
-          <Button as="a" variant="icon" size="icon">
+          <Button
+            as="a"
+            variant="icon"
+            size="icon"
+            class="border-neutral-60/50 bg-neutral-80/50 active:bg-neutral-60/50 hover:bg-neutral-60/30"
+          >
             <img
               src={GithubSVG}
               alt="github"

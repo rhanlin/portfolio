@@ -1,5 +1,6 @@
 import { $, component$, Slot, useSignal } from '@builder.io/qwik';
 import { useLocation } from '@builder.io/qwik-city';
+import clsx from 'clsx';
 import LanguageSVG from '~/assets/icons/language.svg?component';
 import Text from './Text';
 import Button from './Button';
@@ -28,35 +29,39 @@ const NavItem = component$<NavItemProps>(({ href }) => {
   );
 });
 
-const LanguagePopoverButton = component$(() => {
-  const isOpen = useSignal(false);
-  const location = useLocation();
-  const buttonRef = useSignal<HTMLButtonElement>();
+type LanguagePopoverButtonProps = { class?: string };
 
-  return (
-    <>
-      <Button
-        ref={buttonRef}
-        variant="ghost"
-        size="icon"
-        class="group w-6 h-6"
-        onClick$={() => (isOpen.value = !isOpen.value)}
-      >
-        <LanguageSVG
-          class="text-neutral-10/20 group-active:text-neutral-10/50 group-hover:text-neutral-10/30 group-disabled:text-neutral-10/10"
-          width={24}
-          height={24}
+const LanguagePopoverButton = component$<LanguagePopoverButtonProps>(
+  ({ class: className }) => {
+    const isOpen = useSignal(false);
+    const location = useLocation();
+    const buttonRef = useSignal<HTMLButtonElement>();
+
+    return (
+      <>
+        <Button
+          ref={buttonRef}
+          variant="ghost"
+          size="icon"
+          class={clsx('group w-6 h-6', className)}
+          onClick$={() => (isOpen.value = !isOpen.value)}
+        >
+          <LanguageSVG
+            class="text-neutral-10/20 group-active:text-neutral-10/50 group-hover:text-neutral-10/30 group-disabled:text-neutral-10/10"
+            width={24}
+            height={24}
+          />
+        </Button>
+        <LanguagePopover
+          location={location}
+          isOpen={isOpen.value}
+          onClose={$(() => (isOpen.value = false))}
+          buttonRef={buttonRef}
         />
-      </Button>
-      <LanguagePopover
-        location={location}
-        isOpen={isOpen.value}
-        onClose={$(() => (isOpen.value = false))}
-        buttonRef={buttonRef}
-      />
-    </>
-  );
-});
+      </>
+    );
+  },
+);
 
 const Header = component$(() => {
   const NavigationInfo = [
@@ -76,15 +81,18 @@ const Header = component$(() => {
 
   return (
     <header>
-      <div class="w-full pt-19 pb-14">
-        <div class="flex justify-between my-6">
+      <div class="relative w-full pb-8 pt-14 xl:pb-14 xl:pt-18">
+        <div class="flex justify-center xl:justify-between my-6">
           <div class="flex items-center">
             <Text as="h4">Rhan0</Text>
             <Text as="h4" class="text-neutral-10/25">
               {`, ${$localize`Front-end`}`}
             </Text>
           </div>
-          <ul class="flex items-center">
+
+          <LanguagePopoverButton class="absolute right-0 xl:hidden" />
+
+          <ul class="hidden xl:flex xl:items-center">
             {NavigationInfo.map((item) => (
               <li key={item.key} class="mr-9">
                 <NavItem href={item.key}>{item.title}</NavItem>

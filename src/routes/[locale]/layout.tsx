@@ -49,7 +49,7 @@ export const onGet: RequestHandler = async ({
 export default component$(() => {
   return (
     <>
-      <main class="mx-auto my-0 max-w-[1240px] px-3">
+      <main class="mx-auto my-0 max-w-[1240px] min-w-[375px] px-3">
         <Header />
         <section>
           <Slot />

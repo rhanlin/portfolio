@@ -95,9 +95,9 @@ export default component$(() => {
   ];
 
   return (
-    <div class="grid grid-cols-12 gap-5 mb-30">
+    <div class="grid grid-cols-1 gap-4 xl:grid-cols-12 xl:gap-5 mb-30">
       <Card
-        wrapperClass="col-span-8 hello-card-bg-gradient h-[480px]"
+        wrapperClass="xl:col-span-8 hello-card-bg-gradient xl:h-[480px]"
         variant="30-50-50-30"
         class="bg-neutral-80 relative"
       >
@@ -105,7 +105,7 @@ export default component$(() => {
         <Hello />
       </Card>
       <Card
-        wrapperClass="col-span-4 h-[480px]"
+        wrapperClass="h-[400px] xl:h-[480px] xl:col-span-4 "
         variant="50-30-30-50"
         class="px-0! py-0!"
       >
@@ -115,7 +115,7 @@ export default component$(() => {
       {workList.map((work, i) => (
         <Card
           key={work.id}
-          wrapperClass="col-span-6 h-[554px]"
+          wrapperClass="xl:col-span-6 h-[400px] xl:h-[554px]"
           variant={
             i === 0 ? '50-30-30-30' : i === 1 ? '30-50-30-30' : '30-30-30-30'
           }
@@ -135,14 +135,14 @@ export default component$(() => {
         </Card>
       ))}
       <Card
-        wrapperClass="col-span-9 hello-card-bg-gradient"
+        wrapperClass="xl:col-span-9 hello-card-bg-gradient"
         class="px-0! py-0!"
         variant="50-30-50-30"
       >
         <MySkills />
       </Card>
       <Card
-        wrapperClass="col-span-3"
+        wrapperClass="h-[400px] xl:col-span-3"
         class="relative px-0! py-0! bg-primary"
         variant="30-50-30-50"
       >

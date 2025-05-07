@@ -57,7 +57,7 @@ export default component$(
         >
           <div
             class={clsx(
-              'px-15 py-13 w-full h-full bg-cover cursor-pointer',
+              'px-6 py-6 xl:px-15 xl:py-13 w-full h-full bg-cover cursor-pointer',
               className,
             )}
             style={

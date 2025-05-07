@@ -19,7 +19,7 @@ const Work = component$<WorkProps>(
     return (
       <div class="p-1 h-full flex flex-col justify-between">
         <div class="">
-          <Text as="h3" class="max-w-[350px] mx-auto my-0 text-center">
+          <Text as="h3" class="max-w-[350px] mx-auto my-4 xl:my-0 text-center">
             {header}
           </Text>
         </div>
