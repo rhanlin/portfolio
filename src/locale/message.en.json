@@ -1,16 +1,17 @@
 {
   "locale": "en",
   "translations": {
-    "1708328803820649461": "Hi, I'm Rhan0.",
-    "8417301529458038555": "Front-end developer",
-    "111004203038230814": "Passionate about beauty and innovation.",
-    "1442707743644712322": "I love exploring new knowledge, embracing challenges, and growing\n          together with my team through the process.",
-    "1153721192129533394": "Contact me",
-    "8934078322778828689": "Make a contact via email.",
+    "4545107245652912732": "Rhan0 - Front-end Developer",
+    "6777974573583289938": "description",
+    "6098421561172508206": "Hi 👋,",
     "6522877977962061564": "Present",
     "4342625008558026850": "Skills",
     "7922989125096435449": "Contact",
     "5874070398136306497": "Front-end",
+    "1708328803820649461": "Hi, I'm Rhan0.",
+    "8417301529458038555": "Front-end developer",
+    "8103880997206040068": "Always learning, always building.",
+    "1442707743644712322": "I love exploring new knowledge, embracing challenges, and growing\n          together with my team through the process.",
     "7631394398544177181": "VIVERSE Wrold",
     "7536353439778299794": "VIVERSE World is a metaverse platform that allows users to create, explore, and interact in a virtual environment. It offers a range of tools and features for content creation, social interaction, and immersive experiences.",
     "6511432998130513736": "VIVERSE Creator Tools SDK",
@@ -33,11 +34,10 @@
     "2631667971539946459": "CEC SSO",
     "1234540696324515749": "Single Sign-On (SSO) web page for the CEC (Continental Engineering Corporation) backend system.",
     "3307214558906712688": "In progress",
-    "4545107245652912732": "Rhan0 - Front-end Developer",
-    "6777974573583289938": "description",
-    "6098421561172508206": "Hi 👋,",
     "4306186356569702541": "I constantly try to improve myself",
     "411884299798811299": "Currently, I am learning Web3D.",
-    "7885123525446150261": "I am still learning TypeScript, and I also continuously practice\n              prompt engineering."
+    "7885123525446150261": "I am still learning TypeScript, and I also continuously practice\n              prompt engineering.",
+    "1153721192129533394": "Contact me",
+    "8934078322778828689": "Make a contact via email."
   }
 }

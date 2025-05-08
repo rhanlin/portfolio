@@ -48,7 +48,7 @@ const Hello = component$(() => {
         </div>
       </div>
       <div class="mb-7">
-        <Text as="h1">{$localize`Passionate about beauty and innovation.`}</Text>
+        <Text as="h1">{$localize`Always learning, always building.`}</Text>
       </div>
       <div class="max-w-[483px]">
         <Text as="h5" class="leading-8">
