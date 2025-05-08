@@ -51,6 +51,21 @@ const skillList: Record<string, SkillConfig> = {
   },
   figma: { skill: 'Figma', logo: 'figma', color: 'black' },
   mysql: { skill: 'Mysql', logo: 'mysql', color: 'black' },
+  vuetify: {
+    skill: 'Vuetify',
+    logo: 'vuetify',
+    customUrl: `${BadgeDomain}/Vuetify-1867C0?style=flat&logo=vuetify&logoColor=AEDDFF&color=black`,
+  },
+  socketIo: {
+    skill: 'Socket.io',
+    logo: 'socket.io',
+    customUrl: `${BadgeDomain}/Socket.io-black?style=flate&logo=socket.io&badgeColor=010101&color=black`,
+  },
+  elementUi: {
+    skill: 'Element.ui',
+    logo: 'element.ui',
+    customUrl: `${BadgeDomain}/-ElementUI-000000?style=flat&logo=element.ui`,
+  },
 };
 
 export const SKILLS: Record<string, Skill> = Object.fromEntries(

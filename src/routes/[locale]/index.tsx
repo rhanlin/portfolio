@@ -42,7 +42,7 @@ export default component$(() => {
       id: 'cytc',
       header: $localize`Grain Temperature Monitoring System`,
       title: $localize`cytcpro.com`,
-      skills: [SKILLS.nuxt, SKILLS.typescript, SKILLS.tailwind, SKILLS.figma],
+      skills: [SKILLS.vue, SKILLS.typescript, SKILLS.tailwind, SKILLS.figma],
       status: 'Completed',
       description: $localize`CYTC provides a grain storage temperature monitoring and management solution, improving traditional crop storage practices. With a digital service, users can easily manage and monitor the current condition of stored grains.`,
       backgroundImage: '/images/cytcpro.webp',
@@ -60,7 +60,7 @@ export default component$(() => {
       id: 'fpc',
       header: $localize`Custom Ship Management System`,
       title: $localize`FPC E-Commerce`,
-      skills: [SKILLS.nuxt, SKILLS.typescript],
+      skills: [SKILLS.nuxt, SKILLS.typescript, SKILLS.elementUi],
       status: 'Completed',
       description: $localize`Transformed previously unstructured form management into a customized shipping system, offering real-time monitoring, comprehensive data analytics, and streamlined document approvals with accurate tracking of review status.`,
       backgroundImage: '/images/fpc-ecommerce.webp',
@@ -69,7 +69,7 @@ export default component$(() => {
       id: 'amway-live-go',
       header: $localize`E-commerce Website Redesign`,
       title: $localize`Amway Live Go`,
-      skills: [SKILLS.nuxt, SKILLS.typescript],
+      skills: [SKILLS.nuxt, SKILLS.typescript, SKILLS.vuetify, SKILLS.socketIo],
       status: 'Completed',
       description: $localize`Redesigned Amway Taiwan’s retail website to ensure users can easily find the information and products they need. Integrated Google Analytics tracking to monitor user behavior and optimize both user experience and marketing strategies. Additionally, incorporated live streaming services to enhance user trust and loyalty, effectively boosting site traffic and conversion rates.`,
       backgroundImage: '/images/amway-live-go.webp',
@@ -78,7 +78,7 @@ export default component$(() => {
       id: 'tsmc',
       header: $localize`Streamlined Welfare Website Management`,
       title: $localize`TSMC CMS Revamp`,
-      skills: [SKILLS.next, SKILLS.typescript],
+      skills: [SKILLS.next, SKILLS.typescript, SKILLS.tailwind],
       status: 'Completed',
       description: $localize`A complete revamp of the Welfare Committee website CMS backend. The new backend features a "card-style" design, allowing content editors to intuitively drag and arrange cards for easy layout management.`,
       backgroundImage: '/images/tsmc-cms-revamp.webp',
@@ -95,9 +95,9 @@ export default component$(() => {
   ];
 
   return (
-    <div class="grid grid-cols-1 gap-4 xl:grid-cols-12 xl:gap-5 mb-30">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-5 mb-30">
       <Card
-        wrapperClass="xl:col-span-8 hello-card-bg-gradient xl:h-[480px]"
+        wrapperClass="md:col-span-8 hello-card-bg-gradient md:h-[460px]"
         variant="30-50-50-30"
         class="bg-neutral-80 relative"
       >
@@ -105,7 +105,7 @@ export default component$(() => {
         <Hello />
       </Card>
       <Card
-        wrapperClass="h-[400px] xl:h-[480px] xl:col-span-4 "
+        wrapperClass="h-[400px] md:h-[460px] md:col-span-4 "
         variant="50-30-30-50"
         class="px-0! py-0!"
       >
@@ -115,7 +115,7 @@ export default component$(() => {
       {workList.map((work, i) => (
         <Card
           key={work.id}
-          wrapperClass="xl:col-span-6 h-[400px] xl:h-[554px]"
+          wrapperClass="md:col-span-6 h-[400px] md:h-[480px] lg:h-[554px]"
           variant={
             i === 0 ? '50-30-30-30' : i === 1 ? '30-50-30-30' : '30-30-30-30'
           }
@@ -135,14 +135,14 @@ export default component$(() => {
         </Card>
       ))}
       <Card
-        wrapperClass="xl:col-span-9 hello-card-bg-gradient"
+        wrapperClass="md:col-span-9 hello-card-bg-gradient"
         class="px-0! py-0!"
         variant="50-30-50-30"
       >
         <MySkills />
       </Card>
       <Card
-        wrapperClass="h-[400px] xl:col-span-3"
+        wrapperClass="h-[380px] md:col-span-3"
         class="relative px-0! py-0! bg-primary"
         variant="30-50-30-50"
       >
