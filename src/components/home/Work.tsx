@@ -19,12 +19,12 @@ const Work = component$<WorkProps>(
     return (
       <div class="p-1 h-full flex flex-col justify-between">
         <div class="">
-          <Text as="h3" class="max-w-[350px] mx-auto my-4 xl:my-0 text-center">
+          <Text as="h3" class="max-w-[350px] mx-auto my-4 md:my-0 text-center">
             {header}
           </Text>
         </div>
         <div class="flex flex-col">
-          <div class="flex items-end mb-4">
+          <div class="flex items-end mb-5">
             <Text as="h2" class="max-w-[300px]">
               {title}
             </Text>
@@ -73,7 +73,7 @@ const Work = component$<WorkProps>(
                 key={s.skill}
                 skill={s.skill}
                 url={s.badgeUrl}
-                class="mr-2"
+                class="mr-2 md:mb-2"
               />
             ))}
           </div>

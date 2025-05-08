@@ -81,8 +81,8 @@ const Header = component$(() => {
 
   return (
     <header>
-      <div class="relative w-full pb-8 pt-14 xl:pb-14 xl:pt-18">
-        <div class="flex justify-center xl:justify-between my-6">
+      <div class="relative w-full pb-8 pt-14 md:pb-14 md:pt-18">
+        <div class="flex justify-center md:justify-between my-6">
           <div class="flex items-center">
             <Text as="h4">Rhan0</Text>
             <Text as="h4" class="text-neutral-10/25">
@@ -90,9 +90,9 @@ const Header = component$(() => {
             </Text>
           </div>
 
-          <LanguagePopoverButton class="absolute right-0 xl:hidden" />
+          <LanguagePopoverButton class="absolute right-0 md:hidden" />
 
-          <ul class="hidden xl:flex xl:items-center">
+          <ul class="hidden md:flex md:items-center">
             {NavigationInfo.map((item) => (
               <li key={item.key} class="mr-9">
                 <NavItem href={item.key}>{item.title}</NavItem>

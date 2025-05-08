@@ -8,8 +8,8 @@ import GithubSVG from '~/assets/icons/github.svg?url';
 const Hello = component$(() => {
   return (
     <>
-      <div class="w-full flex flex-col justify-between xl:flex-row mb-10">
-        <div class="flex items-center mb-4 xl:mb-0">
+      <div class="w-full flex flex-col justify-between md:flex-row mb-10">
+        <div class="flex items-center mb-4 md:mb-0">
           <Avatar
             class="mr-8 min-w-[48px]"
             alt="Rhan0"
@@ -47,11 +47,11 @@ const Hello = component$(() => {
           </Button>
         </div>
       </div>
-      <div class="max-w-[600px] mb-7">
+      <div class="mb-7">
         <Text as="h1">{$localize`Passionate about beauty and innovation.`}</Text>
       </div>
       <div class="max-w-[483px]">
-        <Text as="h5">
+        <Text as="h5" class="leading-8">
           {$localize`I love exploring new knowledge, embracing challenges, and growing
           together with my team through the process.`}
         </Text>
