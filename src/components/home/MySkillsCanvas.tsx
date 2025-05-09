@@ -1,5 +1,5 @@
-import { $, component$, noSerialize, useSignal } from '@builder.io/qwik';
-import { Color, Entity as pcEntity } from 'playcanvas';
+import { component$, noSerialize, useSignal } from '@builder.io/qwik';
+import { Color, type Entity as pcEntity } from 'playcanvas';
 import { Entity } from '~/lib/playcanvas';
 import {
   Camera,
@@ -7,7 +7,7 @@ import {
   EnvAtlas,
   RenderAssetAnimation,
 } from '~/lib/playcanvas/components';
-import { PointerEventCallback } from '~/lib/playcanvas/Entity';
+// import { type PointerEventCallback } from '~/lib/playcanvas/Entity';
 import { OrbitControls, TransparentSkybox } from '~/lib/playcanvas/scripts';
 import { useApp } from '~/lib/playcanvas/context/use-app';
 import { useMaterial } from '~/lib/playcanvas/hooks/use-material';
@@ -20,16 +20,16 @@ const Canvas = component$(() => {
 
   const focusEntity = useSignal<pcEntity | null>(null);
 
-  const onPointerDown = $<PointerEventCallback>((event) =>
-    console.log('pointer down', event),
-  );
+  // const onPointerDown = $<PointerEventCallback>((event) =>
+  //   console.log('pointer down', event),
+  // );
 
   const planeMaterial = useMaterial({
     diffuse: noSerialize(new Color().fromString('#7760F6')),
   });
-  const ballMaterial = useMaterial({
-    diffuse: noSerialize(new Color().fromString('#808080')),
-  });
+  // const ballMaterial = useMaterial({
+  //   diffuse: noSerialize(new Color().fromString('#808080')),
+  // });
 
   const entities = [];
 

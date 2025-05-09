@@ -65,6 +65,10 @@ export interface PostControls {
     intensity: number;
     blurLevel: number;
   };
+  sepia: {
+    enabled: boolean;
+    amount: number;
+  };
   grading: {
     enabled: boolean;
     brightness: number;
@@ -96,6 +100,12 @@ export interface PostControls {
     blurRings: number;
     blurRingPoints: number;
     highQuality: boolean;
+  };
+  bokeh: {
+    enabled: boolean;
+    aperture: number;
+    maxBlur: number;
+    focus: number;
   };
 }
 

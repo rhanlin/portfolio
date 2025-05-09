@@ -1,22 +1,27 @@
-import { component$, $, useSignal, useVisibleTask$ } from '@builder.io/qwik';
-import { RouteLocation } from '@builder.io/qwik-city';
+import {
+  component$,
+  useSignal,
+  useVisibleTask$,
+  type PropFunction,
+} from '@builder.io/qwik';
+import { type RouteLocation } from '@builder.io/qwik-city';
 import Text from './Text';
 
 type LanguagePopoverProps = {
   location: RouteLocation;
   isOpen: boolean;
-  onClose: () => void;
+  onClose$: PropFunction<(param: any) => any>;
   buttonRef: { value: HTMLButtonElement | undefined };
 };
 
 const LocaleLink = ({
   locale,
   location,
-  onClose,
+  onClose$,
 }: {
   locale: string;
   location: RouteLocation;
-  onClose: () => void;
+  onClose$: PropFunction<(param: any) => any>;
 }) => (
   <li class="group px-4 py-2 cursor-pointer hover:bg-neutral-10/5 transition-colors">
     {locale === location.params.locale ? (
@@ -26,7 +31,7 @@ const LocaleLink = ({
     ) : (
       <a
         href={`/${locale}${location.url.pathname.slice(3)}${location.url.search}`}
-        onClick$={$(() => onClose())}
+        onClick$={onClose$}
       >
         <Text
           as="label"
@@ -40,7 +45,7 @@ const LocaleLink = ({
 );
 
 const LanguagePopover = component$<LanguagePopoverProps>(
-  ({ location, isOpen, onClose, buttonRef }) => {
+  ({ location, isOpen, onClose$, buttonRef }) => {
     const popoverRef = useSignal<HTMLDivElement>();
     const position = useSignal({ top: 0, left: 0 });
 
@@ -70,8 +75,8 @@ const LanguagePopover = component$<LanguagePopoverProps>(
         }}
       >
         <ul class="py-2">
-          <LocaleLink locale="en" location={location} onClose={onClose} />
-          <LocaleLink locale="tw" location={location} onClose={onClose} />
+          <LocaleLink locale="en" location={location} onClose$={onClose$} />
+          <LocaleLink locale="tw" location={location} onClose$={onClose$} />
         </ul>
       </div>
     );

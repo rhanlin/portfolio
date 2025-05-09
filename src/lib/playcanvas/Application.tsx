@@ -55,7 +55,7 @@ interface ApplicationProps {
   /** The ID of the canvas element */
   id: string;
   /** The class name to attach to the canvas component */
-  className?: string;
+  class?: string;
   /** A style object added to the canvas component */
   style?: CSSProperties;
   /** Controls how the canvas fills the window and resizes when the window changes. */
@@ -87,7 +87,7 @@ type ApplicationWithoutCanvasProps = ApplicationProps & {
 export const Application = component$<ApplicationProps>(
   ({
     id,
-    className = 'pc-app',
+    class: className = 'pc-app',
     style = { width: '100%', height: '100%' },
     ...props
   }) => {

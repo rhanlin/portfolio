@@ -1,8 +1,8 @@
-import { Entity as pcEntity, Color, Texture } from 'playcanvas';
+import { type Entity as pcEntity, Color, type Texture } from 'playcanvas';
 import {
   component$,
   noSerialize,
-  PropFunction,
+  type PropFunction,
   useSignal,
   useVisibleTask$,
 } from '@builder.io/qwik';
@@ -15,7 +15,7 @@ import {
 } from '~/lib/playcanvas/components';
 import { useModel } from '~/lib/playcanvas/hooks/use-model';
 import { useMaterial } from '~/lib/playcanvas/hooks/use-material';
-import { EntityProps } from '~/lib/playcanvas/Entity';
+import { type EntityProps } from '~/lib/playcanvas/Entity';
 import { AnimStateGraphData } from '~/constants/agent';
 import { ModelAnimationAssets } from '~/lib/playcanvas/assets/meta-human/animation';
 import { PreloadTextures } from '~/lib/playcanvas/assets/meta-human/texture';
@@ -36,7 +36,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
       }
     });
 
-    const { data: asset, isPending } = useModel('/glb/meta-human/model.glb');
+    const { data: asset } = useModel('/glb/meta-human/model.glb');
 
     const hairMat = useMaterial({
       name: 'eyemat',

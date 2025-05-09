@@ -1,4 +1,4 @@
-import { component$, Slot } from '@builder.io/qwik';
+import { $, component$, type PropFunction, Slot } from '@builder.io/qwik';
 import clsx from 'clsx';
 import { tv, type VariantProps } from 'tailwind-variants';
 
@@ -30,7 +30,7 @@ type CardProps = VariantProps<typeof cardVariants> & {
   class?: string;
   wrapperClass?: string;
   backgroundImage?: string;
-  onClick?: () => void;
+  onClick$?: PropFunction<(param: any) => any>;
 };
 
 export default component$(
@@ -39,7 +39,7 @@ export default component$(
     wrapperClass,
     variant,
     backgroundImage,
-    onClick,
+    onClick$ = $(() => {}),
   }: CardProps) => {
     return (
       <div
@@ -65,7 +65,7 @@ export default component$(
                 ? { backgroundImage: `url(${backgroundImage})` }
                 : {}
             }
-            onClick$={onClick}
+            onClick$={onClick$}
           >
             <Slot />
           </div>

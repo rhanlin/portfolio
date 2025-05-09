@@ -55,7 +55,7 @@ const LanguagePopoverButton = component$<LanguagePopoverButtonProps>(
         <LanguagePopover
           location={location}
           isOpen={isOpen.value}
-          onClose={$(() => (isOpen.value = false))}
+          onClose$={$(() => (isOpen.value = false))}
           buttonRef={buttonRef}
         />
       </>

@@ -1,12 +1,12 @@
 import {
   Color,
+  type StandardMaterial,
+  type Texture,
+  Vec2,
   ANIM_GREATER_THAN,
   ANIM_LESS_THAN,
   BLEND_NONE,
   DITHER_NONE,
-  Vec2,
-  StandardMaterial,
-  Texture,
 } from 'playcanvas';
 import { PreloadTextures } from '~/lib/playcanvas/assets/ultra-boy/texture';
 import { AnimationName } from '~/lib/playcanvas/assets/ultra-boy/animation';

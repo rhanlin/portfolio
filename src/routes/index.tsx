@@ -1,4 +1,4 @@
-import { RequestHandler } from '@builder.io/qwik-city';
+import { type RequestHandler } from '@builder.io/qwik-city';
 import { extractLang } from '~/i18n';
 
 export const onGet: RequestHandler = async ({ request, redirect, url }) => {

@@ -1,9 +1,9 @@
 import { TEXTURETYPE_RGBP } from 'playcanvas';
 import { useSignal, useVisibleTask$ } from '@builder.io/qwik';
-import { fetchAsset } from '../utils/fetch-asset';
+import { AssetType, fetchAsset } from '../utils/fetch-asset';
 import { useApp } from '../context/use-app';
 
-export const useAsset = (src: string, type: string, props?: any) => {
+export const useAsset = (src: string, type: AssetType, props?: any) => {
   const app = useApp().value;
 
   const data = useSignal<any | null>(null);

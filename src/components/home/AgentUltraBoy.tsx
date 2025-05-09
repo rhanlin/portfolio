@@ -1,8 +1,8 @@
-import { Entity as pcEntity } from 'playcanvas';
+import { type Entity as pcEntity } from 'playcanvas';
 import {
   component$,
   noSerialize,
-  PropFunction,
+  type PropFunction,
   useSignal,
   useVisibleTask$,
 } from '@builder.io/qwik';
@@ -15,7 +15,7 @@ import {
 } from '~/lib/playcanvas/components';
 import { useModel } from '~/lib/playcanvas/hooks/use-model';
 import { useMaterial } from '~/lib/playcanvas/hooks/use-material';
-import { EntityProps } from '~/lib/playcanvas/Entity';
+import { type EntityProps } from '~/lib/playcanvas/Entity';
 import { AnimStateGraphData, CiberBoyMaterialConfig } from '~/constants/agent';
 import { ModelAnimationAssets } from '~/lib/playcanvas/assets/ultra-boy/animation';
 
@@ -35,7 +35,7 @@ const AgentUltraBoy = component$<AgentUltraBoyProps>(
       }
     });
 
-    const { data: asset, isPending } = useModel('/glb/ultra-boy/model.glb');
+    const { data: asset } = useModel('/glb/ultra-boy/model.glb');
 
     const material = useMaterial(noSerialize(CiberBoyMaterialConfig)!);
 

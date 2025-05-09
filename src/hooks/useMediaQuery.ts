@@ -1,4 +1,4 @@
-import { useSignal, useVisibleTask$, useOnWindow, $ } from '@builder.io/qwik';
+import { useSignal, useVisibleTask$ } from '@builder.io/qwik';
 
 /**
  * A custom hook for Qwik that provides media query matching functionality

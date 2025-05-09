@@ -131,7 +131,7 @@ export default component$(() => {
             i === 0 ? '50-30-30-30' : i === 1 ? '30-50-30-30' : '30-30-30-30'
           }
           backgroundImage={work.backgroundImage}
-          onClick={$(() => {
+          onClick$={$(() => {
             dialogDetail.value = work;
             isDialogOpen.value = true;
           })}
@@ -203,8 +203,8 @@ export default component$(() => {
               style={
                 dialogDetail.value?.backgroundImage
                   ? {
-                      backgroundImage: `url(${dialogDetail.value?.backgroundImage})`,
-                    }
+                    backgroundImage: `url(${dialogDetail.value.backgroundImage})`,
+                  }
                   : {}
               }
             ></div>

@@ -40,7 +40,7 @@ const MySkills = component$(() => {
             fillMode={FILLMODE_NONE}
             resolutionMode={RESOLUTION_AUTO}
             style={{ width: 'calc(100% - 2px)', height: 'calc(100% - 2px)' }}
-            className="absolute z-0 top-[1px] left-[1px] rounded-tl-[50px] rounded-tr-[30px] rounded-bl-[50px] rounded-br-[30px]"
+            class="absolute z-0 top-[1px] left-[1px] rounded-tl-[50px] rounded-tr-[30px] rounded-bl-[50px] rounded-br-[30px]"
           >
             <MySkillsCanvas />
           </Application>

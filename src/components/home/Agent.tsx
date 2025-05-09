@@ -5,7 +5,7 @@ import {
   useSignal,
   useVisibleTask$,
 } from '@builder.io/qwik';
-import { Asset, FILLMODE_NONE, RESOLUTION_AUTO } from 'playcanvas';
+import { type Asset, FILLMODE_NONE, RESOLUTION_AUTO } from 'playcanvas';
 import { Application } from '~/lib/playcanvas';
 import AgentCanvas from './AgentCanvas';
 import metaHumanPreloadAssets from '~/lib/playcanvas/assets/meta-human';
@@ -20,7 +20,7 @@ const mergeAssets = (
   Object.entries(assets2).forEach(([key, value]) => {
     let newKey = key;
     let counter = 1;
-    while (mergedAssets.hasOwnProperty(newKey)) {
+    while (Object.prototype.hasOwnProperty.call(mergedAssets, newKey)) {
       newKey = `${key}_${counter}`;
       counter++;
     }

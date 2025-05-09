@@ -1,12 +1,12 @@
-import { Entity as pcEntity } from 'playcanvas';
-import { component$, Signal, useSignal } from '@builder.io/qwik';
+import { type Entity as pcEntity } from 'playcanvas';
+import { component$, type Signal, useSignal } from '@builder.io/qwik';
 import { Entity } from '~/lib/playcanvas';
 import { Camera, EnvAtlas, PostEffects } from '~/lib/playcanvas/components';
 import { OrbitControls, ShadowCatcher } from '~/lib/playcanvas/scripts';
 import { useApp } from '~/lib/playcanvas/context/use-app';
-import AgentMetaHuman from '~/components/home/AgentMetaHuman';
 import AgentUltraBoy from '~/components/home/AgentUltraBoy';
-import { PosteffectWatercolor } from '~/lib/playcanvas/scripts/posteffects';
+// import AgentMetaHuman from '~/components/home/AgentMetaHuman';
+// import { PosteffectWatercolor } from '~/lib/playcanvas/scripts/posteffects';
 
 type CanvasProps = {
   assetLoaded: Signal<boolean>;
