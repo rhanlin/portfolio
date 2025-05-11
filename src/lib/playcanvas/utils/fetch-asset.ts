@@ -30,7 +30,7 @@ export const fetchAsset = (
   props = {},
 ): Promise<NoSerialize<Asset> | null> => {
   return new Promise((resolve, reject) => {
-    let asset = app.assets.find(url);
+    let asset: Asset | null = app.assets.find(url);
     if (!asset) {
       asset = new Asset(url, type, { url }, props);
       app.assets.add(asset);
@@ -39,7 +39,13 @@ export const fetchAsset = (
     if (asset.resource) {
       resolve(noSerialize(asset));
     } else {
-      asset.once('load', () => resolve(noSerialize(asset)));
+      asset.once('load', () => {
+        if (asset) {
+          resolve(noSerialize(asset));
+        } else {
+          reject(new Error('Asset not found'));
+        }
+      });
       asset.once('error', (err: string) => reject(err));
 
       // Start loading if not already loading

@@ -5,7 +5,6 @@ import { Camera, EnvAtlas, PostEffects } from '~/lib/playcanvas/components';
 import { OrbitControls, ShadowCatcher } from '~/lib/playcanvas/scripts';
 import { useApp } from '~/lib/playcanvas/context/use-app';
 import AgentUltraBoy from '~/components/home/AgentUltraBoy';
-// import AgentMetaHuman from '~/components/home/AgentMetaHuman';
 // import { PosteffectWatercolor } from '~/lib/playcanvas/scripts/posteffects';
 
 type CanvasProps = {
@@ -44,12 +43,6 @@ const Canvas = component$<CanvasProps>(({ assetLoaded }) => {
       </Entity>
       {assetLoaded.value && (
         <>
-          {/* <AgentMetaHuman
-            name="AgentMetaHuman"
-            position={[1, 0, 0]}
-            scale={[100, 100, 100]}
-            onModelReady$={(entity) => (focusEntity.value = entity)}
-          /> */}
 
           <AgentUltraBoy
             name="AgentUltraBoy"
