@@ -7,7 +7,7 @@ import EN from './locale/message.en.json';
 import TW from './locale/message.tw.json';
 
 // Make sure it's obvious when the default locale was selected
-const defaultLocale = 'tw';
+const defaultLocale = 'en';
 
 /**
  * Function used to load all translations variants.
@@ -40,7 +40,7 @@ if (!$localizeFn.TRANSLATION_BY_LOCALE) {
   $localizeFn.TRANSLATION_BY_LOCALE = new Map([['', {}]]);
   Object.defineProperty($localizeFn, 'TRANSLATIONS', {
     get: function () {
-      const locale = getLocale();
+      const locale = getLocale() || defaultLocale;
       let translations = this.TRANSLATION_BY_LOCALE.get(locale);
       if (!translations) {
         this.TRANSLATION_BY_LOCALE.set(locale, (translations = {}));
@@ -55,7 +55,7 @@ const validateLocale = (locale: string) => {
   const match = /^([^-;]+)[-;]/.exec(locale);
   return (
     (match && $localizeFn.TRANSLATION_BY_LOCALE.has(match[1]) && match[1]) ||
-    undefined
+    defaultLocale
   );
 };
 
