@@ -28,7 +28,6 @@ const MySkills = component$(() => {
         {/* absolute bottom-0 left-0 right-0 top-0 z-0  */}
         <Application
           id="my-skills-app"
-          usePhysics
           fillMode={FILLMODE_NONE}
           resolutionMode={RESOLUTION_AUTO}
           style={{ width: 'calc(100% - 2px)', height: 'calc(100% - 2px)' }}

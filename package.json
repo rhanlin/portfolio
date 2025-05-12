@@ -30,7 +30,8 @@
     "lint": "eslint \"src/**/*.ts*\"",
     "preview": "qwik build preview && vite preview --host --open",
     "start": "vite --host --open --mode ssr",
-    "qwik": "qwik"
+    "qwik": "qwik",
+    "analyze": "open stats.html"
   },
   "devDependencies": {
     "@angular/compiler": "^16.2.2",
@@ -47,6 +48,7 @@
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-qwik": "^1.13.0",
     "prettier": "3.3.3",
+    "rollup-plugin-visualizer": "^5.14.0",
     "typescript": "5.1.6",
     "undici": "^7.8.0",
     "vite": "5.3.5",

@@ -9,6 +9,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import tailwindcss from '@tailwindcss/vite'
 import svgx from "@svgx/vite-plugin-qwik";
 import pkg from "./package.json";
+import { visualizer } from 'rollup-plugin-visualizer';
 
 type PkgDep = Record<string, string>;
 const { dependencies = {}, devDependencies = {} } = pkg as any as {
@@ -33,7 +34,17 @@ export default defineConfig(({ command, mode }): UserConfig => {
       qwikVite({
         entryStrategy: { type: 'smart' },
       }),
-      tsconfigPaths()
+      tsconfigPaths(),
+      visualizer({
+        filename: 'stats.html',
+        open: false,
+        gzipSize: true,
+        brotliSize: true,
+        template: 'treemap',
+        sourcemap: true,
+        projectRoot: process.cwd(),
+        title: 'Bundle Analysis',
+      })
     ],
     // This tells Vite which dependencies to pre-build in dev mode.
     optimizeDeps: {
@@ -72,11 +83,7 @@ export default defineConfig(({ command, mode }): UserConfig => {
       },
     },
     build: {
-      rollupOptions: {
-        output: {
-          manualChunks: undefined,
-        },
-      },
+      sourcemap: true,
     },
   };
 });

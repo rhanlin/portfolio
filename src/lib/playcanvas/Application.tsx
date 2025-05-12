@@ -7,6 +7,7 @@ import {
   type Signal,
   type CSSProperties,
   NoSerialize,
+  useTask$,
 } from '@builder.io/qwik';
 import {
   RESOLUTION_AUTO,
@@ -19,7 +20,6 @@ import {
   type FILLMODE_FILL_WINDOW,
   type RESOLUTION_FIXED,
 } from 'playcanvas';
-import * as Ammo from 'sync-ammo';
 import { useParent, useParentProvider } from './context/use-parent';
 import {
   usePointerEvents,
@@ -135,6 +135,34 @@ const ApplicationWithoutCanvas = component$<ApplicationWithoutCanvasProps>(
     const pointerEventsContext = usePointerEvents();
     const parentContext = useParent();
 
+    useTask$(async ({ track }) => {
+      track(() => usePhysics);
+
+      if (usePhysics) {
+        console.log(
+          'props.usePhysics is true, attempting to load sync-ammo...',
+        );
+        try {
+          const Ammo = await import('sync-ammo');
+          console.log('sync-ammo module loaded.');
+          // @ts-expect-error The PC Physics system expects a global Ammo instance
+          if (!globalThis.Ammo) globalThis.Ammo = Ammo.default;
+          console.log('sync-ammo initialized.');
+        } catch (error) {
+          console.error('Failed to load or initialize sync-ammo:', error);
+        }
+      }
+
+      return () => {
+        // @ts-expect-error The PC Physics system expects a global Ammo instance
+        if (globalThis.Ammo) {
+          console.log('Disposing physics engine during cleanup.');
+          // @ts-expect-error The PC Physics system expects a global Ammo instance
+          globalThis.Ammo = undefined;
+        }
+      };
+    });
+
     useVisibleTask$(({ track }) => {
       track(() => canvas.value);
 
@@ -157,9 +185,6 @@ const ApplicationWithoutCanvas = component$<ApplicationWithoutCanvasProps>(
           `%c ApplicationWithoutCanvas start...`,
           'color: #ffd34f; background-color: #131311; font-size: 0.8rem; padding: 2px 4px; border-radius: 4px;',
         );
-
-        // @ts-expect-error The PC Physics system expects a global Ammo instance
-        if (usePhysics && !globalThis.Ammo) globalThis.Ammo = Ammo.default;
 
         const localApp = new PlayCanvasApplication(canvas.value, {
           mouse: new Mouse(canvas.value),
@@ -203,9 +228,6 @@ const ApplicationWithoutCanvas = component$<ApplicationWithoutCanvasProps>(
         if (!appContext.value) return;
 
         appContext.value.destroy();
-
-        // @ts-expect-error Clean up the global Ammo instance
-        if (usePhysics && globalThis.Ammo) delete globalThis.Ammo;
 
         appContext.value = undefined;
         appContext.id = '';
