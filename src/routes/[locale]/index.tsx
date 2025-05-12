@@ -29,6 +29,8 @@ type Work = { id: string; backgroundImage: string } & WorkProps;
 
 export default component$(() => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
+  console.log('[debug] isDesktop', isDesktop.value);
+
   const isDialogOpen = useSignal(false);
   const dialogDetail = useSignal<Work | null>(null);
   const workList: Work[] = [
@@ -206,8 +208,8 @@ export default component$(() => {
               style={
                 dialogDetail.value?.backgroundImage
                   ? {
-                    backgroundImage: `url(${dialogDetail.value.backgroundImage})`,
-                  }
+                      backgroundImage: `url(${dialogDetail.value.backgroundImage})`,
+                    }
                   : {}
               }
             ></div>
