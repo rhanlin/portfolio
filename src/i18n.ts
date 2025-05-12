@@ -1,7 +1,6 @@
 import '@angular/localize/init';
 import { loadTranslations } from '@angular/localize';
 import { getLocale, withLocale, useOnDocument, $ } from '@builder.io/qwik';
-import type { RenderOptions } from '@builder.io/qwik/server';
 
 // You must declare all your locales here
 import EN from './locale/message.en.json';
@@ -100,12 +99,8 @@ export function extractLang(request: Request, url: URL): string {
  *
  * @returns The base URL to use for loading the chunks in the browser.
  */
-export function extractBase({ serverData }: RenderOptions): string {
-  if (import.meta.env.DEV) {
-    return '/build';
-  } else {
-    return '/build/' + serverData!.locale;
-  }
+export function extractBase(): string {
+  return '/build';
 }
 
 export function useI18n() {

@@ -10,6 +10,7 @@
  * - npm run build
  *
  */
+import '@angular/localize/init';
 import {
   renderToStream,
   type RenderToStreamOptions,

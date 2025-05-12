@@ -4,7 +4,7 @@ import baseConfig from "../../vite.config";
 
 export default extendConfig(baseConfig, () => {
   return {
-    base: './',
+    base: '/',
     build: {
       ssr: true,
       rollupOptions: {

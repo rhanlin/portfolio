@@ -17,3 +17,17 @@ applications:
         paths:
           - node_modules/**/*
           - .pnpm-store/**/*
+      customHeaders:
+        - pattern: '**/*'
+          headers:
+            - key: 'Cache-Control'
+              value: 'public, max-age=0, must-revalidate'
+      redirects:
+        - source: '/'
+          target: '/en/'
+          status: '302'
+          condition: null
+        - source: '</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json)$)([^.]+$)/>'
+          target: '/index.html'
+          status: '200'
+          condition: null
