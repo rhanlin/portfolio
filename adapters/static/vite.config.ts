@@ -13,7 +13,7 @@ export default extendConfig(baseConfig, () => {
     },
     plugins: [
       staticAdapter({
-        origin: 'http://127.0.0.1:5500',
+        origin: 'https://main.d19knrekuuih34.amplifyapp.com',
       }),
     ],
   };
