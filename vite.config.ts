@@ -2,7 +2,7 @@
  * This is the base config for vite.
  * When building, the adapter config is used which loads this file and extends it.
  */
-import { defineConfig, type UserConfig } from "vite";
+import { defineConfig, type UserConfig, loadEnv } from "vite";
 import { qwikVite } from "@builder.io/qwik/optimizer";
 import { qwikCity } from "@builder.io/qwik-city/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -23,6 +23,11 @@ errorOnDuplicatesPkgDeps(devDependencies, dependencies)
  * Note that Vite normally starts from `index.html` but the qwikCity plugin makes start at `src/entry.ssr.tsx` instead.
  */
 export default defineConfig(({ command, mode }): UserConfig => {
+  const env = loadEnv(mode, process.cwd(), '');
+  const isMinify = env.MINIFY === 'true';
+  const isDev = command === 'serve';
+  console.log('[log] isMinify', isMinify, 'command:', command);
+
   return {
     plugins: [
       svgx(),
@@ -84,6 +89,13 @@ export default defineConfig(({ command, mode }): UserConfig => {
     },
     build: {
       sourcemap: true,
+      minify: isMinify && !isDev ? 'terser' : 'esbuild',
+      terserOptions: isMinify && !isDev ? {
+        compress: {
+          drop_console: true,
+          drop_debugger: true
+        }
+      } : undefined
     },
   };
 });

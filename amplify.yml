@@ -8,7 +8,8 @@ applications:
             - pnpm install
         build:
           commands:
-            - pnpm run build
+            - export MINIFY=true
+            - pnpm build.client
       artifacts:
         baseDirectory: dist
         files:
