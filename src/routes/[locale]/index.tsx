@@ -1,5 +1,8 @@
 import { $, component$, useSignal } from '@builder.io/qwik';
-import type { DocumentHead } from '@builder.io/qwik-city';
+import type {
+  DocumentHead,
+  StaticGenerateHandler,
+} from '@builder.io/qwik-city';
 import { SKILLS } from '~/constants/skills';
 import Card from '~/components/share/Card';
 import Dialog from '~/components/share/Dialog';
@@ -82,7 +85,7 @@ export default component$(() => {
       title: $localize`Amway Live Go`,
       skills: [SKILLS.nuxt, SKILLS.typescript, SKILLS.vuetify, SKILLS.socketIo],
       status: 'Completed',
-      description: $localize`Redesigned Amway Taiwan’s retail website to ensure users can easily find the information and products they need. Integrated Google Analytics tracking to monitor user behavior and optimize both user experience and marketing strategies. Additionally, incorporated live streaming services to enhance user trust and loyalty, effectively boosting site traffic and conversion rates.`,
+      description: $localize`Redesigned Amway Taiwan's retail website to ensure users can easily find the information and products they need. Integrated Google Analytics tracking to monitor user behavior and optimize both user experience and marketing strategies. Additionally, incorporated live streaming services to enhance user trust and loyalty, effectively boosting site traffic and conversion rates.`,
       backgroundImage: '/images/amway-live-go.webp',
     },
     {
@@ -256,6 +259,12 @@ export default component$(() => {
     </div>
   );
 });
+
+export const onStaticGenerate: StaticGenerateHandler = async () => {
+  return {
+    params: [{ locale: 'en' }, { locale: 'tw' }],
+  };
+};
 
 export const head: DocumentHead = () => {
   return {

@@ -20,5 +20,6 @@
   },
   "editor.quickSuggestions": {
     "strings": true
-  }
+  },
+  "liveServer.settings.root": "/dist"
 }
