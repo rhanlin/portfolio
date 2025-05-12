@@ -4,6 +4,7 @@ import {
   useOnWindow,
   $,
   type PropFunction,
+  useTask$,
 } from '@builder.io/qwik';
 import { type RouteLocation } from '@builder.io/qwik-city';
 import Text from './Text';
@@ -50,20 +51,26 @@ const LanguagePopover = component$<LanguagePopoverProps>(
     const popoverRef = useSignal<HTMLDivElement>();
     const position = useSignal({ top: 0, left: 0 });
 
-    useOnWindow(
-      'resize',
-      $(() => {
-        if (isOpen && buttonRef.value && popoverRef.value) {
-          const buttonRect = buttonRef.value.getBoundingClientRect();
-          const popoverRect = popoverRef.value.getBoundingClientRect();
+    const updatePosition = $(() => {
+      if (buttonRef.value && popoverRef.value) {
+        const buttonRect = buttonRef.value.getBoundingClientRect();
+        const popoverRect = popoverRef.value.getBoundingClientRect();
 
-          position.value = {
-            top: buttonRect.bottom + window.scrollY + 20,
-            left: buttonRect.right - popoverRect.width + window.scrollX,
-          };
-        }
-      }),
-    );
+        position.value = {
+          top: buttonRect.bottom + window.scrollY + 20,
+          left: buttonRect.right - popoverRect.width + window.scrollX,
+        };
+      }
+    });
+
+    useOnWindow('resize', updatePosition);
+
+    useTask$(({ track }) => {
+      track(() => [buttonRef.value, popoverRef.value]);
+      if (buttonRef.value && popoverRef.value) {
+        updatePosition();
+      }
+    });
 
     if (!isOpen) return null;
 
