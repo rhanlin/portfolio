@@ -4,7 +4,7 @@ import {
   noSerialize,
   type PropFunction,
   useSignal,
-  useVisibleTask$,
+  useTask$,
 } from '@builder.io/qwik';
 import { Entity } from '~/lib/playcanvas';
 import {
@@ -27,7 +27,7 @@ const AgentMetaHuman = component$<AgentMetaHumanProps>(
   ({ onModelReady$, ...props }) => {
     const entitySig = useSignal<pcEntity | null>(null);
 
-    useVisibleTask$(({ track }) => {
+    useTask$(({ track }) => {
       track(() => entitySig.value);
       if (!entitySig.value) return;
 

@@ -1,7 +1,8 @@
 import {
   component$,
   useSignal,
-  useVisibleTask$,
+  useOnWindow,
+  $,
   type PropFunction,
 } from '@builder.io/qwik';
 import { type RouteLocation } from '@builder.io/qwik-city';
@@ -49,19 +50,20 @@ const LanguagePopover = component$<LanguagePopoverProps>(
     const popoverRef = useSignal<HTMLDivElement>();
     const position = useSignal({ top: 0, left: 0 });
 
-    useVisibleTask$(({ track }) => {
-      track(() => [isOpen, buttonRef.value]);
+    useOnWindow(
+      'resize',
+      $(() => {
+        if (isOpen && buttonRef.value && popoverRef.value) {
+          const buttonRect = buttonRef.value.getBoundingClientRect();
+          const popoverRect = popoverRef.value.getBoundingClientRect();
 
-      if (isOpen && buttonRef.value && popoverRef.value) {
-        const buttonRect = buttonRef.value.getBoundingClientRect();
-        const popoverRect = popoverRef.value.getBoundingClientRect();
-
-        position.value = {
-          top: buttonRect.bottom + window.scrollY + 20,
-          left: buttonRect.right - popoverRect.width + window.scrollX,
-        };
-      }
-    });
+          position.value = {
+            top: buttonRect.bottom + window.scrollY + 20,
+            left: buttonRect.right - popoverRect.width + window.scrollX,
+          };
+        }
+      }),
+    );
 
     if (!isOpen) return null;
 

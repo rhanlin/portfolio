@@ -1,17 +1,10 @@
-import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik';
+import { component$ } from '@builder.io/qwik';
 import { FILLMODE_NONE, RESOLUTION_AUTO } from 'playcanvas';
 import Text from '~/components/share/Text';
 import { Application } from '~/lib/playcanvas';
 import MySkillsCanvas from './MySkillsCanvas';
 
 const MySkills = component$(() => {
-  const isMounted = useSignal(false);
-  useVisibleTask$(() => {
-    setTimeout(() => {
-      isMounted.value = true;
-    }, 1500);
-  });
-
   return (
     <>
       <div id="skills" class="relative w-full min-h-[382px]">
@@ -33,18 +26,16 @@ const MySkills = component$(() => {
          
         </div> */}
         {/* absolute bottom-0 left-0 right-0 top-0 z-0  */}
-        {isMounted.value && (
-          <Application
-            id="my-skills-app"
-            usePhysics
-            fillMode={FILLMODE_NONE}
-            resolutionMode={RESOLUTION_AUTO}
-            style={{ width: 'calc(100% - 2px)', height: 'calc(100% - 2px)' }}
-            class="absolute z-0 top-[1px] left-[1px] rounded-tl-[50px] rounded-tr-[30px] rounded-bl-[50px] rounded-br-[30px]"
-          >
-            <MySkillsCanvas />
-          </Application>
-        )}
+        <Application
+          id="my-skills-app"
+          usePhysics
+          fillMode={FILLMODE_NONE}
+          resolutionMode={RESOLUTION_AUTO}
+          style={{ width: 'calc(100% - 2px)', height: 'calc(100% - 2px)' }}
+          class="absolute z-0 top-[1px] left-[1px] rounded-tl-[50px] rounded-tr-[30px] rounded-bl-[50px] rounded-br-[30px]"
+        >
+          <MySkillsCanvas />
+        </Application>
       </div>
     </>
   );

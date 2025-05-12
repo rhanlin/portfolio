@@ -3,7 +3,7 @@ import {
   component$,
   noSerialize,
   useSignal,
-  useVisibleTask$,
+  useOnDocument,
 } from '@builder.io/qwik';
 import { type Asset, FILLMODE_NONE, RESOLUTION_AUTO } from 'playcanvas';
 import { Application } from '~/lib/playcanvas';
@@ -33,9 +33,12 @@ const mergeAssets = (
 const Agent = component$(() => {
   const isMounted = useSignal(false);
   const assetLoaded = useSignal(false);
-  useVisibleTask$(() => {
-    isMounted.value = true;
-  });
+  useOnDocument(
+    'qinit',
+    $(() => {
+      isMounted.value = true;
+    }),
+  );
   if (!isMounted.value) return null;
 
   const preloadAssets = mergeAssets(
