@@ -9,7 +9,7 @@ applications:
         build:
           commands:
             - export MINIFY=true
-            - pnpm build.client
+            - pnpm run build
       artifacts:
         baseDirectory: dist
         files:
