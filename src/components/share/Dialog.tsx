@@ -126,7 +126,8 @@ export default component$<DialogProps>((props) => {
       <dialog
         ref={dialogRef}
         class={clsx(
-          `dialog-size-${size} card-bg-gradient ${isOpen.value && 'flex justify-center items-center'} rounded-[30px] shadow-2xl focus:outline-none`,
+          `dialog-size-${size} card-bg-gradient rounded-[30px] shadow-2xl focus:outline-none`,
+          isOpen.value && 'flex justify-center items-center',
           className,
         )}
         onClick$={handleBackdropClick$}

@@ -1,15 +1,23 @@
 import { $, component$, useSignal, useTask$ } from '@builder.io/qwik';
 import { type PropFunction, Slot } from '@builder.io/qwik';
+import clsx from 'clsx';
 
 export interface DrawerProps {
   open: boolean;
   onOpenChange$?: PropFunction<(open: boolean) => void>;
   side?: 'left' | 'right' | 'top' | 'bottom';
   blurAmount?: string;
+  class?: string;
 }
 
 export const Drawer = component$<DrawerProps>(
-  ({ open, onOpenChange$, side = 'right', blurAmount = '12px' }) => {
+  ({
+    open,
+    onOpenChange$,
+    class: className,
+    side = 'right',
+    blurAmount = '12px',
+  }) => {
     const isOpen = useSignal(open);
 
     useTask$(({ track }) => {
@@ -38,7 +46,10 @@ export const Drawer = component$<DrawerProps>(
 
     return (
       <div
-        class={`fixed inset-0 z-50 ${isOpen.value ? '' : 'pointer-events-none'}`}
+        class={clsx(
+          `fixed inset-0 z-50 ${isOpen.value ? '' : 'pointer-events-none'}`,
+          className,
+        )}
       >
         {/* Backdrop */}
         <div

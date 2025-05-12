@@ -29,9 +29,7 @@ type Work = { id: string; backgroundImage: string } & WorkProps;
 
 export default component$(() => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
-  console.log('[debug] isDesktop', isDesktop.value);
-
-  const isDialogOpen = useSignal(false);
+  const isDetailOpen = useSignal(false);
   const dialogDetail = useSignal<Work | null>(null);
   const workList: Work[] = [
     {
@@ -138,7 +136,7 @@ export default component$(() => {
           backgroundImage={work.backgroundImage}
           onClick$={$(() => {
             dialogDetail.value = work;
-            isDialogOpen.value = true;
+            isDetailOpen.value = true;
           })}
         >
           <Work
@@ -167,97 +165,84 @@ export default component$(() => {
         </div>
       </Card>
 
-      {isDesktop.value ? (
-        <Dialog
-          open={isDialogOpen.value}
-          onOpenChange$={(open) => (isDialogOpen.value = open)}
-          class="relative"
-          size="xl"
-        >
-          <div class="w-full flex min-h-[458px]">
-            <div class="shrink flex flex-col justify-between w-[55%] p-6">
-              <div class="flex items-end mb-4">
-                <Text as="h2">{dialogDetail.value?.title}</Text>
-                {dialogDetail.value?.status === 'In progress' && (
-                  <Button
-                    variant="icon"
-                    size="custom"
-                    class="ml-3.5 mb-[8.75px] px-2.5 py-1 rounded-l-full rounded-r-full"
-                  >
-                    <Text as="span">{$localize`In progress`}</Text>
-                  </Button>
-                )}
-              </div>
-              <div class="flex-1">
-                <Text as="h5">{dialogDetail.value?.description}</Text>
-              </div>
-
-              <div class="flex flex-wrap">
-                {dialogDetail.value?.skills.map((s) => (
-                  <Badge
-                    key={s.skill}
-                    skill={s.skill}
-                    url={s.badgeUrl}
-                    class="mr-2 md:mb-2"
-                  />
-                ))}
-              </div>
+      <Dialog
+        open={isDesktop.value && isDetailOpen.value}
+        onOpenChange$={(open) => (isDetailOpen.value = open)}
+        size="xl"
+      >
+        <div class="w-full flex min-h-[458px]">
+          <div class="shrink flex flex-col justify-between w-[55%] p-6">
+            <div class="flex items-end mb-4">
+              <Text as="h2">{dialogDetail.value?.title}</Text>
+              {dialogDetail.value?.status === 'In progress' && (
+                <Button
+                  variant="icon"
+                  size="custom"
+                  class="ml-3.5 mb-[8.75px] px-2.5 py-1 rounded-l-full rounded-r-full"
+                >
+                  <Text as="span">{$localize`In progress`}</Text>
+                </Button>
+              )}
             </div>
-            <div
-              class="w-[45%] h-[calc(100%-2px)] rounded-tr-[30px] rounded-br-[30px] absolute top-[50%] right-[1px] transform -translate-y-1/2 bg-center bg-cover overflow-hidden"
-              style={
-                dialogDetail.value?.backgroundImage
-                  ? {
-                      backgroundImage: `url(${dialogDetail.value.backgroundImage})`,
-                    }
-                  : {}
-              }
-            ></div>
+            <div class="flex-1">
+              <Text as="h5">{dialogDetail.value?.description}</Text>
+            </div>
+
+            <div class="flex flex-wrap">
+              {dialogDetail.value?.skills.map((s) => (
+                <Badge
+                  key={s.skill}
+                  skill={s.skill}
+                  url={s.badgeUrl}
+                  class="mr-2 md:mb-2"
+                />
+              ))}
+            </div>
           </div>
-        </Dialog>
-      ) : (
-        <Drawer
-          open={isDialogOpen.value}
-          onOpenChange$={(open) => (isDialogOpen.value = open)}
-          side="bottom"
-        >
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>{dialogDetail.value?.title}</DrawerTitle>
-              <DrawerDescription>
-                {dialogDetail.value?.description}
-              </DrawerDescription>
-              <DrawerClose onClick$={() => (isDialogOpen.value = false)} />
-            </DrawerHeader>
+          <div
+            class="w-[45%] h-[calc(100%-2px)] rounded-tr-[30px] rounded-br-[30px] absolute top-[50%] right-[1px] transform -translate-y-1/2 bg-center bg-cover overflow-hidden"
+            style={
+              dialogDetail.value?.backgroundImage
+                ? {
+                    backgroundImage: `url(${dialogDetail.value.backgroundImage})`,
+                  }
+                : {}
+            }
+          ></div>
+        </div>
+      </Dialog>
+      <Drawer
+        open={!isDesktop.value && isDetailOpen.value}
+        onOpenChange$={(open) => (isDetailOpen.value = open)}
+        side="bottom"
+      >
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>{dialogDetail.value?.title}</DrawerTitle>
+            <DrawerDescription>
+              {dialogDetail.value?.description}
+            </DrawerDescription>
+            <DrawerClose onClick$={() => (isDetailOpen.value = false)} />
+          </DrawerHeader>
 
-            <div class="p-4">
-              <p>Drawer content goes here.</p>
+          <div class="p-4">
+            <p>Drawer content goes here.</p>
+          </div>
+
+          <DrawerFooter>
+            <div class="flex flex-wrap">
+              {dialogDetail.value?.skills.map((s) => (
+                <Badge
+                  key={s.skill}
+                  skill={s.skill}
+                  url={s.badgeUrl}
+                  class="mr-2 md:mb-2"
+                />
+              ))}
             </div>
-
-            <DrawerFooter>
-              {/* <button
-              onClick$={() => (isDialogOpen.value = false)}
-              class="px-4 py-2 bg-gray-100 text-gray-900 rounded-md hover:bg-gray-200 transition-colors"
-            >
-              Cancel
-            </button>
-            <button class="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition-colors">
-              Save
-            </button> */}
-              <div class="flex flex-wrap">
-                {dialogDetail.value?.skills.map((s) => (
-                  <Badge
-                    key={s.skill}
-                    skill={s.skill}
-                    url={s.badgeUrl}
-                    class="mr-2 md:mb-2"
-                  />
-                ))}
-              </div>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-      )}
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 });
