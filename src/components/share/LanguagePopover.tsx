@@ -10,6 +10,53 @@ import { type RouteLocation } from '@builder.io/qwik-city';
 import clsx from 'clsx';
 import Text from './Text';
 
+type LocaleLinkProps = {
+  locale: string;
+  location: RouteLocation;
+  onClose$: PropFunction<() => any>;
+  className?: string;
+};
+
+const LocaleLink = component$<LocaleLinkProps>(
+  ({ locale, location, onClose$, className = '' }) => (
+    <li
+      class={clsx(
+        'group px-4 py-2 cursor-pointer hover:bg-neutral-10/5 transition-colors',
+        className,
+      )}
+    >
+      {locale === location.params.locale ? (
+        <Text as="label" class="text-neutral-10/50">
+          {locale === 'en' ? 'English' : '繁體中文'}
+        </Text>
+      ) : (
+        <a
+          href={`/${locale}${location.url.pathname.slice(3)}${location.url.search}`}
+          onClick$={onClose$}
+        >
+          <Text
+            as="label"
+            class="text-neutral-10/20 group-active:text-neutral-10/50 group-hover:text-neutral-10/30 group-disabled:text-neutral-10/10 cursor-pointer"
+          >
+            {locale === 'en' ? 'English' : '繁體中文'}
+          </Text>
+        </a>
+      )}
+    </li>
+  ),
+);
+
+export const LanguageMenu = component$<{
+  location: RouteLocation;
+  onClose$: PropFunction<() => any>;
+  class?: string;
+}>(({ location, onClose$, class: className = '' }) => (
+  <ul class={clsx('py-2', className)}>
+    <LocaleLink locale="en" location={location} onClose$={onClose$} />
+    <LocaleLink locale="tw" location={location} onClose$={onClose$} />
+  </ul>
+));
+
 type LanguagePopoverProps = {
   location: RouteLocation;
   isOpen: boolean;
@@ -17,37 +64,7 @@ type LanguagePopoverProps = {
   buttonRef: { value: HTMLButtonElement | undefined };
 };
 
-const LocaleLink = ({
-  locale,
-  location,
-  onClose$,
-}: {
-  locale: string;
-  location: RouteLocation;
-  onClose$: PropFunction<() => any>;
-}) => (
-  <li class="group px-4 py-2 cursor-pointer hover:bg-neutral-10/5 transition-colors">
-    {locale === location.params.locale ? (
-      <Text as="label" class="text-neutral-10/50">
-        {locale === 'en' ? 'English' : '繁體中文'}
-      </Text>
-    ) : (
-      <a
-        href={`/${locale}${location.url.pathname.slice(3)}${location.url.search}`}
-        onClick$={onClose$}
-      >
-        <Text
-          as="label"
-          class="text-neutral-10/20 group-active:text-neutral-10/50 group-hover:text-neutral-10/30 group-disabled:text-neutral-10/10 cursor-pointer"
-        >
-          {locale === 'en' ? 'English' : '繁體中文'}
-        </Text>
-      </a>
-    )}
-  </li>
-);
-
-const LanguagePopover = component$<LanguagePopoverProps>(
+export const LanguagePopover = component$<LanguagePopoverProps>(
   ({ location, isOpen, onClose$, buttonRef }) => {
     const popoverRef = useSignal<HTMLDivElement>();
     const position = useSignal({ top: 0, left: 0 });
@@ -106,13 +123,8 @@ const LanguagePopover = component$<LanguagePopoverProps>(
           visibility: isPositioned.value ? 'visible' : 'hidden',
         }}
       >
-        <ul class="py-2">
-          <LocaleLink locale="en" location={location} onClose$={onClose$} />
-          <LocaleLink locale="tw" location={location} onClose$={onClose$} />
-        </ul>
+        <LanguageMenu location={location} onClose$={onClose$} />
       </div>
     );
   },
 );
-
-export default LanguagePopover;

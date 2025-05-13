@@ -1,10 +1,11 @@
-import { $, component$, Slot, useSignal } from '@builder.io/qwik';
+import { component$, useSignal, $, Slot } from '@builder.io/qwik';
 import { useLocation } from '@builder.io/qwik-city';
 import clsx from 'clsx';
 import LanguageSVG from '~/assets/icons/language.svg?component';
 import Text from './Text';
 import Button from './Button';
-import LanguagePopover from './LanguagePopover';
+import { LanguagePopover, LanguageMenu } from './LanguagePopover';
+import { Drawer, DrawerContent, DrawerHeader, DrawerClose } from './Drawer';
 
 type NavItemProps = {
   href: string;
@@ -29,10 +30,10 @@ const NavItem = component$<NavItemProps>(({ href }) => {
   );
 });
 
-type LanguagePopoverButtonProps = { class?: string };
+type LanguagePopoverButtonProps = { class?: string; isDesktop?: boolean };
 
 const LanguagePopoverButton = component$<LanguagePopoverButtonProps>(
-  ({ class: className }) => {
+  ({ class: className, isDesktop = false }) => {
     const isOpen = useSignal(false);
     const location = useLocation();
     const buttonRef = useSignal<HTMLButtonElement>();
@@ -54,10 +55,27 @@ const LanguagePopoverButton = component$<LanguagePopoverButtonProps>(
         </Button>
         <LanguagePopover
           location={location}
-          isOpen={isOpen.value}
+          isOpen={isDesktop && isOpen.value}
           onClose$={$(() => (isOpen.value = false))}
           buttonRef={buttonRef}
         />
+        <Drawer
+          open={!isDesktop && isOpen.value}
+          onOpenChange$={(open) => (isOpen.value = open)}
+          side="top"
+        >
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerClose onClick$={() => (isOpen.value = false)} />
+            </DrawerHeader>
+
+            <LanguageMenu
+              location={location}
+              onClose$={$(() => (isOpen.value = false))}
+              class="border border-neutral-10/20 rounded-lg"
+            />
+          </DrawerContent>
+        </Drawer>
       </>
     );
   },
@@ -104,7 +122,7 @@ const Header = component$(() => {
             </li>
 
             <li class="flex items-center">
-              <LanguagePopoverButton />
+              <LanguagePopoverButton isDesktop={true} />
             </li>
           </ul>
         </div>
