@@ -6,6 +6,7 @@ import Text from './Text';
 import Button from './Button';
 import { LanguagePopover, LanguageMenu } from './LanguagePopover';
 import { Drawer, DrawerContent, DrawerHeader, DrawerClose } from './Drawer';
+import { useMediaQuery } from '~/hooks/useMediaQuery';
 
 type NavItemProps = {
   href: string;
@@ -30,10 +31,11 @@ const NavItem = component$<NavItemProps>(({ href }) => {
   );
 });
 
-type LanguagePopoverButtonProps = { class?: string; isDesktop?: boolean };
+type LanguagePopoverButtonProps = { class?: string };
 
 const LanguagePopoverButton = component$<LanguagePopoverButtonProps>(
-  ({ class: className, isDesktop = false }) => {
+  ({ class: className }) => {
+    const isDesktop = useMediaQuery('(min-width: 768px)');
     const isOpen = useSignal(false);
     const location = useLocation();
     const buttonRef = useSignal<HTMLButtonElement>();
@@ -55,12 +57,12 @@ const LanguagePopoverButton = component$<LanguagePopoverButtonProps>(
         </Button>
         <LanguagePopover
           location={location}
-          isOpen={isDesktop && isOpen.value}
+          isOpen={isDesktop.value && isOpen.value}
           onClose$={$(() => (isOpen.value = false))}
           buttonRef={buttonRef}
         />
         <Drawer
-          open={!isDesktop && isOpen.value}
+          open={!isDesktop.value && isOpen.value}
           onOpenChange$={(open) => (isOpen.value = open)}
           side="top"
         >
@@ -122,7 +124,7 @@ const Header = component$(() => {
             </li>
 
             <li class="flex items-center">
-              <LanguagePopoverButton isDesktop={true} />
+              <LanguagePopoverButton />
             </li>
           </ul>
         </div>

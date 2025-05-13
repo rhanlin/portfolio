@@ -72,7 +72,7 @@ const Work = component$<WorkProps>(({ header, title, skills = [], link }) => {
               key={s.skill}
               skill={s.skill}
               url={s.badgeUrl}
-              class="mr-2 md:mb-2"
+              class="mr-2 mb-1.5 md:mb-0"
             />
           ))}
         </div>
