@@ -4,15 +4,16 @@ import {
   useOnWindow,
   $,
   type PropFunction,
-  useTask$,
+  useVisibleTask$,
 } from '@builder.io/qwik';
 import { type RouteLocation } from '@builder.io/qwik-city';
+import clsx from 'clsx';
 import Text from './Text';
 
 type LanguagePopoverProps = {
   location: RouteLocation;
   isOpen: boolean;
-  onClose$: PropFunction<(param: any) => any>;
+  onClose$: PropFunction<() => any>;
   buttonRef: { value: HTMLButtonElement | undefined };
 };
 
@@ -23,7 +24,7 @@ const LocaleLink = ({
 }: {
   locale: string;
   location: RouteLocation;
-  onClose$: PropFunction<(param: any) => any>;
+  onClose$: PropFunction<() => any>;
 }) => (
   <li class="group px-4 py-2 cursor-pointer hover:bg-neutral-10/5 transition-colors">
     {locale === location.params.locale ? (
@@ -50,6 +51,7 @@ const LanguagePopover = component$<LanguagePopoverProps>(
   ({ location, isOpen, onClose$, buttonRef }) => {
     const popoverRef = useSignal<HTMLDivElement>();
     const position = useSignal({ top: 0, left: 0 });
+    const isPositioned = useSignal(false);
 
     const updatePosition = $(() => {
       if (buttonRef.value && popoverRef.value) {
@@ -60,27 +62,48 @@ const LanguagePopover = component$<LanguagePopoverProps>(
           top: buttonRect.bottom + window.scrollY + 20,
           left: buttonRect.right - popoverRect.width + window.scrollX,
         };
+        isPositioned.value = true;
       }
     });
 
     useOnWindow('resize', updatePosition);
 
-    useTask$(({ track }) => {
-      track(() => [buttonRef.value, popoverRef.value]);
-      if (buttonRef.value && popoverRef.value) {
+    useOnWindow(
+      'click',
+      $((event: MouseEvent) => {
+        if (!isOpen) return;
+
+        const target = event.target as HTMLElement;
+        if (
+          popoverRef.value &&
+          !popoverRef.value.contains(target) &&
+          buttonRef.value &&
+          !buttonRef.value.contains(target)
+        ) {
+          onClose$();
+        }
+      }),
+    );
+
+    useVisibleTask$(({ track }) => {
+      track(() => isOpen);
+      if (isOpen) {
+        isPositioned.value = false;
         updatePosition();
       }
     });
 
-    if (!isOpen) return null;
-
     return (
       <div
         ref={popoverRef}
-        class="fixed bg-background border border-neutral-10/20 rounded-lg shadow-lg z-50 min-w-[8rem]"
+        class={clsx(
+          'fixed bg-background border border-neutral-10/20 rounded-lg shadow-lg z-50 min-w-[8rem]',
+          isOpen ? '' : 'hidden',
+        )}
         style={{
           top: `${position.value.top}px`,
           left: `${position.value.left}px`,
+          visibility: isPositioned.value ? 'visible' : 'hidden',
         }}
       >
         <ul class="py-2">
