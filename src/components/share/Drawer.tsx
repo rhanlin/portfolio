@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useTask$ } from '@builder.io/qwik';
+import { $, component$, useSignal, useVisibleTask$ } from '@builder.io/qwik';
 import { type PropFunction, Slot } from '@builder.io/qwik';
 import clsx from 'clsx';
 
@@ -10,6 +10,20 @@ export interface DrawerProps {
   class?: string;
 }
 
+const sideTransform = {
+  top: 'translate-y-[-100%]',
+  bottom: 'translate-y-[100%]',
+  left: 'translate-x-[-100%]',
+  right: 'translate-x-[100%]',
+} as const;
+
+const sideBorderRadius = {
+  top: 'rounded-bl-[18px] rounded-br-[18px]',
+  bottom: 'rounded-tl-[18px] rounded-tr-[18px]',
+  left: 'rounded-tr-[18px] rounded-br-[18px]',
+  right: 'rounded-tl-[18px] rounded-bl-[18px]',
+} as const;
+
 export const Drawer = component$<DrawerProps>(
   ({
     open,
@@ -20,9 +34,9 @@ export const Drawer = component$<DrawerProps>(
   }) => {
     const isOpen = useSignal(open);
 
-    useTask$(({ track }) => {
-      const openState = track(() => open);
-      isOpen.value = openState;
+    useVisibleTask$(({ track }) => {
+      track(() => open);
+      isOpen.value = open;
     });
 
     const handleClose = $(() => {
@@ -37,33 +51,42 @@ export const Drawer = component$<DrawerProps>(
       bottom: 'inset-x-0 bottom-0 w-full',
     };
 
-    const sideTransform = {
-      right: 'translate-x-full',
-      left: '-translate-x-full',
-      top: '-translate-y-full',
-      bottom: 'translate-y-full',
-    };
-
     return (
       <div
         class={clsx(
-          `fixed inset-0 z-50 ${isOpen.value ? '' : 'pointer-events-none'}`,
+          'fixed inset-0 z-50',
+          isOpen.value ? '' : 'pointer-events-none',
           className,
         )}
+        onClick$={handleClose}
       >
         {/* Backdrop */}
         <div
-          class={`fixed inset-0 bg-black/50 ${isOpen.value ? 'opacity-100' : 'opacity-0 pointer-events-none'} transition-opacity`}
-          onClick$={handleClose}
+          class={clsx(
+            'fixed inset-0 bg-black/50 transition-opacity',
+            isOpen.value ? 'opacity-100' : 'opacity-0 pointer-events-none',
+          )}
           style={`backdrop-filter: blur(${blurAmount})`}
         />
 
         {/* Drawer content */}
-        <div class={`fixed ${sideClasses[side]} z-50 flex`}>
+        <div class={clsx('fixed z-50 flex', sideClasses[side])}>
           <div
-            class={`bg-white dark:bg-gray-900 shadow-lg ${isOpen.value ? '' : sideTransform[side]} transition-transform duration-300 ease-in-out flex flex-col h-full w-full`}
+            class={clsx(
+              'card-bg-gradient shadow-lg transition-transform duration-300 ease-in-out flex flex-col h-full w-full',
+              sideBorderRadius[side],
+              isOpen.value ? '' : sideTransform[side],
+            )}
+            onClick$={(e) => e.stopPropagation()}
           >
-            <Slot />
+            <div
+              class={clsx(
+                'flex flex-col w-[calc(100%-2px)] mt-[1px] mb-[1px] bg-background',
+                sideBorderRadius[side],
+              )}
+            >
+              <Slot />
+            </div>
           </div>
         </div>
       </div>
