@@ -32,12 +32,30 @@
 }
 
 @layer base {
-  body {
-    background-color: var(--color-background);
-    color: var(--color-neutral-0);
-    font-family: 'Noto Serif TC', serif;
-    font-weight: 400;
-    font-display: swap;
+  :root {
+    --sat: env(safe-area-inset-top);
+    --sab: env(safe-area-inset-bottom);
+    --sal: env(safe-area-inset-left);
+    --sar: env(safe-area-inset-right);
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    scroll-behavior: smooth;
+  }
+  
+  .full-screen-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    padding-top: var(--sat);
+    padding-bottom: var(--sab);
+    padding-left: var(--sal);
+    padding-right: var(--sar);
+    box-sizing: border-box;
   }
 }
 
@@ -125,3 +143,4 @@
     background-size: cover;
   }
 }
+

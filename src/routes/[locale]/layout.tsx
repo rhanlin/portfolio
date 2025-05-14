@@ -46,16 +46,28 @@ export const onGet: RequestHandler = async ({
   });
 };
 
+const FullScreenLayout = component$(() => {
+  return (
+    <div class="full-screen-container bg-background">
+      <Slot />
+    </div>
+  );
+});
+
 export default component$(() => {
   return (
     <>
-      <main class="mx-auto my-0 max-w-[1240px] min-w-[375px] px-3">
-        <Header />
-        <section>
-          <Slot />
-        </section>
-      </main>
-      <footer></footer>
+      <FullScreenLayout>
+        <div class="mx-auto my-0 max-w-[1240px] min-w-[375px] px-3">
+          <Header />
+          <main>
+            <section>
+              <Slot />
+            </section>
+          </main>
+        </div>
+        <footer></footer>
+      </FullScreenLayout>
     </>
   );
 });
