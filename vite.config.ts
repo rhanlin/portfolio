@@ -24,7 +24,7 @@ errorOnDuplicatesPkgDeps(devDependencies, dependencies)
  */
 export default defineConfig(({ command, mode }): UserConfig => {
   const env = loadEnv(mode, process.cwd(), '');
-  const isMinify = env.MINIFY === 'true';
+  const isMinify = env.VITE_MINIFY === 'true';
   const isDev = command === 'serve';
   console.log('[log] isMinify', isMinify, 'command:', command);
 

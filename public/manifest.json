@@ -1,9 +1,11 @@
 {
-  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
   "name": "rhan0 protfolio",
-  "short_name": "Welcome to rhan0 protfolio",
+  "short_name": "rhan0 protfolio",
   "start_url": ".",
-  "display": "fullscreen",
-  "background_color": "#09050f",
-  "description": "A Qwik project app."
+  "display": "standalone",
+  "theme_color": "#09050f",
+  "background_color": "#2EC6FE",
+  "description": "Welcome to rhan0 protfolio",
+  "orientation": "any",
+  "dir": "auto"
 }

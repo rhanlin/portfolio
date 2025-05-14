@@ -4,7 +4,7 @@
 @theme {
   --font-noto-serif-tc: "Noto Serif TC", serif; 
 
-  --color-primary: #ffd34f;
+  --color-primary: var(--theme-primary-color, #ffd34f);
   --color-background: #09050f;
 
   --color-neutral-0: #ffffff; 

@@ -73,20 +73,13 @@ export const Drawer = component$<DrawerProps>(
         <div class={clsx('fixed z-50 flex', sideClasses[side])}>
           <div
             class={clsx(
-              'card-bg-gradient shadow-lg transition-transform duration-300 ease-in-out flex flex-col h-full w-full',
+              'shadow-lg bg-primary transition-transform duration-300 ease-in-out flex flex-col h-full w-full',
               sideBorderRadius[side],
               isOpen.value ? '' : sideTransform[side],
             )}
             onClick$={(e) => e.stopPropagation()}
           >
-            <div
-              class={clsx(
-                'flex flex-col w-[calc(100%-2px)] mt-[1px] mb-[1px] bg-background',
-                sideBorderRadius[side],
-              )}
-            >
-              <Slot />
-            </div>
+            <Slot />
           </div>
         </div>
       </div>
@@ -104,7 +97,7 @@ export const DrawerContent = component$(() => {
 
 export const DrawerHeader = component$(() => {
   return (
-    <div class="flex flex-col space-y-1.5 p-4 border-b border-gray-200 dark:border-gray-800">
+    <div class="flex flex-col space-y-1.5 p-4">
       <Slot />
     </div>
   );
@@ -129,7 +122,7 @@ export const DrawerDescription = component$(() => {
 
 export const DrawerFooter = component$(() => {
   return (
-    <div class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 p-4 mt-auto border-t border-gray-200 dark:border-gray-800">
+    <div class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 p-4 mt-auto">
       <Slot />
     </div>
   );

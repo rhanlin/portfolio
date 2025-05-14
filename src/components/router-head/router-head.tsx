@@ -1,4 +1,4 @@
-import { component$ } from '@builder.io/qwik';
+import { component$, useVisibleTask$ } from '@builder.io/qwik';
 import { useDocumentHead, useLocation } from '@builder.io/qwik-city';
 
 /**
@@ -7,21 +7,27 @@ import { useDocumentHead, useLocation } from '@builder.io/qwik-city';
 export const RouterHead = component$(() => {
   const head = useDocumentHead();
   const loc = useLocation();
-
+  useVisibleTask$(() => {
+    document.documentElement.style.setProperty(
+      '--theme-primary-color',
+      import.meta.env.VITE_PRIMARY_COLOR,
+    );
+  });
   return (
     <>
       <title>{head.title}</title>
-      <link rel="manifest" href={`${import.meta.env.BASE_URL}manifest.json`} />
-      <link rel="canonical" href={loc.url.href} />
       <meta charset="utf-8" />
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-      />
       <meta
         name="apple-mobile-web-app-status-bar-style"
         content="black-translucent"
       />
+      <meta
+        name="viewport"
+        content="initial-scale=1, viewport-fit=cover, user-scalable=no"
+      />
+      <meta name="theme-color" content={import.meta.env.VITE_PRIMARY_COLOR} />
+      <link rel="manifest" href={`${import.meta.env.BASE_URL}manifest.json`} />
+      <link rel="canonical" href={loc.url.href} />
       <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
       {head.meta.map((m) => (
