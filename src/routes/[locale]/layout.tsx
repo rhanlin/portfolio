@@ -2,6 +2,9 @@ import { component$, Slot } from '@builder.io/qwik';
 import Header from '~/components/share/Header';
 import type { RequestHandler } from '@builder.io/qwik-city';
 import { extractLang } from '~/i18n';
+import { MetaThemeProvider } from '~/context/MetaThemeContext';
+import Container from '~/components/share/Container';
+import ColorSection from '~/components/share/ColorSection';
 
 const locales = new Set(['en', 'tw']);
 
@@ -46,28 +49,20 @@ export const onGet: RequestHandler = async ({
   });
 };
 
-const FullScreenLayout = component$(() => {
-  return (
-    <div class="full-screen-container bg-background">
-      <Slot />
-    </div>
-  );
-});
-
 export default component$(() => {
   return (
     <>
-      <FullScreenLayout>
-        <div class="mx-auto my-0 max-w-[1240px] min-w-[375px] px-3">
-          <Header />
-          <main>
-            <section>
-              <Slot />
-            </section>
-          </main>
-        </div>
+      <MetaThemeProvider>
+        <ColorSection color="#09050f" class="py-2 md:py-2.5">
+          <Container>
+            <Header />
+          </Container>
+        </ColorSection>
+        <main>
+          <Slot />
+        </main>
         <footer></footer>
-      </FullScreenLayout>
+      </MetaThemeProvider>
     </>
   );
 });

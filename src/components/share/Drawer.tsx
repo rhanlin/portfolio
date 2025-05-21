@@ -1,6 +1,7 @@
 import { $, component$, useSignal, useVisibleTask$ } from '@builder.io/qwik';
 import { type PropFunction, Slot } from '@builder.io/qwik';
 import clsx from 'clsx';
+import { useMetaTheme } from '~/context/MetaThemeContext';
 
 export interface DrawerProps {
   open: boolean;
@@ -8,6 +9,10 @@ export interface DrawerProps {
   side?: 'left' | 'right' | 'top' | 'bottom';
   blurAmount?: string;
   class?: string;
+}
+
+interface MetaThemeContainerProps {
+  reverse?: boolean;
 }
 
 const sideTransform = {
@@ -23,6 +28,20 @@ const sideBorderRadius = {
   left: 'rounded-tr-[18px] rounded-br-[18px]',
   right: 'rounded-tl-[18px] rounded-bl-[18px]',
 } as const;
+
+const MetaThemeContainer = component$<MetaThemeContainerProps>(() => {
+  const menuRef = useSignal<HTMLDivElement>();
+
+  useMetaTheme(menuRef, {
+    color: import.meta.env.VITE_PRIMARY_COLOR,
+    priority: 1,
+  });
+  return (
+    <div ref={menuRef} class="w-full h-full">
+      <Slot />
+    </div>
+  );
+});
 
 export const Drawer = component$<DrawerProps>(
   ({
@@ -79,7 +98,11 @@ export const Drawer = component$<DrawerProps>(
             )}
             onClick$={(e) => e.stopPropagation()}
           >
-            <Slot />
+            {isOpen.value && (
+              <MetaThemeContainer reverse={side === 'top'}>
+                <Slot />
+              </MetaThemeContainer>
+            )}
           </div>
         </div>
       </div>

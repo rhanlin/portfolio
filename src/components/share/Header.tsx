@@ -100,7 +100,7 @@ const Header = component$(() => {
   ];
 
   return (
-    <header>
+    <header class="mx-auto my-0 max-w-[1240px] min-w-[375px] px-3">
       <div class="relative w-full pb-8 pt-14 md:pb-14 md:pt-18">
         <div class="flex justify-center md:justify-between my-6">
           <div class="flex items-center">

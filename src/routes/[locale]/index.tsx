@@ -23,6 +23,9 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '~/components/share/Drawer';
+import ColorSection from '~/components/share/ColorSection';
+import Container from '~/components/share/Container';
+import GridContainer from '~/components/share/GridContainer';
 import { useMediaQuery } from '~/hooks/useMediaQuery';
 
 type Work = { id: string; backgroundImage: string } & WorkProps;
@@ -109,61 +112,93 @@ export default component$(() => {
   ];
 
   return (
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-5 mb-30">
-      <Card
-        wrapperClass="md:col-span-8 hello-card-bg-gradient md:h-[460px]"
-        variant="30-50-50-30"
-        class="bg-neutral-80 relative"
+    <>
+      <ColorSection
+        color={isDesktop.value ? '#09050f' : '#00ff00'}
+        class="py-2 md:py-2.5"
       >
-        <div class="hello-bg-gradient animate-rotate-360 pointer-events-none"></div>
-        <Hello />
-      </Card>
-      <Card
-        wrapperClass="h-[400px] md:h-[460px] md:col-span-4 "
-        variant="50-30-30-50"
-        class="px-0! py-0!"
-      >
-        <Agent />
-      </Card>
+        <Container>
+          <GridContainer>
+            <Card
+              wrapperClass="md:col-span-8 hello-card-bg-gradient md:h-[460px]"
+              variant="30-50-50-30"
+              class="bg-neutral-80 relative"
+            >
+              <div class="hello-bg-gradient animate-rotate-360 pointer-events-none"></div>
+              <Hello />
+            </Card>
+            <Card
+              wrapperClass="h-[400px] md:h-[460px] md:col-span-4 "
+              variant="50-30-30-50"
+              class="px-0! py-0!"
+            >
+              <Agent />
+            </Card>
+          </GridContainer>
+        </Container>
+      </ColorSection>
 
-      {workList.map((work, i) => (
-        <Card
-          key={work.id}
-          wrapperClass="md:col-span-6 h-[400px] md:h-[480px] lg:h-[554px]"
-          variant={
-            i === 0 ? '50-30-30-30' : i === 1 ? '30-50-30-30' : '30-30-30-30'
-          }
-          backgroundImage={work.backgroundImage}
-          onClick$={$(() => {
-            dialogDetail.value = work;
-            isDetailOpen.value = true;
-          })}
-        >
-          <Work
-            header={work.header}
-            title={work.title}
-            skills={work.skills}
-            status={work.status}
-            link={work.link}
-          />
-        </Card>
-      ))}
-      <Card
-        wrapperClass="md:col-span-9 hello-card-bg-gradient"
-        class="px-0! py-0!"
-        variant="50-30-50-30"
+      <ColorSection
+        color={isDesktop.value ? '#09050f' : '#0000ff'}
+        class="py-2 md:py-2.5"
       >
-        <MySkills />
-      </Card>
-      <Card
-        wrapperClass="h-[380px] md:col-span-3"
-        class="relative px-0! py-0! bg-primary"
-        variant="30-50-30-50"
+        <Container>
+          <GridContainer>
+            {workList.map((work, i) => (
+              <Card
+                key={work.id}
+                wrapperClass="md:col-span-6 h-[400px] md:h-[480px] lg:h-[554px]"
+                variant={
+                  i === 0
+                    ? '50-30-30-30'
+                    : i === 1
+                      ? '30-50-30-30'
+                      : '30-30-30-30'
+                }
+                backgroundImage={work.backgroundImage}
+                onClick$={$(() => {
+                  dialogDetail.value = work;
+                  isDetailOpen.value = true;
+                })}
+              >
+                <Work
+                  header={work.header}
+                  title={work.title}
+                  skills={work.skills}
+                  status={work.status}
+                  link={work.link}
+                />
+              </Card>
+            ))}
+          </GridContainer>
+        </Container>
+      </ColorSection>
+
+      <ColorSection
+        color={isDesktop.value ? '#09050f' : '#ffff00'}
+        class="py-2 md:py-2.5"
       >
-        <div class="absolute w-full h-full px-9.5 py-9.5">
-          <Contact />
-        </div>
-      </Card>
+        <Container>
+          <GridContainer>
+            <Card
+              wrapperClass="md:col-span-9 hello-card-bg-gradient"
+              class="px-0! py-0!"
+              variant="50-30-50-30"
+            >
+              <MySkills />
+            </Card>
+            <Card
+              wrapperClass="h-[380px] md:col-span-3"
+              class="relative px-0! py-0! bg-primary"
+              variant="30-50-30-50"
+            >
+              <div class="absolute w-full h-full px-9.5 py-9.5">
+                <Contact />
+              </div>
+            </Card>
+          </GridContainer>
+        </Container>
+      </ColorSection>
 
       <Dialog
         open={isDesktop.value && isDetailOpen.value}
@@ -243,7 +278,7 @@ export default component$(() => {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-    </div>
+    </>
   );
 });
 
