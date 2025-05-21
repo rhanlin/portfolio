@@ -8,7 +8,8 @@ applications:
             - pnpm install
         build:
           commands:
-            - export MINIFY=true
+            - export VITE_MINIFY=true
+            - export VITE_PRIMARY_COLOR='#ffd34f'
             - pnpm run build
       artifacts:
         baseDirectory: dist
