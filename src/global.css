@@ -32,30 +32,29 @@
 }
 
 @layer base {
-  :root {
+  /* :root {
     --sat: env(safe-area-inset-top);
     --sab: env(safe-area-inset-bottom);
     --sal: env(safe-area-inset-left);
     --sar: env(safe-area-inset-right);
-  }
+  } */
   
-  html, body {
+  html,
+  body {
+    background-color: #09050f;
+  }
+
+  body {
     margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+
   
-  .full-screen-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100dvh;
-    padding-top: var(--sat);
-    padding-bottom: var(--sab);
-    padding-left: var(--sal);
-    padding-right: var(--sar);
-    box-sizing: border-box;
+  ::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+    display: none;
   }
 }
 

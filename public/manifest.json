@@ -3,9 +3,5 @@
   "short_name": "rhan0 protfolio",
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#09050f",
-  "background_color": "#2EC6FE",
-  "description": "Welcome to rhan0 protfolio",
-  "orientation": "any",
-  "dir": "auto"
+  "description": "Welcome to rhan0 protfolio"
 }
