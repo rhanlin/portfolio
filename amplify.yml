@@ -8,8 +8,8 @@ applications:
             - pnpm install
         build:
           commands:
-            - export VITE_MINIFY=true
-            - export VITE_PRIMARY_COLOR='#ffd34f'
+            - echo "VITE_MINIFY=$VITE_MINIFY" >> .env
+            - echo "VITE_PRIMARY_COLOR=$VITE_PRIMARY_COLOR" >> .env
             - pnpm run build
       artifacts:
         baseDirectory: dist
